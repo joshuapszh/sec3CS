@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chapter 4: Software - SA1 Revision</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f4f7f6; color: #333; line-height: 1.6; padding: 20px; }
+        .container { max-width: 800px; margin: auto; background: #fff; padding: 30px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        h1, h2 { color: #2c3e50; text-align: center; }
+        .creator-tag { text-align: center; font-style: italic; color: #7f8c8d; margin-bottom: 30px; }
+        .question-block { margin-bottom: 25px; padding-bottom: 20px; border-bottom: 1px solid #eee; }
+        .explanation { display: none; background: #e8f4f8; padding: 10px; border-left: 4px solid #3498db; margin-top: 10px; font-size: 0.9em; }
+        input[type="radio"] { margin-right: 10px; }
+        textarea, input[type="text"] { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; resize: vertical; margin-top: 5px; }
+        textarea { min-height: 80px; }
+        button { background: #3498db; color: #fff; border: none; padding: 12px 24px; font-size: 1em; border-radius: 4px; cursor: pointer; display: block; width: 100%; margin-top: 20px; font-weight: bold; }
+        button:hover { background: #2980b9; }
+        button:disabled { background: #95a5a6; cursor: not-allowed; }
+        #results-container { display: none; margin-top: 30px; padding: 20px; background: #e8f4f8; border-left: 5px solid #3498db; border-radius: 5px; }
+        .student-info { margin-bottom: 30px; padding: 20px; background: #e9ecef; border-radius: 5px; }
+        #ai-feedback { white-space: pre-wrap; margin-top: 15px; font-family: inherit; background: #fff; padding: 15px; border-radius: 5px; border: 1px solid #ddd; }
+        .loader { display: none; text-align: center; margin-top: 20px; font-weight: bold; color: #e67e22; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Chapter 4: Software Interactive Quiz</h1>
+    <p class="creator-tag">Created by: Joshua Poon | Heritage Academy</p>
+    <p>Complete all 25 questions. When you submit, the AI will grade your open-ended responses instantly.</p>
+
+    <div class="student-info">
+        <label for="student-name"><strong>Student Name:</strong></label>
+        <input type="text" id="student-name" placeholder="Enter your full name" required>
+    </div>
+
+    <form id="quiz-form">
+        <h2>Section A: Multiple Choice (10 Questions)</h2>
+        
+        <div class="question-block">
+            <p><strong>1. Which of the following is an example of system software?</strong></p>
+            <label><input type="radio" name="mcq1" value="A"> A) Word Processor</label><br>
+            <label><input type="radio" name="mcq1" value="B"> B) Web Browser</label><br>
+            <label><input type="radio" name="mcq1" value="C" data-correct="true"> C) Operating System</label><br>
+            <label><input type="radio" name="mcq1" value="D"> D) Spreadsheet Application</label><br>
+            <div class="explanation"><strong>Explanation:</strong> Correct! The operating system is a piece of system software that allows users to work with hardware and applications [cite: 1265-1267].</div>
+        </div>
+
+        <div class="question-block">
+            <p><strong>2. Where is firmware typically stored in a computer system?</strong></p>
+            <label><input type="radio" name="mcq2" value="A"> A) Random Access Memory (RAM)</label><br>
+            <label><input type="radio" name="mcq2" value="B" data-correct="true"> B) Read Only Memory (ROM)</label><br>
+            <label><input type="radio" name="mcq2" value="C"> C) Hard Disk Drive</label><br>
+            <label><input type="radio" name="mcq2" value="D"> D) Cache Memory</label><br>
+            <div class="explanation"><strong>Explanation:</strong> Correct! Firmware, like the BIOS, is embedded into hardware devices and installed in ROM [cite: 1261-1264].</div>
+        </div>
+
+        <div class="question-block">
+            <p><strong>3. What is the function of an interrupt in a computer system?</strong></p>
+            <label><input type="radio" name="mcq3" value="A"> A) To turn off the computer safely</label><br>
+            <label><input type="radio" name="mcq3" value="B"> B) To permanently delete a file</label><br>
+            <label><input type="radio" name="mcq3" value="C" data-correct="true"> C) To send a signal that causes a temporary stop in the current program</label><br>
+            <label><input type="radio" name="mcq3" value="D"> D) To compile high-level code into machine code</label><br>
+            <div class="explanation"><strong>Explanation:</strong> Correct! An interrupt is a signal sent to the OS that pauses the current program so a higher priority task can be handled [cite: 1293-1294].</div>
+        </div>
+
+        <div class="question-block">
+            <p><strong>4. Which of the following would trigger a software interrupt?</strong></p>
+            <label><input type="radio" name="mcq4" value="A"> A) Clicking a mouse button</label><br>
+            <label><input type="radio" name="mcq4" value="B"> B) Pressing a key on the keyboard</label><br>
+            <label><input type="radio" name="mcq4" value="C"> C) A printer running out of paper</label><br>
+            <label><input type="radio" name="mcq4" value="D" data-correct="true"> D) A division by zero error in a program</label><br>
+            <div class="explanation"><strong>Explanation:</strong> Correct! A mathematical problem like a division by zero generates a software interrupt sent by the application to the OS[cite: 1305].</div>
+        </div>
+
+        <div class="question-block">
+            <p><strong>5. Which of the following is a characteristic of a low-level programming language?</strong></p>
+            <label><input type="radio" name="mcq5" value="A"> A) It uses English-like words</label><br>
+            <label><input type="radio" name="mcq5" value="B" data-correct="true"> B) It can directly change or manipulate computer hardware</label><br>
+            <label><input type="radio" name="mcq5" value="C"> C) It is highly portable across different types of machines</label><br>
+            <label><input type="radio" name="mcq5" value="D"> D) It is very easy for programmers to debug</label><br>
+            <div class="explanation"><strong>Explanation:</strong> Correct! Low-level languages (like machine code) can directly manipulate hardware and are highly efficient[cite: 1321].</div>
+        </div>
+
+        <div class="question-block">
+            <p><strong>6. What type of language uses mnemonics (like ADD, INP, RET) instead of binary code?</strong></p>
+            <label><input type="radio" name="mcq6" value="A"> A) High-level language</label><br>
+            <label><input type="radio" name="mcq6" value="B"> B) Machine code</label><br>
+            <label><input type="radio" name="mcq6" value="C" data-correct="true"> C) Assembly language</label><br>
+            <label><input type="radio" name="mcq6" value="D"> D) Pseudocode</label><br>
+            <div class="explanation"><strong>Explanation:</strong> Correct! Assembly language is a low-level language that sits just above machine code and uses mnemonics [cite: 1328-1329].</div>
+        </div>
+
+        <div class="question-block">
+            <p><strong>7. How does an interpreter translate high-level code?</strong></p>
+            <label><input type="radio" name="mcq7" value="A"> A) It translates the entire block of code at once to produce an executable file.</label><br>
+            <label><input type="radio" name="mcq7" value="B" data-correct="true"> B) It translates and executes the code line-by-line.</label><br>
+            <label><input type="radio" name="mcq7" value="C"> C) It uses mnemonics to assemble the code.</label><br>
+            <label><input type="radio" name="mcq7" value="D"> D) It converts hardware interrupts into software interrupts.</label><br>
+            <div class="explanation"><strong>Explanation:</strong> Correct! An interpreter translates and executes code line-by-line and stops when it detects an error [cite: 1342-1343].</div>
+        </div>
+
+        <div class="question-block">
+            <p><strong>8. What is a key advantage of using a Compiler over an Interpreter?</strong></p>
+            <label><input type="radio" name="mcq8" value="A"> A) It is easier for beginners to debug.</label><br>
+            <label><input type="radio" name="mcq8" value="B" data-correct="true"> B) It creates an executable file and the code can be kept secret.</label><br>
+            <label><input type="radio" name="mcq8" value="C"> C) It translates code line-by-line.</label><br>
+            <label><input type="radio" name="mcq8" value="D"> D) It stops immediately when an error is found.</label><br>
+            <div class="explanation"><strong>Explanation:</strong> Correct! A compiler translates the whole block to produce an executable file, which helps keep the source code secret [cite: 1339-1340, 1350].</div>
+        </div>
+
+        <div class="question-block">
+            <p><strong>9. In an Integrated Development Environment (IDE), what does the "prettyprint" feature do?</strong></p>
+            <label><input type="radio" name="mcq9" value="A"> A) It automatically finishes typing syntax for the programmer.</label><br>
+            <label><input type="radio" name="mcq9" value="B"> B) It translates the code into machine code.</label><br>
+            <label><input type="radio" name="mcq9" value="C" data-correct="true"> C) It formats code using indentation and color schemes to make it easier to read.</label><br>
+            <label><input type="radio" name="mcq9" value="D"> D) It tests the code in a simulated environment.</label><br>
+            <div class="explanation"><strong>Explanation:</strong> Correct! Prettyprint formats the code with indents and colors to help spot loops and subroutines easily [cite: 1365-1366].</div>
+        </div>
+
+        <div class="question-block">
+            <p><strong>10. Which OS function is responsible for ensuring that the same memory locations are not utilized by different processes at the same time?</strong></p>
+            <label><input type="radio" name="mcq10" value="A"> A) Managing peripherals</label><br>
+            <label><input type="radio" name="mcq10" value="B"> B) Managing drivers</label><br>
+            <label><input type="radio" name="mcq10" value="C" data-correct="true"> C) Managing memory</label><br>
+            <label><input type="radio" name="mcq10" value="D"> D) Handling interrupts</label><br>
+            <div class="explanation"><strong>Explanation:</strong> Correct! Managing memory involves allocating resources and ensuring processes do not overwrite each other's memory locations [cite: 1287-1288].</div>
+        </div>
+
+        <h2>Section B: Short Answer (10 Questions)</h2>
+        <div class="question-block"><p><strong>11. Define "System Software" and provide one example.</strong></p><textarea id="short1"></textarea></div>
+        <div class="question-block"><p><strong>12. State two distinct management tasks carried out by an Operating System.</strong></p><textarea id="short2"></textarea></div>
+        <div class="question-block"><p><strong>13. Define "Firmware" and state the specific type of memory it is usually stored in.</strong></p><textarea id="short3"></textarea></div>
+        <div class="question-block"><p><strong>14. Explain what happens when a hardware interrupt (like a mouse click) occurs.</strong></p><textarea id="short4"></textarea></div>
+        <div class="question-block"><p><strong>15. Give one example of a software interrupt.</strong></p><textarea id="short5"></textarea></div>
+        <div class="question-block"><p><strong>16. State one advantage and one disadvantage of programming in a high-level language.</strong></p><textarea id="short6"></textarea></div>
+        <div class="question-block"><p><strong>17. What is the specific purpose of an "Assembler"?</strong></p><textarea id="short7"></textarea></div>
+        <div class="question-block"><p><strong>18. Explain the difference between how a Compiler and an Interpreter report errors to the programmer.</strong></p><textarea id="short8"></textarea></div>
+        <div class="question-block"><p><strong>19. Describe how the "Auto-correction" feature in an IDE assists a programmer.</strong></p><textarea id="short9"></textarea></div>
+        <div class="question-block"><p><strong>20. What is the purpose of the "Run-time Environment" feature within an IDE?</strong></p><textarea id="short10"></textarea></div>
+
+        <h2>Section C: Long Answer (5 Questions)</h2>
+        <div class="question-block"><p><strong>21. Explain the application software running sequence, detailing how Firmware, the Operating System, and Application Software work together when a computer is turned on.</strong></p><textarea id="long1"></textarea></div>
+        <div class="question-block"><p><strong>22. Discuss the role of the Operating System in a modern computer. In your answer, detail at least four specific management tasks it performs.</strong></p><textarea id="long2"></textarea></div>
+        <div class="question-block"><p><strong>23. Compare and contrast High-level and Low-level programming languages. Discuss the characteristics of each and explain why developers generally prefer high-level languages for writing applications.</strong></p><textarea id="long3"></textarea></div>
+        <div class="question-block"><p><strong>24. Evaluate the use of Compilers versus Interpreters. Discuss the advantages and disadvantages of each type of translator.</strong></p><textarea id="long4"></textarea></div>
+        <div class="question-block"><p><strong>25. Describe what an Integrated Development Environment (IDE) is. Explain how four specific features of an IDE (such as the Code Editor, Translators, or Error Diagnostics) assist a programmer in software development.</strong></p><textarea id="long5"></textarea></div>
+
+        <p class="loader" id="loader">Submitting to Gemini API... Please wait while your answers are graded.</p>
+        <button type="button" id="submit-btn" onclick="submitToGemini()">Submit Quiz for AI Grading</button>
+    </form>
+
+    <div id="results-container">
+        <h2>Grading Complete!</h2>
+        <h3 id="mcq-display-score"></h3>
+        <p><strong>AI Feedback on your Open-Ended Responses:</strong></p>
+        <div id="ai-feedback"></div>
+    </div>
+</div>
+
+<script>
+    // Note: Using gemini-2.5-flash as the latest standard for text generation
+    const GEMINI_API_KEY = "AIzaSyCI7k9vAn_i7kmUqZ7HO6sJ2b0f82uFEjg"; 
+
+    async function submitToGemini() {
+        const studentName = document.getElementById('student-name').value;
+        if (!studentName) {
+            alert('Please enter your name before submitting.');
+            return;
+        }
+
+        const submitBtn = document.getElementById('submit-btn');
+        const loader = document.getElementById('loader');
+        submitBtn.disabled = true;
+        loader.style.display = 'block';
+
+        // 1. Grade MCQs locally
+        let mcqScore = 0;
+        for (let i = 1; i <= 10; i++) {
+            const options = document.getElementsByName('mcq' + i);
+            for (let option of options) {
+                if (option.checked) {
+                    if (option.getAttribute('data-correct') === 'true') mcqScore++;
+                    option.parentElement.parentElement.querySelector('.explanation').style.display = 'block';
+                }
+            }
+        }
+
+        // 2. Gather Open-Ended Answers for the Prompt
+        let promptText = `You are an expert Cambridge IGCSE Computer Science teacher grading a test on Chapter 4: Software for student ${studentName}.\n\n`;
+        promptText += `The student scored ${mcqScore}/10 on the multiple choice section.\n\n`;
+        promptText += `Please grade the following open-ended answers. Provide a score out of 2 for each short answer, and a score out of 5 for each long answer. Give brief, encouraging feedback explaining what they got right or missed based on the IGCSE syllabus (e.g., OS functions, Interrupts, High vs Low level languages, Compilers vs Interpreters, IDE features).\n\n`;
+
+        promptText += `--- SHORT ANSWERS ---\n`;
+        for (let i = 1; i <= 10; i++) {
+            promptText += `Q${i+10}: ${document.getElementById('short'+i).parentElement.querySelector('strong').innerText}\n`;
+            promptText += `Student Answer: ${document.getElementById('short'+i).value || "[No Answer]"}\n\n`;
+        }
+
+        promptText += `--- LONG ANSWERS ---\n`;
+        for (let i = 1; i <= 5; i++) {
+            promptText += `Q${i+20}: ${document.getElementById('long'+i).parentElement.querySelector('strong').innerText}\n`;
+            promptText += `Student Answer: ${document.getElementById('long'+i).value || "[No Answer]"}\n\n`;
+        }
+
+        // 3. Call the Gemini REST API Directly using 2.5 Flash
+        const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${GEMINI_API_KEY}`;
+        
+        try {
+            const response = await fetch(apiUrl, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    contents: [{ parts: [{ text: promptText }] }]
+                })
+            });
+
+            const data = await response.json();
+            
+            if (response.ok) {
+                const aiFeedback = data.candidates[0].content.parts[0].text;
+                
+                document.getElementById('quiz-form').style.display = 'none';
+                document.getElementById('results-container').style.display = 'block';
+                document.getElementById('mcq-display-score').innerText = `MCQ Score: ${mcqScore} / 10`;
+                document.getElementById('ai-feedback').innerText = aiFeedback;
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            } else {
+                alert('API Error: ' + data.error.message);
+                submitBtn.disabled = false;
+                loader.style.display = 'none';
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            alert('Failed to connect to the Gemini API. Please try again.');
+            submitBtn.disabled = false;
+            loader.style.display = 'none';
+        }
+    }
+</script>
+
+</body>
+</html>
