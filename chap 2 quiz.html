@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chapter 2: Data Transmission - SA1 Revision</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f4f7f6; color: #333; line-height: 1.6; padding: 20px; }
+        .container { max-width: 800px; margin: auto; background: #fff; padding: 30px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        h1, h2 { color: #2c3e50; text-align: center; }
+        .creator-tag { text-align: center; font-style: italic; color: #7f8c8d; margin-bottom: 30px; }
+        .question-block { margin-bottom: 25px; padding-bottom: 20px; border-bottom: 1px solid #eee; }
+        .explanation { display: none; background: #e8f4f8; padding: 10px; border-left: 4px solid #3498db; margin-top: 10px; font-size: 0.9em; }
+        input[type="radio"] { margin-right: 10px; }
+        textarea, input[type="text"] { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; resize: vertical; margin-top: 5px; }
+        textarea { min-height: 80px; }
+        button { background: #3498db; color: #fff; border: none; padding: 12px 24px; font-size: 1em; border-radius: 4px; cursor: pointer; display: block; width: 100%; margin-top: 20px; font-weight: bold; }
+        button:hover { background: #2980b9; }
+        button:disabled { background: #95a5a6; cursor: not-allowed; }
+        #results-container { display: none; margin-top: 30px; padding: 20px; background: #e8f4f8; border-left: 5px solid #3498db; border-radius: 5px; }
+        .student-info { margin-bottom: 30px; padding: 20px; background: #e9ecef; border-radius: 5px; }
+        #ai-feedback { white-space: pre-wrap; margin-top: 15px; font-family: inherit; background: #fff; padding: 15px; border-radius: 5px; border: 1px solid #ddd; }
+        .loader { display: none; text-align: center; margin-top: 20px; font-weight: bold; color: #e67e22; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Data Transmission: Interactive Quiz</h1>
+    <p class="creator-tag">Created by: Joshua Poon | Heritage Academy</p>
+    <p>Complete all 25 questions. When you submit, the AI will grade your open-ended responses instantly.</p>
+
+    <div class="student-info">
+        <label for="student-name"><strong>Student Name:</strong></label>
+        <input type="text" id="student-name" placeholder="Enter your full name" required>
+    </div>
+
+    <form id="quiz-form">
+        <h2>Section A: Multiple Choice (10 Questions)</h2>
+        
+        <div class="question-block">
+            <p><strong>1. Which method of data transmission allows data to flow in both directions simultaneously?</strong></p>
+            <label><input type="radio" name="mcq1" value="A"> A) Simplex</label><br>
+            <label><input type="radio" name="mcq1" value="B"> B) Half-Duplex</label><br>
+            <label><input type="radio" name="mcq1" value="C" data-correct="true"> C) Full-Duplex</label><br>
+            <label><input type="radio" name="mcq1" value="D"> D) Serial</label><br>
+            <div class="explanation"><strong>Explanation:</strong> Correct! Full-duplex allows data to flow simultaneously to and from the sender and receiver.</div>
+        </div>
+
+        <div class="question-block">
+            <p><strong>2. What is the role of the 'trailer' in a data packet?</strong></p>
+            <label><input type="radio" name="mcq2" value="A"> A) Contains the sender's IP address</label><br>
+            <label><input type="radio" name="mcq2" value="B" data-correct="true"> B) Marks the end of the packet and contains a validation check</label><br>
+            <label><input type="radio" name="mcq2" value="C"> C) Holds the data payload</label><br>
+            <label><input type="radio" name="mcq2" value="D"> D) Determines the routing path</label><br>
+            <div class="explanation"><strong>Explanation:</strong> Correct! The trailer tells the receiving device it has reached the end of the packet.</div>
+        </div>
+
+        <div class="question-block">
+            <p><strong>3. Which transmission method sends data one bit at a time down a single channel?</strong></p>
+            <label><input type="radio" name="mcq3" value="A" data-correct="true"> A) Serial</label><br>
+            <label><input type="radio" name="mcq3" value="B"> B) Parallel</label><br>
+            <label><input type="radio" name="mcq3" value="C"> C) Synchronous</label><br>
+            <label><input type="radio" name="mcq3" value="D"> D) Asynchronous</label><br>
+            <div class="explanation"><strong>Explanation:</strong> Correct! Serial data is transmitted sequentially down one channel.</div>
+        </div>
+
+        <div class="question-block">
+            <p><strong>4. What is 'packet switching'?</strong></p>
+            <label><input type="radio" name="mcq4" value="A"> A) Sending data in one continuous stream</label><br>
+            <label><input type="radio" name="mcq4" value="B"> B) Encrypting packets before transmission</label><br>
+            <label><input type="radio" name="mcq4" value="C" data-correct="true"> C) Routing packets along different paths to their destination</label><br>
+            <label><input type="radio" name="mcq4" value="D"> D) Combining multiple packets into one payload</label><br>
+            <div class="explanation"><strong>Explanation:</strong> Correct! Packets take different routes determined by the router.</div>
+        </div>
+
+        <div class="question-block">
+            <p><strong>5. Which hardware interface is now the standard for connecting devices?</strong></p>
+            <label><input type="radio" name="mcq5" value="A"> A) VGA</label><br>
+            <label><input type="radio" name="mcq5" value="B" data-correct="true"> B) USB (Universal Serial Bus)</label><br>
+            <label><input type="radio" name="mcq5" value="C"> C) Parallel Port</label><br>
+            <label><input type="radio" name="mcq5" value="D"> D) Ethernet</label><br>
+            <div class="explanation"><strong>Explanation:</strong> Correct! USB is the connection of choice for manufacturers.</div>
+        </div>
+
+        <div class="question-block">
+            <p><strong>6. What type of error detection adds a 1 or 0 to a 7-bit byte?</strong></p>
+            <label><input type="radio" name="mcq6" value="A"> A) Checksum</label><br>
+            <label><input type="radio" name="mcq6" value="B" data-correct="true"> B) Parity Check</label><br>
+            <label><input type="radio" name="mcq6" value="C"> C) Echo Check</label><br>
+            <label><input type="radio" name="mcq6" value="D"> D) Check Digit</label><br>
+            <div class="explanation"><strong>Explanation:</strong> Correct! Parity checks ensure the number of 1s is odd or even based on the protocol.</div>
+        </div>
+
+        <div class="question-block">
+            <p><strong>7. Which type of error detection sends a copy of the data back to the sender?</strong></p>
+            <label><input type="radio" name="mcq7" value="A"> A) ARQ</label><br>
+            <label><input type="radio" name="mcq7" value="B"> B) Parity Check</label><br>
+            <label><input type="radio" name="mcq7" value="C" data-correct="true"> C) Echo Check</label><br>
+            <label><input type="radio" name="mcq7" value="D"> D) Checksum</label><br>
+            <div class="explanation"><strong>Explanation:</strong> Correct! In an echo check, the receiver immediately bounces the data back.</div>
+        </div>
+
+        <div class="question-block">
+            <p><strong>8. What is the primary purpose of a check digit on a barcode?</strong></p>
+            <label><input type="radio" name="mcq8" value="A"> A) To speed up transmission</label><br>
+            <label><input type="radio" name="mcq8" value="B" data-correct="true"> B) To spot human data entry errors</label><br>
+            <label><input type="radio" name="mcq8" value="C"> C) To encrypt the price</label><br>
+            <label><input type="radio" name="mcq8" value="D"> D) To track the packet</label><br>
+            <div class="explanation"><strong>Explanation:</strong> Correct! Check digits spot human errors like mis-typing a numerical code.</div>
+        </div>
+
+        <div class="question-block">
+            <p><strong>9. Symmetric encryption uses how many keys?</strong></p>
+            <label><input type="radio" name="mcq9" value="A" data-correct="true"> A) One secret key</label><br>
+            <label><input type="radio" name="mcq9" value="B"> B) Two keys (Public and Private)</label><br>
+            <label><input type="radio" name="mcq9" value="C"> C) Three keys</label><br>
+            <label><input type="radio" name="mcq9" value="D"> D) No keys</label><br>
+            <div class="explanation"><strong>Explanation:</strong> Correct! Symmetric uses one shared key to cipher and decipher.</div>
+        </div>
+
+        <div class="question-block">
+            <p><strong>10. The Caesar cipher is an historical example of what?</strong></p>
+            <label><input type="radio" name="mcq10" value="A"> A) Packet Switching</label><br>
+            <label><input type="radio" name="mcq10" value="B"> B) Error Detection</label><br>
+            <label><input type="radio" name="mcq10" value="C" data-correct="true"> C) Encryption</label><br>
+            <label><input type="radio" name="mcq10" value="D"> D) Parallel Transmission</label><br>
+            <div class="explanation"><strong>Explanation:</strong> Correct! It encrypts data by shifting the alphabet.</div>
+        </div>
+
+        <h2>Section B: Short Answer (10 Questions)</h2>
+        <div class="question-block"><p><strong>11. Why is serial transmission preferred over parallel for long distances?</strong></p><textarea id="short1"></textarea></div>
+        <div class="question-block"><p><strong>12. Describe the direction of data flow in a simplex transmission and give one hardware example.</strong></p><textarea id="short2"></textarea></div>
+        <div class="question-block"><p><strong>13. How does half-duplex differ from full-duplex transmission?</strong></p><textarea id="short3"></textarea></div>
+        <div class="question-block"><p><strong>14. Name the three main components of a data packet.</strong></p><textarea id="short4"></textarea></div>
+        <div class="question-block"><p><strong>15. State two pieces of information typically found in a packet header.</strong></p><textarea id="short5"></textarea></div>
+        <div class="question-block"><p><strong>16. Describe the role of a mathematical algorithm in a Checksum error detection process.</strong></p><textarea id="short6"></textarea></div>
+        <div class="question-block"><p><strong>17. What happens in an ARQ protocol if a "timeout" occurs?</strong></p><textarea id="short7"></textarea></div>
+        <div class="question-block"><p><strong>18. Explain the difference between "plaintext" and "ciphertext" in encryption.</strong></p><textarea id="short8"></textarea></div>
+        <div class="question-block"><p><strong>19. Why is a check digit effective at catching human data entry errors?</strong></p><textarea id="short9"></textarea></div>
+        <div class="question-block"><p><strong>20. Give one drawback of using USB connections.</strong></p><textarea id="short10"></textarea></div>
+
+        <h2>Section C: Long Answer (5 Questions)</h2>
+        <div class="question-block"><p><strong>21. Detail the complete process of packet switching, from the moment data leaves the originator to when it is reassembled at the destination.</strong></p><textarea id="long1"></textarea></div>
+        <div class="question-block"><p><strong>22. Compare and contrast Serial and Parallel data transmission.</strong></p><textarea id="long2"></textarea></div>
+        <div class="question-block"><p><strong>23. Explain how an Automatic Repeat Request (ARQ) system uses acknowledgements and timeouts.</strong></p><textarea id="long3"></textarea></div>
+        <div class="question-block"><p><strong>24. Describe how Asymmetric Encryption works when a user purchases an item online.</strong></p><textarea id="long4"></textarea></div>
+        <div class="question-block"><p><strong>25. Evaluate the Parity Check method of error detection and describe a scenario where it might fail.</strong></p><textarea id="long5"></textarea></div>
+
+        <p class="loader" id="loader">Submitting to Gemini API... Please wait while your answers are graded.</p>
+        <button type="button" id="submit-btn" onclick="submitToGemini()">Submit Quiz for AI Grading</button>
+    </form>
+
+    <div id="results-container">
+        <h2>Grading Complete!</h2>
+        <h3 id="mcq-display-score"></h3>
+        <p><strong>AI Feedback on your Open-Ended Responses:</strong></p>
+        <div id="ai-feedback"></div>
+    </div>
+</div>
+
+<script>
+    // HARDCODED API KEY AS REQUESTED (WARNING: THIS WILL BE PUBLIC ON GITHUB)
+    const GEMINI_API_KEY = "AIzaSyCI7k9vAn_i7kmUqZ7HO6sJ2b0f82uFEjg"; 
+
+    async function submitToGemini() {
+        const studentName = document.getElementById('student-name').value;
+        if (!studentName) {
+            alert('Please enter your name before submitting.');
+            return;
+        }
+
+        const submitBtn = document.getElementById('submit-btn');
+        const loader = document.getElementById('loader');
+        submitBtn.disabled = true;
+        loader.style.display = 'block';
+
+        // 1. Grade MCQs locally
+        let mcqScore = 0;
+        for (let i = 1; i <= 10; i++) {
+            const options = document.getElementsByName('mcq' + i);
+            for (let option of options) {
+                if (option.checked) {
+                    if (option.getAttribute('data-correct') === 'true') mcqScore++;
+                    option.parentElement.parentElement.querySelector('.explanation').style.display = 'block';
+                }
+            }
+        }
+
+        // 2. Gather Open-Ended Answers for the Prompt
+        let promptText = `You are an expert Cambridge IGCSE Computer Science teacher grading a test on Chapter 2: Data Transmission for student ${studentName}.\n\n`;
+        promptText += `The student scored ${mcqScore}/10 on the multiple choice section.\n\n`;
+        promptText += `Please grade the following open-ended answers. Provide a score out of 2 for each short answer, and a score out of 5 for each long answer, along with brief, encouraging feedback explaining what they got right or missed based on the IGCSE syllabus.\n\n`;
+
+        promptText += `--- SHORT ANSWERS ---\n`;
+        for (let i = 1; i <= 10; i++) {
+            promptText += `Q${i+10}: ${document.getElementById('short'+i).parentElement.querySelector('strong').innerText}\n`;
+            promptText += `Student Answer: ${document.getElementById('short'+i).value || "[No Answer]"}\n\n`;
+        }
+
+        promptText += `--- LONG ANSWERS ---\n`;
+        for (let i = 1; i <= 5; i++) {
+            promptText += `Q${i+20}: ${document.getElementById('long'+i).parentElement.querySelector('strong').innerText}\n`;
+            promptText += `Student Answer: ${document.getElementById('long'+i).value || "[No Answer]"}\n\n`;
+        }
+
+        // 3. Call the Gemini REST API Directly
+        const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_API_KEY}`;
+        
+        try {
+            const response = await fetch(apiUrl, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    contents: [{ parts: [{ text: promptText }] }]
+                })
+            });
+
+            const data = await response.json();
+            
+            if (response.ok) {
+                const aiFeedback = data.candidates[0].content.parts[0].text;
+                
+                document.getElementById('quiz-form').style.display = 'none';
+                document.getElementById('results-container').style.display = 'block';
+                document.getElementById('mcq-display-score').innerText = `MCQ Score: ${mcqScore} / 10`;
+                document.getElementById('ai-feedback').innerText = aiFeedback;
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            } else {
+                alert('API Error: ' + data.error.message);
+                submitBtn.disabled = false;
+                loader.style.display = 'none';
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            alert('Failed to connect to the Gemini API. Please try again.');
+            submitBtn.disabled = false;
+            loader.style.display = 'none';
+        }
+    }
+</script>
+
+</body>
+</html>
