@@ -3,242 +3,443 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chapter 4: Software - SA1 Revision</title>
+    <title>Chapter 4: Software - Smart Quiz</title>
+    <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f4f7f6; color: #333; line-height: 1.6; padding: 20px; }
-        .container { max-width: 800px; margin: auto; background: #fff; padding: 30px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
-        h1, h2 { color: #2c3e50; text-align: center; }
-        .creator-tag { text-align: center; font-style: italic; color: #7f8c8d; margin-bottom: 30px; }
-        .question-block { margin-bottom: 25px; padding-bottom: 20px; border-bottom: 1px solid #eee; }
-        .explanation { display: none; background: #e8f4f8; padding: 10px; border-left: 4px solid #3498db; margin-top: 10px; font-size: 0.9em; }
-        input[type="radio"] { margin-right: 10px; }
-        textarea, input[type="text"] { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; resize: vertical; margin-top: 5px; }
-        textarea { min-height: 80px; }
-        button { background: #3498db; color: #fff; border: none; padding: 12px 24px; font-size: 1em; border-radius: 4px; cursor: pointer; display: block; width: 100%; margin-top: 20px; font-weight: bold; }
-        button:hover { background: #2980b9; }
-        button:disabled { background: #95a5a6; cursor: not-allowed; }
-        #results-container { display: none; margin-top: 30px; padding: 20px; background: #e8f4f8; border-left: 5px solid #3498db; border-radius: 5px; }
-        .student-info { margin-bottom: 30px; padding: 20px; background: #e9ecef; border-radius: 5px; }
-        #ai-feedback { white-space: pre-wrap; margin-top: 15px; font-family: inherit; background: #fff; padding: 15px; border-radius: 5px; border: 1px solid #ddd; }
-        .loader { display: none; text-align: center; margin-top: 20px; font-weight: bold; color: #e67e22; }
+        .fade-in { animation: fadeIn 0.4s ease-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .hidden-section { display: none; }
     </style>
 </head>
-<body>
+<body class="bg-slate-50 text-slate-800 font-sans p-4 md:p-8 min-h-screen flex flex-col items-center">
 
-<div class="container">
-    <h1>Chapter 4: Software Interactive Quiz</h1>
-    <p class="creator-tag">Created by: Joshua Poon | Heritage Academy</p>
-    <p>Complete all 25 questions. When you submit, the AI will grade your open-ended responses instantly.</p>
-
-    <div class="student-info">
-        <label for="student-name"><strong>Student Name:</strong></label>
-        <input type="text" id="student-name" placeholder="Enter your full name" required>
-    </div>
-
-    <form id="quiz-form">
-        <h2>Section A: Multiple Choice (10 Questions)</h2>
+    <div class="max-w-3xl w-full bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden mb-8 mt-4 fade-in" id="main-card">
         
-        <div class="question-block">
-            <p><strong>1. Which of the following is an example of system software?</strong></p>
-            <label><input type="radio" name="mcq1" value="A"> A) Word Processor</label><br>
-            <label><input type="radio" name="mcq1" value="B"> B) Web Browser</label><br>
-            <label><input type="radio" name="mcq1" value="C" data-correct="true"> C) Operating System</label><br>
-            <label><input type="radio" name="mcq1" value="D"> D) Spreadsheet Application</label><br>
-            <div class="explanation"><strong>Explanation:</strong> Correct! The operating system is a piece of system software that allows users to work with hardware and applications [cite: 1265-1267].</div>
+        <!-- Header -->
+        <div id="quiz-header" class="bg-rose-500 p-6 text-white text-center transition-colors duration-500">
+            <h1 class="text-2xl font-bold">Chapter 4: Software</h1>
+            <p id="section-subtitle" class="text-rose-100 mt-1 text-sm font-medium">Part 1: Multiple Choice</p>
         </div>
 
-        <div class="question-block">
-            <p><strong>2. Where is firmware typically stored in a computer system?</strong></p>
-            <label><input type="radio" name="mcq2" value="A"> A) Random Access Memory (RAM)</label><br>
-            <label><input type="radio" name="mcq2" value="B" data-correct="true"> B) Read Only Memory (ROM)</label><br>
-            <label><input type="radio" name="mcq2" value="C"> C) Hard Disk Drive</label><br>
-            <label><input type="radio" name="mcq2" value="D"> D) Cache Memory</label><br>
-            <div class="explanation"><strong>Explanation:</strong> Correct! Firmware, like the BIOS, is embedded into hardware devices and installed in ROM [cite: 1261-1264].</div>
+        <!-- Progress Bar -->
+        <div class="w-full bg-slate-100 h-2">
+            <div id="progress-bar" class="bg-rose-400 h-2 transition-all duration-300" style="width: 0%;"></div>
         </div>
 
-        <div class="question-block">
-            <p><strong>3. What is the function of an interrupt in a computer system?</strong></p>
-            <label><input type="radio" name="mcq3" value="A"> A) To turn off the computer safely</label><br>
-            <label><input type="radio" name="mcq3" value="B"> B) To permanently delete a file</label><br>
-            <label><input type="radio" name="mcq3" value="C" data-correct="true"> C) To send a signal that causes a temporary stop in the current program</label><br>
-            <label><input type="radio" name="mcq3" value="D"> D) To compile high-level code into machine code</label><br>
-            <div class="explanation"><strong>Explanation:</strong> Correct! An interrupt is a signal sent to the OS that pauses the current program so a higher priority task can be handled [cite: 1293-1294].</div>
+        <!-- Content Area -->
+        <div class="p-6 md:p-8 relative">
+            
+            <div id="question-counter" class="text-sm font-bold text-slate-400 mb-4 tracking-wider uppercase">Question 1 of 10</div>
+            
+            <!-- Question Text -->
+            <h2 id="question-text" class="text-xl font-semibold mb-6 text-slate-800 leading-relaxed"></h2>
+
+            <!-- MCQ Container -->
+            <div id="mcq-container" class="space-y-3 hidden-section"></div>
+
+            <!-- Open Ended Container (Text Area) -->
+            <div id="open-ended-container" class="hidden-section">
+                <textarea id="student-answer" rows="5" class="w-full p-4 border border-slate-300 rounded-xl focus:ring-2 focus:ring-rose-500 focus:border-rose-500 outline-none transition-shadow resize-y text-slate-700" placeholder="Type your detailed answer here..."></textarea>
+                <button id="check-answer-btn" class="mt-4 px-6 py-3 bg-rose-500 hover:bg-rose-600 text-white font-semibold rounded-xl transition-colors w-full shadow-sm">Check My Answer</button>
+            </div>
+
+            <!-- Instant Feedback Area -->
+            <div id="feedback-container" class="hidden mt-6 p-5 rounded-xl border fade-in">
+                
+                <!-- MCQ Feedback -->
+                <div id="mcq-feedback" class="hidden-section">
+                    <p id="mcq-title" class="font-bold mb-2 text-lg"></p>
+                    <p id="mcq-rationale" class="text-slate-700"></p>
+                </div>
+
+                <!-- Open Ended Feedback -->
+                <div id="oe-feedback" class="hidden-section">
+                    <div class="flex items-center justify-between mb-4 pb-4 border-b border-slate-200/60">
+                        <h3 class="font-bold text-lg text-slate-800">Automated Scoring Result</h3>
+                        <span id="oe-score" class="px-3 py-1 bg-slate-100 font-bold text-lg rounded-lg text-slate-700">0/100</span>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <p class="text-sm font-bold text-slate-500 uppercase tracking-wider mb-2">Keyword Analysis:</p>
+                        <div id="keyword-badges" class="flex flex-wrap gap-2"></div>
+                    </div>
+
+                    <div class="bg-blue-50 p-4 rounded-lg border border-blue-100 mt-6">
+                        <p class="text-xs font-bold text-blue-500 uppercase tracking-wider mb-1">Model Answer</p>
+                        <p id="model-answer" class="text-blue-900 text-sm leading-relaxed"></p>
+                    </div>
+                </div>
+
+                <button id="next-btn" class="mt-6 px-6 py-3 bg-slate-800 hover:bg-slate-900 text-white font-medium rounded-xl transition-colors w-full">Next Question ➔</button>
+            </div>
         </div>
-
-        <div class="question-block">
-            <p><strong>4. Which of the following would trigger a software interrupt?</strong></p>
-            <label><input type="radio" name="mcq4" value="A"> A) Clicking a mouse button</label><br>
-            <label><input type="radio" name="mcq4" value="B"> B) Pressing a key on the keyboard</label><br>
-            <label><input type="radio" name="mcq4" value="C"> C) A printer running out of paper</label><br>
-            <label><input type="radio" name="mcq4" value="D" data-correct="true"> D) A division by zero error in a program</label><br>
-            <div class="explanation"><strong>Explanation:</strong> Correct! A mathematical problem like a division by zero generates a software interrupt sent by the application to the OS[cite: 1305].</div>
-        </div>
-
-        <div class="question-block">
-            <p><strong>5. Which of the following is a characteristic of a low-level programming language?</strong></p>
-            <label><input type="radio" name="mcq5" value="A"> A) It uses English-like words</label><br>
-            <label><input type="radio" name="mcq5" value="B" data-correct="true"> B) It can directly change or manipulate computer hardware</label><br>
-            <label><input type="radio" name="mcq5" value="C"> C) It is highly portable across different types of machines</label><br>
-            <label><input type="radio" name="mcq5" value="D"> D) It is very easy for programmers to debug</label><br>
-            <div class="explanation"><strong>Explanation:</strong> Correct! Low-level languages (like machine code) can directly manipulate hardware and are highly efficient[cite: 1321].</div>
-        </div>
-
-        <div class="question-block">
-            <p><strong>6. What type of language uses mnemonics (like ADD, INP, RET) instead of binary code?</strong></p>
-            <label><input type="radio" name="mcq6" value="A"> A) High-level language</label><br>
-            <label><input type="radio" name="mcq6" value="B"> B) Machine code</label><br>
-            <label><input type="radio" name="mcq6" value="C" data-correct="true"> C) Assembly language</label><br>
-            <label><input type="radio" name="mcq6" value="D"> D) Pseudocode</label><br>
-            <div class="explanation"><strong>Explanation:</strong> Correct! Assembly language is a low-level language that sits just above machine code and uses mnemonics [cite: 1328-1329].</div>
-        </div>
-
-        <div class="question-block">
-            <p><strong>7. How does an interpreter translate high-level code?</strong></p>
-            <label><input type="radio" name="mcq7" value="A"> A) It translates the entire block of code at once to produce an executable file.</label><br>
-            <label><input type="radio" name="mcq7" value="B" data-correct="true"> B) It translates and executes the code line-by-line.</label><br>
-            <label><input type="radio" name="mcq7" value="C"> C) It uses mnemonics to assemble the code.</label><br>
-            <label><input type="radio" name="mcq7" value="D"> D) It converts hardware interrupts into software interrupts.</label><br>
-            <div class="explanation"><strong>Explanation:</strong> Correct! An interpreter translates and executes code line-by-line and stops when it detects an error [cite: 1342-1343].</div>
-        </div>
-
-        <div class="question-block">
-            <p><strong>8. What is a key advantage of using a Compiler over an Interpreter?</strong></p>
-            <label><input type="radio" name="mcq8" value="A"> A) It is easier for beginners to debug.</label><br>
-            <label><input type="radio" name="mcq8" value="B" data-correct="true"> B) It creates an executable file and the code can be kept secret.</label><br>
-            <label><input type="radio" name="mcq8" value="C"> C) It translates code line-by-line.</label><br>
-            <label><input type="radio" name="mcq8" value="D"> D) It stops immediately when an error is found.</label><br>
-            <div class="explanation"><strong>Explanation:</strong> Correct! A compiler translates the whole block to produce an executable file, which helps keep the source code secret [cite: 1339-1340, 1350].</div>
-        </div>
-
-        <div class="question-block">
-            <p><strong>9. In an Integrated Development Environment (IDE), what does the "prettyprint" feature do?</strong></p>
-            <label><input type="radio" name="mcq9" value="A"> A) It automatically finishes typing syntax for the programmer.</label><br>
-            <label><input type="radio" name="mcq9" value="B"> B) It translates the code into machine code.</label><br>
-            <label><input type="radio" name="mcq9" value="C" data-correct="true"> C) It formats code using indentation and color schemes to make it easier to read.</label><br>
-            <label><input type="radio" name="mcq9" value="D"> D) It tests the code in a simulated environment.</label><br>
-            <div class="explanation"><strong>Explanation:</strong> Correct! Prettyprint formats the code with indents and colors to help spot loops and subroutines easily [cite: 1365-1366].</div>
-        </div>
-
-        <div class="question-block">
-            <p><strong>10. Which OS function is responsible for ensuring that the same memory locations are not utilized by different processes at the same time?</strong></p>
-            <label><input type="radio" name="mcq10" value="A"> A) Managing peripherals</label><br>
-            <label><input type="radio" name="mcq10" value="B"> B) Managing drivers</label><br>
-            <label><input type="radio" name="mcq10" value="C" data-correct="true"> C) Managing memory</label><br>
-            <label><input type="radio" name="mcq10" value="D"> D) Handling interrupts</label><br>
-            <div class="explanation"><strong>Explanation:</strong> Correct! Managing memory involves allocating resources and ensuring processes do not overwrite each other's memory locations [cite: 1287-1288].</div>
-        </div>
-
-        <h2>Section B: Short Answer (10 Questions)</h2>
-        <div class="question-block"><p><strong>11. Define "System Software" and provide one example.</strong></p><textarea id="short1"></textarea></div>
-        <div class="question-block"><p><strong>12. State two distinct management tasks carried out by an Operating System.</strong></p><textarea id="short2"></textarea></div>
-        <div class="question-block"><p><strong>13. Define "Firmware" and state the specific type of memory it is usually stored in.</strong></p><textarea id="short3"></textarea></div>
-        <div class="question-block"><p><strong>14. Explain what happens when a hardware interrupt (like a mouse click) occurs.</strong></p><textarea id="short4"></textarea></div>
-        <div class="question-block"><p><strong>15. Give one example of a software interrupt.</strong></p><textarea id="short5"></textarea></div>
-        <div class="question-block"><p><strong>16. State one advantage and one disadvantage of programming in a high-level language.</strong></p><textarea id="short6"></textarea></div>
-        <div class="question-block"><p><strong>17. What is the specific purpose of an "Assembler"?</strong></p><textarea id="short7"></textarea></div>
-        <div class="question-block"><p><strong>18. Explain the difference between how a Compiler and an Interpreter report errors to the programmer.</strong></p><textarea id="short8"></textarea></div>
-        <div class="question-block"><p><strong>19. Describe how the "Auto-correction" feature in an IDE assists a programmer.</strong></p><textarea id="short9"></textarea></div>
-        <div class="question-block"><p><strong>20. What is the purpose of the "Run-time Environment" feature within an IDE?</strong></p><textarea id="short10"></textarea></div>
-
-        <h2>Section C: Long Answer (5 Questions)</h2>
-        <div class="question-block"><p><strong>21. Explain the application software running sequence, detailing how Firmware, the Operating System, and Application Software work together when a computer is turned on.</strong></p><textarea id="long1"></textarea></div>
-        <div class="question-block"><p><strong>22. Discuss the role of the Operating System in a modern computer. In your answer, detail at least four specific management tasks it performs.</strong></p><textarea id="long2"></textarea></div>
-        <div class="question-block"><p><strong>23. Compare and contrast High-level and Low-level programming languages. Discuss the characteristics of each and explain why developers generally prefer high-level languages for writing applications.</strong></p><textarea id="long3"></textarea></div>
-        <div class="question-block"><p><strong>24. Evaluate the use of Compilers versus Interpreters. Discuss the advantages and disadvantages of each type of translator.</strong></p><textarea id="long4"></textarea></div>
-        <div class="question-block"><p><strong>25. Describe what an Integrated Development Environment (IDE) is. Explain how four specific features of an IDE (such as the Code Editor, Translators, or Error Diagnostics) assist a programmer in software development.</strong></p><textarea id="long5"></textarea></div>
-
-        <p class="loader" id="loader">Submitting to Gemini API... Please wait while your answers are graded.</p>
-        <button type="button" id="submit-btn" onclick="submitToGemini()">Submit Quiz for AI Grading</button>
-    </form>
-
-    <div id="results-container">
-        <h2>Grading Complete!</h2>
-        <h3 id="mcq-display-score"></h3>
-        <p><strong>AI Feedback on your Open-Ended Responses:</strong></p>
-        <div id="ai-feedback"></div>
     </div>
-</div>
 
-<script>
-    // Note: Using gemini-2.5-flash as the latest standard for text generation
-    const GEMINI_API_KEY = "AIzaSyCI7k9vAn_i7kmUqZ7HO6sJ2b0f82uFEjg"; 
+    <!-- Final Results Screen -->
+    <div id="results-container" class="hidden max-w-4xl w-full bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden text-center p-10 fade-in">
+        <h2 class="text-4xl font-bold text-slate-800 mb-3">Quiz Complete!</h2>
+        <p class="text-slate-500 mb-8 text-lg">Great job working through Chapter 4: Software.</p>
+        
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+            <div class="bg-rose-50 p-6 rounded-2xl border border-rose-100">
+                <p class="text-rose-600 font-bold mb-1">MCQ Score</p>
+                <p class="text-3xl font-bold text-rose-900" id="final-mcq-score">0/10</p>
+            </div>
+            <div class="bg-emerald-50 p-6 rounded-2xl border border-emerald-100">
+                <p class="text-emerald-600 font-bold mb-1">Short Answer</p>
+                <p class="text-3xl font-bold text-emerald-900" id="final-sa-score">0%</p>
+            </div>
+            <div class="bg-violet-50 p-6 rounded-2xl border border-violet-100">
+                <p class="text-violet-600 font-bold mb-1">Long Answer</p>
+                <p class="text-3xl font-bold text-violet-900" id="final-la-score">0%</p>
+            </div>
+        </div>
+        
+        <button onclick="location.reload()" class="px-8 py-4 bg-slate-800 hover:bg-slate-900 text-white font-bold rounded-xl transition-colors shadow-lg">Retake Quiz</button>
+    </div>
 
-    async function submitToGemini() {
-        const studentName = document.getElementById('student-name').value;
-        if (!studentName) {
-            alert('Please enter your name before submitting.');
-            return;
-        }
+    <script>
+        // --- QUIZ DATA ---
+        const mcqData = [
+            { q: "Which of the following is an example of system software?", opts: ["Word processor", "Web browser", "BIOS", "Video game"], ans: 2, reason: "The Basic Input Output System (BIOS) is an example of system software (firmware) installed in ROM to activate hardware." },
+            { q: "What is a primary function of an operating system?", opts: ["Compiling code into executables", "Managing hardware peripherals and memory", "Writing HTML code for websites", "Designing 3D graphics"], ans: 1, reason: "Operating systems manage hardware, peripherals, memory, files, multitasking, and provide a user interface." },
+            { q: "What type of interrupt is generated when a program attempts to divide by zero?", opts: ["Hardware interrupt", "Software interrupt", "External interrupt", "User interrupt"], ans: 1, reason: "A division by zero is a mathematical problem created by an application, making it a software interrupt." },
+            { q: "What is a key advantage of using a high-level programming language?", opts: ["It does not need to be translated", "It is easier for humans to read, write, and debug", "It runs directly on the CPU without an OS", "It allows direct manipulation of computer hardware"], ans: 1, reason: "High-level languages contain English-like words, making them much easier to read, write, and debug than machine code." },
+            { q: "Which type of translator converts an entire block of code and produces an executable file?", opts: ["Interpreter", "Compiler", "Assembler", "Debugger"], ans: 1, reason: "A compiler translates the entire program all at once, producing an executable file and an error report at the end." },
+            { q: "Which translator is best suited for debugging because it translates and executes code line-by-line?", opts: ["Interpreter", "Compiler", "Assembler", "IDE"], ans: 0, reason: "An interpreter executes code line-by-line and stops immediately when it finds an error, making it excellent for debugging." },
+            { q: "What is assembly language?", opts: ["A high-level language like Python", "A low-level language that uses mnemonics like INP and RET", "Machine code made entirely of 1s and 0s", "A markup language used for web design"], ans: 1, reason: "Assembly language is a low-level language that sits just above machine code and uses short mnemonics to represent commands." },
+            { q: "Which IDE feature automatically formats code using indentation and color schemes?", opts: ["Auto-completion", "Error diagnostics", "Run-time environment", "Prettyprint"], ans: 3, reason: "Prettyprint formats code with colors and indentation to make lines, functions, subroutines, and loops easier to spot." },
+            { q: "What is the correct sequence for running application software?", opts: ["OS -> Applications -> Firmware", "Firmware -> OS -> Applications", "Applications -> Firmware -> OS", "Firmware -> Applications -> OS"], ans: 1, reason: "First the firmware runs and activates hardware, then the operating system runs, which provides the platform for the applications." },
+            { q: "Which is a disadvantage of writing a program in a low-level language?", opts: ["It uses too much memory", "It executes very slowly", "It is specific to the machine it is programmed on", "It requires an interpreter to run"], ans: 2, reason: "Low-level languages are highly efficient but lack portability, meaning they are specific to the hardware architecture they were written for." }
+        ];
 
-        const submitBtn = document.getElementById('submit-btn');
-        const loader = document.getElementById('loader');
-        submitBtn.disabled = true;
-        loader.style.display = 'block';
-
-        // 1. Grade MCQs locally
-        let mcqScore = 0;
-        for (let i = 1; i <= 10; i++) {
-            const options = document.getElementsByName('mcq' + i);
-            for (let option of options) {
-                if (option.checked) {
-                    if (option.getAttribute('data-correct') === 'true') mcqScore++;
-                    option.parentElement.parentElement.querySelector('.explanation').style.display = 'block';
-                }
+        const saqData = [
+            { 
+                q: "What is the difference between system software and application software?",
+                keywords: [{name: "System = Essential/Hardware", words: ["function", "hardware", "essential", "system", "run", "operate"]}, {name: "Application = User Tasks", words: ["user", "task", "leisure", "needs", "app"]}],
+                model: "System software is essential for the computer to function and manage hardware (e.g., the OS). Application software is non-essential software used by humans to carry out specific tasks or for leisure (e.g., a word processor)."
+            },
+            { 
+                q: "Name three functions of an operating system.",
+                keywords: [{name: "Hardware/Peripherals", words: ["hardware", "peripheral", "device"]}, {name: "Memory/Multitasking", words: ["memory", "multitasking", "program", "run"]}, {name: "Interface/Files/Interrupts", words: ["interface", "interrupt", "file", "security", "driver"]}],
+                model: "An operating system manages peripherals/hardware, manages memory, handles multitasking, manages files, handles interrupts, and provides a user interface."
+            },
+            { 
+                q: "What is firmware and where is it typically installed?",
+                keywords: [{name: "System Software", words: ["system software", "program", "instruction", "application"]}, {name: "Embedded in Hardware/ROM", words: ["embedded", "hardware", "rom", "read only memory", "built-in", "bios"]}],
+                model: "Firmware is a type of system software that is embedded directly into hardware components, typically installed in the Read Only Memory (ROM) when the computer is built (e.g., the BIOS)."
+            },
+            { 
+                q: "Briefly describe what an interrupt is in a computer system.",
+                keywords: [{name: "Signal", words: ["signal", "message", "alert"]}, {name: "Stop/Halt", words: ["stop", "halt", "pause", "suspend", "temporary"]}, {name: "To Operating System", words: ["operating system", "os", "control"]}],
+                model: "An interrupt is a signal sent from a device or program to the operating system that causes a temporary stop or halt in the current program so the OS can decide what to do next."
+            },
+            { 
+                q: "Provide one example of a hardware interrupt and one example of a software interrupt.",
+                keywords: [{name: "Hardware Example", words: ["keyboard", "mouse", "key", "click", "printer", "hardware"]}, {name: "Software Example", words: ["division by zero", "memory location", "application", "software"]}],
+                model: "A hardware interrupt could be a user pressing a key on a keyboard or clicking a mouse. A software interrupt could be a program attempting a division by zero or trying to access a restricted memory location."
+            },
+            { 
+                q: "What is an assembler?",
+                keywords: [{name: "Translator", words: ["translator", "translate", "convert"]}, {name: "Assembly to Machine Code", words: ["assembly", "machine code", "binary", "low-level", "low level"]}],
+                model: "An assembler is a type of translator application used to convert assembly language (low-level code with mnemonics) into machine code (binary) so the computer can execute it."
+            },
+            { 
+                q: "Give two advantages of programming in machine code (low-level language).",
+                keywords: [{name: "Fast/Efficient Execution", words: ["fast", "efficient", "quick", "speed"]}, {name: "Hardware/Memory Control", words: ["hardware", "memory", "direct", "manipulate", "capacity"]}],
+                model: "Programs written in low-level language run very quickly (efficient execution) and allow the programmer to directly manipulate computer hardware and use memory very efficiently."
+            },
+            { 
+                q: "Why might a programmer choose an interpreter over a compiler when developing a new program?",
+                keywords: [{name: "Line-by-Line", words: ["line-by-line", "one line", "line by line"]}, {name: "Debugging", words: ["debug", "error", "stop", "fix", "identify"]}],
+                model: "An interpreter translates code line-by-line and stops execution as soon as it detects an error. This makes it much easier and faster for beginners and programmers to debug their code during development."
+            },
+            { 
+                q: "What is the purpose of an Integrated Development Environment (IDE)?",
+                keywords: [{name: "Application/Software", words: ["application", "software", "environment"]}, {name: "Test/Develop Code", words: ["test", "develop", "write", "code", "program"]}],
+                model: "An IDE is a software application that provides comprehensive facilities to computer programmers, allowing them to easily write, test, debug, and develop new software in one place."
+            },
+            { 
+                q: "Name three features typically found in an IDE.",
+                keywords: [{name: "Editor/Formatting", words: ["editor", "shell", "prettyprint", "format", "color"]}, {name: "Automation Features", words: ["auto-completion", "completion", "auto-correction", "correction", "bracket"]}, {name: "Execution/Debugging", words: ["translator", "compile", "interpret", "diagnostics", "run-time", "run time"]}],
+                model: "Common IDE features include a code editor, auto-completion, auto-correction, prettyprint (formatting), built-in translators (compilers/interpreters), error diagnostics, and a run-time environment."
             }
-        }
+        ];
 
-        // 2. Gather Open-Ended Answers for the Prompt
-        let promptText = `You are an expert Cambridge IGCSE Computer Science teacher grading a test on Chapter 4: Software for student ${studentName}.\n\n`;
-        promptText += `The student scored ${mcqScore}/10 on the multiple choice section.\n\n`;
-        promptText += `Please grade the following open-ended answers. Provide a score out of 2 for each short answer, and a score out of 5 for each long answer. Give brief, encouraging feedback explaining what they got right or missed based on the IGCSE syllabus (e.g., OS functions, Interrupts, High vs Low level languages, Compilers vs Interpreters, IDE features).\n\n`;
+        const laqData = [
+            { 
+                q: "Explain the application software running sequence from the moment a computer is powered on.",
+                keywords: [{name: "Firmware/BIOS Activates", words: ["firmware", "bios", "activate", "start", "power"]}, {name: "Hardware", words: ["hardware", "component", "device"]}, {name: "Operating System Runs", words: ["operating system", "os", "platform"]}, {name: "Applications Run", words: ["application", "app", "software"]}],
+                model: "1. The computer receives power, and the firmware (such as the BIOS) is run, which activates the necessary hardware. 2. The operating system is then loaded and run on top of the firmware. 3. Finally, the operating system provides the platform that allows application software to be run by the user."
+            },
+            { 
+                q: "Describe in detail how an operating system handles an interrupt signal.",
+                keywords: [{name: "Signal Halts Program", words: ["signal", "stop", "halt", "pause", "temporary"]}, {name: "Interrupt Handler", words: ["handler", "interrupt handler"]}, {name: "Queue/Priority", words: ["queue", "priority", "importance"]}, {name: "Service Routine", words: ["routine", "service routine", "isr"]}],
+                model: "When a device or program sends an interrupt signal, it causes a temporary stop in the current program. The signal is collected by an interrupt handler. An interrupt service routine (ISR) is carried out, where the interrupt is assigned a place in a queue. The handler determines its priority, and it is dealt with according to its importance. Finally, control returns to the previous process."
+            },
+            { 
+                q: "Compare high-level and low-level programming languages. Discuss at least one advantage and one disadvantage of each.",
+                keywords: [{name: "High-Level: Read/Debug", words: ["read", "debug", "portable", "english", "easier"]}, {name: "High-Level: Slower/Translation", words: ["translate", "slower", "inefficient", "compiler", "interpreter"]}, {name: "Low-Level: Fast/Hardware", words: ["fast", "memory", "hardware", "direct"]}, {name: "Low-Level: Machine-Specific/Hard", words: ["specific", "difficult", "hard", "error"]}],
+                model: "High-level languages use English-like words, making them highly portable, easy to read, and easy to debug. However, they run slower and require a translator. Low-level languages (like machine code) are extremely fast and utilize memory efficiently. However, they are very difficult for humans to write, prone to errors, and are machine-specific (non-portable)."
+            },
+            { 
+                q: "Explain the differences between a compiler and an interpreter, including how they process code and report errors.",
+                keywords: [{name: "Compiler: Entire Block", words: ["compiler", "entire", "whole", "all at once", "executable"]}, {name: "Compiler: Errors at End", words: ["end", "after", "report"]}, {name: "Interpreter: Line-by-Line", words: ["interpreter", "line-by-line", "line by line"]}, {name: "Interpreter: Stops at Error", words: ["stop", "halt", "immediately"]}],
+                model: "A compiler translates an entire block of code all at once, producing an executable file. It only reports errors at the very end of the compilation process. An interpreter translates and executes code line-by-line. It does not produce an executable file, and it stops execution immediately as soon as it detects an error, making it better for debugging."
+            },
+            { 
+                q: "Discuss the role of the code editor in an IDE. How do features like auto-completion and auto-correction assist a programmer?",
+                keywords: [{name: "Text Editing/Shell", words: ["shell", "text", "edit", "write"]}, {name: "Auto-Completion", words: ["suggest", "complete", "common", "syntax", "finish"]}, {name: "Auto-Correction", words: ["error", "bracket", "match", "fix", "obvious"]}, {name: "Saves Time", words: ["time", "efficient", "faster", "speed"]}],
+                model: "The code editor (or shell) is the text area where programmers write code. Auto-completion assists by recognizing the start of common syntax or functions and suggesting the rest, saving time. Auto-correction detects obvious typing errors or missing brackets (bracket matching) and automatically suggests fixes, helping developers program more efficiently."
+            },
+            { 
+                q: "What is 'prettyprint' in an IDE and why is it highly useful for software developers working in teams?",
+                keywords: [{name: "Formatting/Indentation", words: ["format", "indentation", "indent", "space"]}, {name: "Color Scheme", words: ["color", "colour", "highlight"]}, {name: "Spotting Structures", words: ["subroutine", "loop", "block", "spot"]}, {name: "Readability for Teams", words: ["read", "team", "understand", "clear"]}],
+                model: "Prettyprint is a feature that automatically formats code using indentation and a color scheme. It makes code highly readable by coloring specific syntax and indenting loops or subroutines. This is incredibly useful for developers in teams, as it makes it much easier to read, understand, and troubleshoot code written by someone else."
+            },
+            { 
+                q: "Why is machine code considered difficult for humans to write, and what is the alternative used by most developers today?",
+                keywords: [{name: "Binary / 0s and 1s", words: ["binary", "0", "1", "zero", "one"]}, {name: "Hard to Debug", words: ["debug", "error", "mistake", "difficult"]}, {name: "High-Level Languages", words: ["high-level", "high level"]}, {name: "English-like Words", words: ["english", "python", "java", "javascript", "c++", "understand"]}],
+                model: "Machine code is the raw language of a computer consisting entirely of binary 1s and 0s. It is incredibly difficult for humans to read, write, or debug. Because of this, developers today use high-level programming languages (like Python or JavaScript) which use English-like words and logical syntax, making programming significantly easier."
+            },
+            { 
+                q: "Explain how an Operating System manages a computer's memory and multitasking.",
+                keywords: [{name: "Allocation of Resources", words: ["allocate", "allocation", "resources", "memory"]}, {name: "Prevents Conflict", words: ["same", "location", "overlap", "utilised", "utilize", "protect"]}, {name: "Multitasking/Simultaneous", words: ["multitasking", "several things", "at once", "simultaneous", "multiple"]}, {name: "Moving In and Out", words: ["move", "in and out", "needed", "required"]}],
+                model: "The OS manages memory by allocating resources to hardware so user instructions can be executed. It ensures that different processes do not utilize the same memory locations, preventing conflicts. To handle multitasking, it enables the computer to do several things at once by efficiently moving instructions and data in and out of memory as they are needed by different active applications."
+            },
+            { 
+                q: "Describe the role of an Operating System in maintaining system security and managing user profiles.",
+                keywords: [{name: "Defense/Utilities", words: ["defense", "firewall", "authentication", "guard", "threat", "password"]}, {name: "User Accounts", words: ["account", "profile", "administrator", "guest"]}, {name: "Separation of Needs", words: ["separate", "individual", "needs", "access", "rights"]}, {name: "Protection/Unsuitable Content", words: ["protect", "unsuitable", "young", "safe", "restrict"]}],
+                model: "The OS acts as a line of defense using utility programs like firewalls and authentication (passwords) to guard against threats. It manages user profiles by creating separate accounts (administrator, standard user, guest). This ensures users only have access to what they need and allows administrators to protect younger users from unsuitable content by restricting their profile's access."
+            },
+            { 
+                q: "What is assembly language? Explain its relationship to machine code and the tool required to run it.",
+                keywords: [{name: "Low-Level Language", words: ["low-level", "low level", "above"]}, {name: "Mnemonics", words: ["mnemonic", "pattern", "letter", "inp", "ret", "abbreviation"]}, {name: "Assembler", words: ["assembler", "translator", "program"]}, {name: "Translation to Binary", words: ["translate", "machine code", "binary", "convert", "execute"]}],
+                model: "Assembly language is a low-level programming language that sits just above machine code. Instead of 1s and 0s, it uses short mnemonics (like INP for input or RET for return) to represent commands. To run assembly language on a computer, it must be translated into raw machine code (binary) using a specialized translator program called an Assembler."
+            }
+        ];
 
-        promptText += `--- SHORT ANSWERS ---\n`;
-        for (let i = 1; i <= 10; i++) {
-            promptText += `Q${i+10}: ${document.getElementById('short'+i).parentElement.querySelector('strong').innerText}\n`;
-            promptText += `Student Answer: ${document.getElementById('short'+i).value || "[No Answer]"}\n\n`;
-        }
+        // --- STATE VARIABLES ---
+        let currentSection = 1; // 1: MCQ, 2: SAQ, 3: LAQ
+        let currentIndex = 0;
+        let isAnswered = false;
 
-        promptText += `--- LONG ANSWERS ---\n`;
-        for (let i = 1; i <= 5; i++) {
-            promptText += `Q${i+20}: ${document.getElementById('long'+i).parentElement.querySelector('strong').innerText}\n`;
-            promptText += `Student Answer: ${document.getElementById('long'+i).value || "[No Answer]"}\n\n`;
-        }
+        // Scores
+        let mcqScore = 0;
+        let saqScoreTotal = 0;
+        let laqScoreTotal = 0;
 
-        // 3. Call the Gemini REST API Directly using 2.5 Flash
-        const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${GEMINI_API_KEY}`;
+        // --- DOM ELEMENTS ---
+        const header = document.getElementById('quiz-header');
+        const subtitle = document.getElementById('section-subtitle');
+        const progressBar = document.getElementById('progress-bar');
+        const questionCounter = document.getElementById('question-counter');
+        const questionText = document.getElementById('question-text');
         
-        try {
-            const response = await fetch(apiUrl, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    contents: [{ parts: [{ text: promptText }] }]
-                })
+        const mcqContainer = document.getElementById('mcq-container');
+        const oeContainer = document.getElementById('open-ended-container');
+        const studentAnswerBox = document.getElementById('student-answer');
+        const checkAnswerBtn = document.getElementById('check-answer-btn');
+        
+        const feedbackContainer = document.getElementById('feedback-container');
+        const mcqFeedback = document.getElementById('mcq-feedback');
+        const oeFeedback = document.getElementById('oe-feedback');
+        const nextBtn = document.getElementById('next-btn');
+
+        // --- CORE LOGIC ---
+
+        function updateUI() {
+            isAnswered = false;
+            feedbackContainer.classList.add('hidden');
+            mcqFeedback.classList.add('hidden-section');
+            oeFeedback.classList.add('hidden-section');
+            
+            let currentData, totalInSection;
+
+            if (currentSection === 1) {
+                currentData = mcqData[currentIndex];
+                totalInSection = mcqData.length;
+                header.className = "bg-rose-500 p-6 text-white text-center transition-colors duration-500";
+                subtitle.textContent = "Part 1: Multiple Choice";
+                
+                mcqContainer.classList.remove('hidden-section');
+                oeContainer.classList.add('hidden-section');
+                buildMCQ(currentData);
+            } 
+            else if (currentSection === 2) {
+                currentData = saqData[currentIndex];
+                totalInSection = saqData.length;
+                header.className = "bg-emerald-600 p-6 text-white text-center transition-colors duration-500";
+                subtitle.textContent = "Part 2: Short Answer";
+                
+                mcqContainer.classList.add('hidden-section');
+                oeContainer.classList.remove('hidden-section');
+                studentAnswerBox.value = "";
+                studentAnswerBox.disabled = false;
+                checkAnswerBtn.classList.remove('hidden');
+            } 
+            else if (currentSection === 3) {
+                currentData = laqData[currentIndex];
+                totalInSection = laqData.length;
+                header.className = "bg-violet-600 p-6 text-white text-center transition-colors duration-500";
+                subtitle.textContent = "Part 3: Long Answer";
+                
+                mcqContainer.classList.add('hidden-section');
+                oeContainer.classList.remove('hidden-section');
+                studentAnswerBox.value = "";
+                studentAnswerBox.disabled = false;
+                studentAnswerBox.rows = 7;
+                checkAnswerBtn.classList.remove('hidden');
+            }
+
+            questionText.textContent = currentData.q;
+            questionCounter.textContent = `Question ${currentIndex + 1} of ${totalInSection}`;
+            
+            // Progress Bar (Total 30 questions: 10 + 10 + 10)
+            const absoluteProgress = ((currentSection - 1) * 10 + currentIndex) / 30 * 100;
+            progressBar.style.width = `${absoluteProgress}%`;
+            
+            // Color progress bar based on section
+            progressBar.className = `h-2 transition-all duration-300 ${currentSection === 1 ? 'bg-rose-400' : currentSection === 2 ? 'bg-emerald-400' : 'bg-violet-400'}`;
+        }
+
+        function buildMCQ(data) {
+            mcqContainer.innerHTML = '';
+            data.opts.forEach((opt, index) => {
+                const btn = document.createElement('button');
+                btn.className = `w-full text-left p-4 rounded-xl border border-slate-200 hover:border-rose-500 hover:bg-rose-50 transition-colors duration-200 text-slate-700 font-medium`;
+                btn.innerHTML = `<span class="inline-block w-6 h-6 rounded-full bg-slate-200 text-slate-600 text-center text-sm leading-6 mr-3 font-bold">${String.fromCharCode(65 + index)}</span> ${opt}`;
+                btn.onclick = () => gradeMCQ(index, btn, data);
+                mcqContainer.appendChild(btn);
+            });
+        }
+
+        function gradeMCQ(selectedIndex, selectedBtn, data) {
+            if (isAnswered) return;
+            isAnswered = true;
+
+            const buttons = mcqContainer.querySelectorAll('button');
+            buttons.forEach(btn => {
+                btn.classList.remove('hover:border-rose-500', 'hover:bg-rose-50', 'cursor-pointer');
+                btn.classList.add('cursor-default', 'opacity-50');
             });
 
-            const data = await response.json();
-            
-            if (response.ok) {
-                const aiFeedback = data.candidates[0].content.parts[0].text;
-                
-                document.getElementById('quiz-form').style.display = 'none';
-                document.getElementById('results-container').style.display = 'block';
-                document.getElementById('mcq-display-score').innerText = `MCQ Score: ${mcqScore} / 10`;
-                document.getElementById('ai-feedback').innerText = aiFeedback;
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-            } else {
-                alert('API Error: ' + data.error.message);
-                submitBtn.disabled = false;
-                loader.style.display = 'none';
-            }
-        } catch (error) {
-            console.error('Error:', error);
-            alert('Failed to connect to the Gemini API. Please try again.');
-            submitBtn.disabled = false;
-            loader.style.display = 'none';
-        }
-    }
-</script>
+            selectedBtn.classList.remove('opacity-50');
+            mcqFeedback.classList.remove('hidden-section');
 
+            if (selectedIndex === data.ans) {
+                mcqScore++;
+                selectedBtn.classList.replace('border-slate-200', 'border-green-500');
+                selectedBtn.classList.add('bg-green-50', 'text-green-800');
+                
+                document.getElementById('mcq-title').textContent = "✅ Correct!";
+                document.getElementById('mcq-title').className = "font-bold mb-2 text-lg text-green-700";
+                feedbackContainer.className = "mt-6 p-5 rounded-xl border border-green-200 bg-green-50 fade-in";
+            } else {
+                selectedBtn.classList.replace('border-slate-200', 'border-red-500');
+                selectedBtn.classList.add('bg-red-50', 'text-red-800');
+                
+                // Show right answer
+                buttons[data.ans].classList.remove('opacity-50', 'border-slate-200');
+                buttons[data.ans].classList.add('border-green-500', 'bg-green-50');
+
+                document.getElementById('mcq-title').textContent = "❌ Incorrect";
+                document.getElementById('mcq-title').className = "font-bold mb-2 text-lg text-red-700";
+                feedbackContainer.className = "mt-6 p-5 rounded-xl border border-red-200 bg-red-50 fade-in";
+            }
+
+            document.getElementById('mcq-rationale').textContent = data.reason;
+            feedbackContainer.classList.remove('hidden');
+        }
+
+        // AUTO GRADER LOGIC
+        checkAnswerBtn.onclick = () => {
+            const input = studentAnswerBox.value.trim();
+            if(input.length < 5) {
+                alert("Please type a detailed answer before checking!");
+                return;
+            }
+            
+            isAnswered = true;
+            studentAnswerBox.disabled = true;
+            checkAnswerBtn.classList.add('hidden');
+            
+            const data = currentSection === 2 ? saqData[currentIndex] : laqData[currentIndex];
+            const textToAnalyse = input.toLowerCase();
+            
+            let matched = 0;
+            const badgeContainer = document.getElementById('keyword-badges');
+            badgeContainer.innerHTML = '';
+
+            // Keyword Scanning
+            data.keywords.forEach(kwObj => {
+                const isFound = kwObj.words.some(word => textToAnalyse.includes(word.toLowerCase()));
+                
+                const badge = document.createElement('span');
+                if(isFound) {
+                    matched++;
+                    badge.className = "px-3 py-1 rounded-full text-xs font-bold bg-green-100 text-green-700 border border-green-200";
+                    badge.innerHTML = `✓ ${kwObj.name}`;
+                } else {
+                    badge.className = "px-3 py-1 rounded-full text-xs font-bold bg-red-100 text-red-700 border border-red-200";
+                    badge.innerHTML = `✗ Missed: ${kwObj.name}`;
+                }
+                badgeContainer.appendChild(badge);
+            });
+
+            // Scoring
+            const scorePercent = Math.round((matched / data.keywords.length) * 100);
+            document.getElementById('oe-score').textContent = `${scorePercent}% Match`;
+            
+            if(scorePercent === 100) document.getElementById('oe-score').className = "px-3 py-1 bg-green-100 font-bold text-lg rounded-lg text-green-700";
+            else if(scorePercent > 0) document.getElementById('oe-score').className = "px-3 py-1 bg-yellow-100 font-bold text-lg rounded-lg text-yellow-700";
+            else document.getElementById('oe-score').className = "px-3 py-1 bg-red-100 font-bold text-lg rounded-lg text-red-700";
+
+            if(currentSection === 2) saqScoreTotal += scorePercent;
+            else laqScoreTotal += scorePercent;
+
+            document.getElementById('model-answer').textContent = data.model;
+            
+            oeFeedback.classList.remove('hidden-section');
+            feedbackContainer.className = "mt-6 p-5 rounded-xl border border-slate-200 bg-white fade-in shadow-sm";
+            feedbackContainer.classList.remove('hidden');
+        };
+
+        // Navigation
+        nextBtn.onclick = () => {
+            const arrLength = currentSection === 1 ? mcqData.length : currentSection === 2 ? saqData.length : laqData.length;
+            
+            currentIndex++;
+            if (currentIndex >= arrLength) {
+                // Next Section
+                currentSection++;
+                currentIndex = 0;
+                
+                if(currentSection > 3) {
+                    progressBar.style.width = `100%`;
+                    showFinalResults();
+                    return;
+                }
+            }
+            updateUI();
+            
+            // Scroll to top of card
+            document.getElementById('main-card').scrollIntoView({ behavior: 'smooth', block: 'start' });
+        };
+
+        function showFinalResults() {
+            document.getElementById('main-card').classList.add('hidden');
+            const results = document.getElementById('results-container');
+            results.classList.remove('hidden');
+            
+            document.getElementById('final-mcq-score').textContent = `${mcqScore}/10`;
+            document.getElementById('final-sa-score').textContent = `${Math.round(saqScoreTotal / saqData.length)}%`;
+            document.getElementById('final-la-score').textContent = `${Math.round(laqScoreTotal / laqData.length)}%`;
+        }
+
+        // Init
+        updateUI();
+
+    </script>
 </body>
 </html>
