@@ -3,242 +3,466 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chapter 3: Hardware - SA1 Revision</title>
+    <title>Chapter 3: Hardware - Smart Quiz</title>
+    <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f4f7f6; color: #333; line-height: 1.6; padding: 20px; }
-        .container { max-width: 800px; margin: auto; background: #fff; padding: 30px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
-        h1, h2 { color: #2c3e50; text-align: center; }
-        .creator-tag { text-align: center; font-style: italic; color: #7f8c8d; margin-bottom: 30px; }
-        .question-block { margin-bottom: 25px; padding-bottom: 20px; border-bottom: 1px solid #eee; }
-        .explanation { display: none; background: #e8f4f8; padding: 10px; border-left: 4px solid #3498db; margin-top: 10px; font-size: 0.9em; }
-        input[type="radio"] { margin-right: 10px; }
-        textarea, input[type="text"] { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; resize: vertical; margin-top: 5px; }
-        textarea { min-height: 80px; }
-        button { background: #3498db; color: #fff; border: none; padding: 12px 24px; font-size: 1em; border-radius: 4px; cursor: pointer; display: block; width: 100%; margin-top: 20px; font-weight: bold; }
-        button:hover { background: #2980b9; }
-        button:disabled { background: #95a5a6; cursor: not-allowed; }
-        #results-container { display: none; margin-top: 30px; padding: 20px; background: #e8f4f8; border-left: 5px solid #3498db; border-radius: 5px; }
-        .student-info { margin-bottom: 30px; padding: 20px; background: #e9ecef; border-radius: 5px; }
-        #ai-feedback { white-space: pre-wrap; margin-top: 15px; font-family: inherit; background: #fff; padding: 15px; border-radius: 5px; border: 1px solid #ddd; }
-        .loader { display: none; text-align: center; margin-top: 20px; font-weight: bold; color: #e67e22; }
+        .fade-in { animation: fadeIn 0.4s ease-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .hidden-section { display: none; }
     </style>
 </head>
-<body>
+<body class="bg-slate-50 text-slate-800 font-sans p-4 md:p-8 min-h-screen flex flex-col items-center">
 
-<div class="container">
-    <h1>Chapter 3: Hardware Interactive Quiz</h1>
-    <p class="creator-tag">Created by: Joshua Poon | Heritage Academy</p>
-    <p>Complete all 25 questions. When you submit, the AI will grade your open-ended responses instantly.</p>
-
-    <div class="student-info">
-        <label for="student-name"><strong>Student Name:</strong></label>
-        <input type="text" id="student-name" placeholder="Enter your full name" required>
-    </div>
-
-    <form id="quiz-form">
-        <h2>Section A: Multiple Choice (10 Questions)</h2>
+    <div class="max-w-4xl w-full bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden mb-8 mt-4 fade-in" id="main-card">
         
-        <div class="question-block">
-            <p><strong>1. What is the primary role of the Central Processing Unit (CPU)?</strong></p>
-            <label><input type="radio" name="mcq1" value="A"> A) To store data permanently</label><br>
-            <label><input type="radio" name="mcq1" value="B"> B) To connect the computer to a network</label><br>
-            <label><input type="radio" name="mcq1" value="C" data-correct="true"> C) To process instructions and data</label><br>
-            <label><input type="radio" name="mcq1" value="D"> D) To output images to a screen</label><br>
-            <div class="explanation"><strong>Explanation:</strong> Correct! The CPU's job is to process the instructions and data entered through input devices [cite: 783-784].</div>
+        <!-- Header -->
+        <div id="quiz-header" class="bg-sky-500 p-6 text-white text-center transition-colors duration-500">
+            <h1 class="text-2xl font-bold">Chapter 3: Hardware</h1>
+            <p id="section-subtitle" class="text-sky-100 mt-1 text-sm font-medium">Part 1: Multiple Choice</p>
         </div>
 
-        <div class="question-block">
-            <p><strong>2. Which CPU register holds the address (location) of the next instruction to be carried out?</strong></p>
-            <label><input type="radio" name="mcq2" value="A" data-correct="true"> A) Program Counter (PC)</label><br>
-            <label><input type="radio" name="mcq2" value="B"> B) Memory Address Register (MAR)</label><br>
-            <label><input type="radio" name="mcq2" value="C"> C) Accumulator (ACC)</label><br>
-            <label><input type="radio" name="mcq2" value="D"> D) Current Instruction Register (CIR)</label><br>
-            <div class="explanation"><strong>Explanation:</strong> Correct! The Program Counter contains the address of the next instruction to be fetched[cite: 809].</div>
+        <!-- Progress Bar -->
+        <div class="w-full bg-slate-100 h-2">
+            <div id="progress-bar" class="bg-sky-400 h-2 transition-all duration-300" style="width: 0%;"></div>
         </div>
 
-        <div class="question-block">
-            <p><strong>3. Which type of primary memory is volatile and loses its contents when the power is turned off?</strong></p>
-            <label><input type="radio" name="mcq3" value="A"> A) Read Only Memory (ROM)</label><br>
-            <label><input type="radio" name="mcq3" value="B" data-correct="true"> B) Random Access Memory (RAM)</label><br>
-            <label><input type="radio" name="mcq3" value="C"> C) Solid State Drive (SSD)</label><br>
-            <label><input type="radio" name="mcq3" value="D"> D) Magnetic Hard Disk</label><br>
-            <div class="explanation"><strong>Explanation:</strong> Correct! RAM is volatile memory that does not retain data without power [cite: 819-820].</div>
+        <!-- Content Area -->
+        <div class="p-6 md:p-10 relative">
+            
+            <div id="question-counter" class="text-sm font-bold text-slate-400 mb-4 tracking-wider uppercase">Question 1 of 10</div>
+            
+            <!-- Question Text -->
+            <h2 id="question-text" class="text-xl font-semibold mb-6 text-slate-800 leading-relaxed"></h2>
+
+            <!-- MCQ Container -->
+            <div id="mcq-container" class="space-y-3 hidden-section"></div>
+
+            <!-- Open Ended Container (Text Area) -->
+            <div id="open-ended-container" class="hidden-section">
+                <textarea id="student-answer" rows="5" class="w-full p-4 border border-slate-300 rounded-xl focus:ring-2 focus:ring-sky-500 focus:border-sky-500 outline-none transition-shadow resize-y text-slate-700" placeholder="Type your detailed answer here..."></textarea>
+                <button id="check-answer-btn" class="mt-4 px-6 py-3 bg-sky-500 hover:bg-sky-600 text-white font-semibold rounded-xl transition-colors w-full shadow-sm">Check My Answer</button>
+            </div>
+
+            <!-- Instant Feedback Area -->
+            <div id="feedback-container" class="hidden mt-6 p-5 rounded-xl border fade-in">
+                
+                <!-- MCQ Feedback -->
+                <div id="mcq-feedback" class="hidden-section">
+                    <p id="mcq-title" class="font-bold mb-2 text-lg"></p>
+                    <p id="mcq-rationale" class="text-slate-700"></p>
+                </div>
+
+                <!-- Open Ended Feedback -->
+                <div id="oe-feedback" class="hidden-section">
+                    <div class="flex items-center justify-between mb-4 pb-4 border-b border-slate-200/60">
+                        <h3 class="font-bold text-lg text-slate-800">Automated Scoring Result</h3>
+                        <span id="oe-score" class="px-3 py-1 bg-slate-100 font-bold text-lg rounded-lg text-slate-700">0/100</span>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <p class="text-sm font-bold text-slate-500 uppercase tracking-wider mb-2">Keyword Analysis:</p>
+                        <div id="keyword-badges" class="flex flex-wrap gap-2"></div>
+                    </div>
+
+                    <div class="bg-blue-50 p-5 rounded-xl border border-blue-100 mt-6">
+                        <p class="text-xs font-bold text-blue-500 uppercase tracking-wider mb-2">Model Answer</p>
+                        <p id="model-answer" class="text-blue-900 text-sm leading-relaxed"></p>
+                    </div>
+                </div>
+
+                <button id="next-btn" class="mt-6 px-6 py-3 bg-slate-800 hover:bg-slate-900 text-white font-medium rounded-xl transition-colors w-full">Next Question ➔</button>
+            </div>
         </div>
-
-        <div class="question-block">
-            <p><strong>4. In an automated system, which component turns electrical signals from the microprocessor into physical movements?</strong></p>
-            <label><input type="radio" name="mcq4" value="A"> A) Sensor</label><br>
-            <label><input type="radio" name="mcq4" value="B"> B) Motherboard</label><br>
-            <label><input type="radio" name="mcq4" value="C" data-correct="true"> C) Actuator</label><br>
-            <label><input type="radio" name="mcq4" value="D"> D) Router</label><br>
-            <div class="explanation"><strong>Explanation:</strong> Correct! Actuators are mechanical motors that carry out actions based on instructions[cite: 1038].</div>
-        </div>
-
-        <div class="question-block">
-            <p><strong>5. What defines an "embedded system"?</strong></p>
-            <label><input type="radio" name="mcq5" value="A"> A) A computer designed to run a wide range of different software</label><br>
-            <label><input type="radio" name="mcq5" value="B" data-correct="true"> B) A small built-in computer that carries out a specific function within a larger device</label><br>
-            <label><input type="radio" name="mcq5" value="C"> C) A storage device with no moving parts</label><br>
-            <label><input type="radio" name="mcq5" value="D"> D) A network interface card</label><br>
-            <div class="explanation"><strong>Explanation:</strong> Correct! Embedded systems perform highly specific tasks, like in a dishwasher or satellite navigation [cite: 874-877].</div>
-        </div>
-
-        <div class="question-block">
-            <p><strong>6. How does a Capacitive touch screen determine where a user has touched?</strong></p>
-            <label><input type="radio" name="mcq6" value="A"> A) By detecting downward physical pressure</label><br>
-            <label><input type="radio" name="mcq6" value="B"> B) By breaking a grid of invisible light</label><br>
-            <label><input type="radio" name="mcq6" value="C" data-correct="true"> C) By detecting a change in electrical current caused by the human body</label><br>
-            <label><input type="radio" name="mcq6" value="D"> D) By using optical character recognition</label><br>
-            <div class="explanation"><strong>Explanation:</strong> Correct! Capacitive screens rely on the human body being naturally conductive [cite: 932-933].</div>
-        </div>
-
-        <div class="question-block">
-            <p><strong>7. Which type of secondary storage reads and writes data by burning 'pits' and leaving 'lands' on a surface using a laser?</strong></p>
-            <label><input type="radio" name="mcq7" value="A"> A) Magnetic Storage</label><br>
-            <label><input type="radio" name="mcq7" value="B"> B) Solid State Storage</label><br>
-            <label><input type="radio" name="mcq7" value="C" data-correct="true"> C) Optical Storage</label><br>
-            <label><input type="radio" name="mcq7" value="D"> D) Cloud Storage</label><br>
-            <div class="explanation"><strong>Explanation:</strong> Correct! Optical drives like CDs, DVDs, and Blu-rays use lasers to read/write pits and lands[cite: 1144, 1156].</div>
-        </div>
-
-        <div class="question-block">
-            <p><strong>8. What happens when a computer utilizes "Virtual Memory"?</strong></p>
-            <label><input type="radio" name="mcq8" value="A"> A) It uploads data directly to the cloud</label><br>
-            <label><input type="radio" name="mcq8" value="B" data-correct="true"> B) It uses a portion of secondary storage as a temporary area of RAM</label><br>
-            <label><input type="radio" name="mcq8" value="C"> C) It increases the clock speed of the CPU</label><br>
-            <label><input type="radio" name="mcq8" value="D"> D) It deletes old files to make room for new ones</label><br>
-            <div class="explanation"><strong>Explanation:</strong> Correct! When RAM is overloaded, the OS designates space on the hard disk to act as temporary memory [cite: 1166-1167].</div>
-        </div>
-
-        <div class="question-block">
-            <p><strong>9. Which address uniquely identifies a device's network interface controller (NIC) and is permanently set during manufacture?</strong></p>
-            <label><input type="radio" name="mcq9" value="A"> A) IP Address</label><br>
-            <label><input type="radio" name="mcq9" value="B" data-correct="true"> B) MAC Address</label><br>
-            <label><input type="radio" name="mcq9" value="C"> C) URL</label><br>
-            <label><input type="radio" name="mcq9" value="D"> D) HTML</label><br>
-            <div class="explanation"><strong>Explanation:</strong> Correct! The Media Access Control (MAC) address is preset at manufacture and never changes [cite: 1187-1189].</div>
-        </div>
-
-        <div class="question-block">
-            <p><strong>10. Which device converts signals from a telephone or fibre optic line into data that is readable by a computer?</strong></p>
-            <label><input type="radio" name="mcq10" value="A" data-correct="true"> A) Modem</label><br>
-            <label><input type="radio" name="mcq10" value="B"> B) Actuator</label><br>
-            <label><input type="radio" name="mcq10" value="C"> C) Sensor</label><br>
-            <label><input type="radio" name="mcq10" value="D"> D) Switch</label><br>
-            <div class="explanation"><strong>Explanation:</strong> Correct! A modem converts these signals, and is often built directly into modern routers [cite: 1222-1223].</div>
-        </div>
-
-        <h2>Section B: Short Answer (10 Questions)</h2>
-        <div class="question-block"><p><strong>11. Briefly explain the role of the Arithmetic Logic Unit (ALU) within the CPU.</strong></p><textarea id="short1"></textarea></div>
-        <div class="question-block"><p><strong>12. State the function of the Memory Data Register (MDR).</strong></p><textarea id="short2"></textarea></div>
-        <div class="question-block"><p><strong>13. Describe the main difference between a MAC address and an IP address.</strong></p><textarea id="short3"></textarea></div>
-        <div class="question-block"><p><strong>14. Identify two advantages of using Solid State Drives (SSDs) over Magnetic Hard Disk Drives.</strong></p><textarea id="short4"></textarea></div>
-        <div class="question-block"><p><strong>15. What is the primary role of a router in a home network?</strong></p><textarea id="short5"></textarea></div>
-        <div class="question-block"><p><strong>16. Define what is meant by a 'sensor' and provide one example of its use.</strong></p><textarea id="short6"></textarea></div>
-        <div class="question-block"><p><strong>17. How does a Resistive touchscreen register a user's touch?</strong></p><textarea id="short7"></textarea></div>
-        <div class="question-block"><p><strong>18. What is the purpose of Read Only Memory (ROM) when a computer is first powered up?</strong></p><textarea id="short8"></textarea></div>
-        <div class="question-block"><p><strong>19. Briefly describe what happens during the 'Execute' stage of the Fetch-Decode-Execute cycle.</strong></p><textarea id="short9"></textarea></div>
-        <div class="question-block"><p><strong>20. State two hardware factors that can affect the overall performance speed of a CPU.</strong></p><textarea id="short10"></textarea></div>
-
-        <h2>Section C: Long Answer (5 Questions)</h2>
-        <div class="question-block"><p><strong>21. Detail the Fetch-Decode-Execute cycle. Include the roles of the Program Counter (PC), Memory Address Register (MAR), Memory Data Register (MDR), Current Instruction Register (CIR), and Accumulator (ACC) in your explanation.</strong></p><textarea id="long1"></textarea></div>
-        <div class="question-block"><p><strong>22. Compare and contrast Primary Storage and Secondary Storage. Give definitions and examples of each to support your answer.</strong></p><textarea id="long2"></textarea></div>
-        <div class="question-block"><p><strong>23. Explain the core principles of von Neumann architecture.</strong></p><textarea id="long3"></textarea></div>
-        <div class="question-block"><p><strong>24. Describe how a 3D printer operates to create an object, and provide one real-world application of this technology.</strong></p><textarea id="long4"></textarea></div>
-        <div class="question-block"><p><strong>25. Evaluate the use of Cloud Storage. Discuss the advantages and disadvantages of storing data in the cloud compared to local secondary storage.</strong></p><textarea id="long5"></textarea></div>
-
-        <p class="loader" id="loader">Submitting to Gemini API... Please wait while your answers are graded.</p>
-        <button type="button" id="submit-btn" onclick="submitToGemini()">Submit Quiz for AI Grading</button>
-    </form>
-
-    <div id="results-container">
-        <h2>Grading Complete!</h2>
-        <h3 id="mcq-display-score"></h3>
-        <p><strong>AI Feedback on your Open-Ended Responses:</strong></p>
-        <div id="ai-feedback"></div>
     </div>
-</div>
 
-<script>
-    // Note: Using gemini-2.5-flash as the latest standard for text generation
-    const GEMINI_API_KEY = "AIzaSyCI7k9vAn_i7kmUqZ7HO6sJ2b0f82uFEjg"; 
+    <!-- Final Results Screen -->
+    <div id="results-container" class="hidden max-w-4xl w-full bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden text-center p-10 fade-in">
+        <h2 class="text-4xl font-bold text-slate-800 mb-3">Quiz Complete!</h2>
+        <p class="text-slate-500 mb-8 text-lg">Great job working through Chapter 3: Hardware.</p>
+        
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+            <div class="bg-sky-50 p-6 rounded-2xl border border-sky-100">
+                <p class="text-sky-600 font-bold mb-1 uppercase tracking-wide text-sm">MCQ Score</p>
+                <p class="text-4xl font-bold text-sky-900" id="final-mcq-score">0/10</p>
+            </div>
+            <div class="bg-teal-50 p-6 rounded-2xl border border-teal-100">
+                <p class="text-teal-600 font-bold mb-1 uppercase tracking-wide text-sm">Short Answer Avg</p>
+                <p class="text-4xl font-bold text-teal-900" id="final-sa-score">0%</p>
+            </div>
+            <div class="bg-violet-50 p-6 rounded-2xl border border-violet-100">
+                <p class="text-violet-600 font-bold mb-1 uppercase tracking-wide text-sm">Long Answer Avg</p>
+                <p class="text-4xl font-bold text-violet-900" id="final-la-score">0%</p>
+            </div>
+        </div>
+        
+        <button onclick="location.reload()" class="px-8 py-4 bg-slate-800 hover:bg-slate-900 text-white font-bold rounded-xl transition-colors shadow-lg">Retake Quiz</button>
+    </div>
 
-    async function submitToGemini() {
-        const studentName = document.getElementById('student-name').value;
-        if (!studentName) {
-            alert('Please enter your name before submitting.');
-            return;
-        }
+    <script>
+        // --- QUIZ DATA ---
+        const mcqData = [
+            { q: "Which component of the CPU carries out mathematical and logical operations?", opts: ["Control Unit", "Arithmetic Logic Unit", "Memory Address Register", "Program Counter"], ans: 1, reason: "The Arithmetic Logic Unit (ALU) enables the processor to carry out mathematical operations (like adding) and logical operations (like AND, OR)." },
+            { q: "What does the Program Counter (PC) store during the fetch-decode-execute cycle?", opts: ["The data currently being processed", "The result of the latest calculation", "The address of the next instruction to be carried out", "The instruction currently being decoded"], ans: 2, reason: "The Program Counter (PC) holds the address location of the very next instruction that the CPU needs to fetch." },
+            { q: "Which of the following is a characteristic of Von Neumann architecture?", opts: ["Data and programs are stored in separate memory units", "Programs and data are stored together in the same memory unit", "It does not use buses to transfer data", "It relies only on secondary storage"], ans: 1, reason: "John von Neumann established a design where both the programs/instructions and the data are stored together in the same memory unit (RAM)." },
+            { q: "What type of touch screen technology relies on the natural electrical conductivity of the human body?", opts: ["Resistive", "Capacitive", "Infra-red", "Acoustic"], ans: 1, reason: "Capacitive screens have electrodes that cause a small current to flow between a human finger (which is naturally conductive) and the screen." },
+            { q: "What does an actuator do in a computer system?", opts: ["Measures changes in the environment like temperature", "Converts physical movement into digital data", "Turns electrical signals into physical movements or mechanical actions", "Stores instructions for the boot process"], ans: 2, reason: "An actuator is a mechanical motor that carries out a physical action (like moving a lens or opening a valve) when a computer gives it an electrical instruction." },
+            { q: "Which of the following is an example of primary storage?", opts: ["Solid State Drive (SSD)", "Random Access Memory (RAM)", "Magnetic Hard Disk Drive", "Optical Blu-ray disc"], ans: 1, reason: "Primary storage (RAM and ROM) is essential for the computer to function and is directly accessed by the CPU. The others are secondary storage." },
+            { q: "How does a solid-state drive (SSD) differ from a magnetic hard disk drive (HDD)?", opts: ["It uses magnetic platters to store data", "It is volatile and loses data when powered off", "It has no moving parts and stores data using transistors and capacitors", "It uses lasers to read pits and lands"], ans: 2, reason: "SSDs have no moving parts and use flash memory technology (forcing electrons into transistors and capacitors), making them much faster than magnetic HDDs." },
+            { q: "What is virtual memory?", opts: ["A portion of the CPU cache used for long-term storage", "A portion of secondary storage used temporarily as RAM when RAM is full", "Memory located on a remote server accessed via the internet", "The memory used exclusively by embedded systems"], ans: 1, reason: "When the RAM becomes overloaded, the operating system designates a temporary area of secondary storage to act as Virtual Memory." },
+            { q: "Which address is hard-coded into a Network Interface Card (NIC) at the point of manufacture and never changes?", opts: ["IPv4 Address", "IPv6 Address", "MAC Address", "Web Address"], ans: 2, reason: "The Media Access Control (MAC) address is preset at the point of manufacture and uniquely identifies the physical hardware device on a network." },
+            { q: "Which of the following is NOT a characteristic of an embedded system?", opts: ["It has a specific, dedicated function", "It is often a low-power device", "Users can easily upgrade its operating system like a desktop PC", "It is a small computer built into a larger device"], ans: 2, reason: "Users typically cannot easily upgrade the programming or OS of an embedded system; it is usually done by the manufacturer or is fixed." }
+        ];
 
-        const submitBtn = document.getElementById('submit-btn');
-        const loader = document.getElementById('loader');
-        submitBtn.disabled = true;
-        loader.style.display = 'block';
-
-        // 1. Grade MCQs locally
-        let mcqScore = 0;
-        for (let i = 1; i <= 10; i++) {
-            const options = document.getElementsByName('mcq' + i);
-            for (let option of options) {
-                if (option.checked) {
-                    if (option.getAttribute('data-correct') === 'true') mcqScore++;
-                    option.parentElement.parentElement.querySelector('.explanation').style.display = 'block';
-                }
+        const saqData = [
+            { 
+                q: "What is the main difference between RAM and ROM?",
+                keywords: [{name: "RAM Volatile / Loses Data", words: ["ram is volatile", "loses", "power is off", "temporary"]}, {name: "ROM Non-Volatile / Boot", words: ["rom is non-volatile", "non volatile", "boot", "start", "retains", "permanent"]}],
+                model: "RAM (Random Access Memory) is volatile, meaning it loses its data when the computer is powered off, and stores currently running programs. ROM (Read Only Memory) is non-volatile, keeps its data without power, and stores the initial boot-up instructions."
+            },
+            { 
+                q: "State the purpose of the Memory Address Register (MAR) and the Memory Data Register (MDR).",
+                keywords: [{name: "MAR = Location/Address", words: ["mar", "address", "location", "where"]}, {name: "MDR = Data/Instruction", words: ["mdr", "data", "instruction", "holds data", "transfer"]}],
+                model: "The Memory Address Register (MAR) stores the memory location or address of the data/instruction that needs to be fetched. The Memory Data Register (MDR) holds the actual data or instruction that has just been transferred to or from memory."
+            },
+            { 
+                q: "How does clock speed affect the performance of a CPU?",
+                keywords: [{name: "Pulses / Hertz", words: ["pulse", "hertz", "hz", "gigahertz", "second"]}, {name: "Faster Cycles", words: ["fetch", "decode", "execute", "cycle", "speed", "faster", "more"]}],
+                model: "Clock speed is the number of electrical pulses the CPU produces per second, measured in Hertz (or GHz). A higher clock speed allows the CPU to carry out more fetch-decode-execute cycles per second, improving performance."
+            },
+            { 
+                q: "What is an embedded system? Give one example.",
+                keywords: [{name: "Built-in / Specific Task", words: ["built-in", "inside", "larger", "specific", "dedicated", "single task"]}, {name: "Example", words: ["washing machine", "gps", "sat nav", "microwave", "dishwasher", "calculator", "camera"]}],
+                model: "An embedded system is a small computer built into a larger device to carry out a very specific, dedicated function. Examples include washing machines, dishwashers, and GPS/satellite navigation systems."
+            },
+            { 
+                q: "Briefly explain how a resistive touch screen works.",
+                keywords: [{name: "Pressure", words: ["pressure", "press", "downward", "push"]}, {name: "Resistance / Voltage", words: ["resistance", "voltage", "current", "electrical"]}, {name: "Coordinates", words: ["coordinates", "location", "calculate"]}],
+                model: "A resistive touch screen reacts to downward pressure. The pressure causes layers to touch, changing the electrical resistance (voltage). The processor detects this change to calculate the precise coordinates of the touch."
+            },
+            { 
+                q: "What is the difference between a 3D printer and a standard 2D laser printer?",
+                keywords: [{name: "2D Laser = Toner/Paper", words: ["laser", "paper", "toner", "powder", "flat", "2d"]}, {name: "3D = Physical/Layers", words: ["3d", "object", "layers", "plastic", "metal", "physical", "model"]}],
+                model: "A 2D laser printer transfers powdered toner onto flat paper using heat to print documents or images. A 3D printer creates physical, three-dimensional models by building up multiple layers of heated liquid materials like plastic or metal."
+            },
+            { 
+                q: "Why is it necessary for a computer to have secondary storage?",
+                keywords: [{name: "Non-volatile / Permanent", words: ["non-volatile", "non volatile", "permanent", "without power", "retains"]}, {name: "Long-term files/apps", words: ["long term", "files", "documents", "software", "applications", "programs"]}],
+                model: "Secondary storage is required for long-term storage of user files, documents, and applications. Because it is non-volatile, it retains all data permanently even when the computer is powered off, unlike primary RAM."
+            },
+            { 
+                q: "What is cloud storage?",
+                keywords: [{name: "Remote / External Server", words: ["remote", "external", "server", "elsewhere", "data center"]}, {name: "Internet Access", words: ["internet", "web", "online", "connection"]}],
+                model: "Cloud storage is where files, documents, and media are stored on an external, remote server located somewhere else in the world. Users access, upload, and download this data via the internet."
+            },
+            { 
+                q: "State the difference between an IPv4 address and an IPv6 address.",
+                keywords: [{name: "IPv4: 32-bit / Denary / Dots", words: ["ipv4", "denary", "digits", "dots", "32", "four groups", "billion"]}, {name: "IPv6: 128-bit / Hexadecimal / Colons", words: ["ipv6", "hexadecimal", "colons", "eight groups", "128", "undecillion"]}],
+                model: "An IPv4 address is made up of four groups of denary digits separated by dots. An IPv6 address is made up of eight groups of hexadecimal numbers separated by colons, providing vastly more unique addresses."
+            },
+            { 
+                q: "What role does a sensor play in a computer system?",
+                keywords: [{name: "Measures Environment", words: ["measure", "environment", "physical", "changes", "detect", "temperature", "light", "pressure"]}, {name: "Sends Data to Processor", words: ["send", "microprocessor", "processor", "computer", "data", "input"]}],
+                model: "A sensor is an input device that measures physical changes in the environment (such as temperature, light, or motion) and sends those measurements to a microprocessor as readable data to be processed."
             }
-        }
+        ];
 
-        // 2. Gather Open-Ended Answers for the Prompt
-        let promptText = `You are an expert Cambridge IGCSE Computer Science teacher grading a test on Chapter 3: Hardware for student ${studentName}.\n\n`;
-        promptText += `The student scored ${mcqScore}/10 on the multiple choice section.\n\n`;
-        promptText += `Please grade the following open-ended answers. Provide a score out of 2 for each short answer, and a score out of 5 for each long answer. Give brief, encouraging feedback explaining what they got right or missed based on the IGCSE syllabus (e.g., Fetch-Decode-Execute cycle, von Neumann architecture, Storage, Sensors, MAC/IP addresses).\n\n`;
+        const laqData = [
+            { 
+                q: "Describe the Fetch-Decode-Execute cycle in detail.",
+                keywords: [{name: "PC to MAR", words: ["program counter", "pc", "mar", "address", "location"]}, {name: "Fetch to MDR/CIR", words: ["fetch", "ram", "mdr", "cir", "instruction register", "data register"]}, {name: "Decode / Execute (ALU)", words: ["decode", "execute", "alu", "arithmetic"]}, {name: "PC Increments", words: ["increment", "increase", "next"]}],
+                model: "The Program Counter (PC) stores the address of the next instruction, which is copied to the Memory Address Register (MAR). The PC then increments. The Control Unit fetches the instruction from RAM into the Memory Data Register (MDR). It is then copied into the Current Instruction Register (CIR). Here, it is decoded and executed using the Arithmetic Logic Unit (ALU), and the result is stored in the Accumulator."
+            },
+            { 
+                q: "Explain the roles of the Address Bus, Data Bus, and Control Bus in the CPU.",
+                keywords: [{name: "Address Bus = Location", words: ["address", "location", "memory unit"]}, {name: "Data Bus = Actual Data", words: ["data bus", "actual", "instruction", "between", "input", "output"]}, {name: "Control Bus = Signals/Manage", words: ["control", "signals", "manage", "actions", "synchronise"]}],
+                model: "The Address Bus carries the memory address or location of data from the CPU to the memory unit. The Data Bus carries the actual data or instructions between the processor, memory, and I/O devices. The Control Bus carries instructional signals from the CPU to control and manage the actions of the computer's components."
+            },
+            { 
+                q: "Discuss the advantages and disadvantages of using Cloud Storage instead of a local external Hard Disk Drive.",
+                keywords: [{name: "Advantage: Access / Share / Backup", words: ["access anywhere", "share", "backup", "portable"]}, {name: "Disadvantage: Internet Required", words: ["internet", "connection", "offline", "no access"]}, {name: "Disadvantage: Security / Hackers", words: ["security", "hacker", "intercept", "third party", "susceptible"]}],
+                model: "Advantages: Cloud storage allows you to access data from anywhere with an internet connection, makes sharing files easy, and acts as a reliable backup. Disadvantages: If you lose your internet connection, you cannot access your files. Additionally, you are relying on a third-party organization for security, making your data susceptible to remote hackers."
+            },
+            { 
+                q: "Explain how optical storage media (like CDs, DVDs, and Blu-ray discs) are read and written to by a computer.",
+                keywords: [{name: "Laser / Light", words: ["laser", "light", "shorter wavelength", "blue laser"]}, {name: "Pits and Lands", words: ["pits", "lands", "indentation", "flat", "surface"]}, {name: "Reflections to Binary", words: ["reflect", "bounce", "binary", "1s and 0s", "digital"]}],
+                model: "Optical drives use a laser to read and write data. Data is stored on the disc surface as indentations called pits and flat areas called lands. As the disc spins, the laser light reflects off the pits and lands differently. A sensor reads these reflections and converts them into digital binary data (1s and 0s). Blu-ray uses a blue laser with a shorter wavelength to pack data closer together."
+            },
+            { 
+                q: "Explain how an operating system utilizes Virtual Memory, and outline the drawbacks of relying on it heavily.",
+                keywords: [{name: "RAM is Full", words: ["ram", "full", "overloaded", "too many"]}, {name: "Part of Secondary Storage", words: ["secondary storage", "hard disk", "hdd", "temporary"]}, {name: "Paging / Swapping", words: ["paging", "swap", "move", "in and out"]}, {name: "Slower Performance", words: ["slower", "performance", "speed", "degrade"]}],
+                model: "When a computer's RAM becomes overloaded with too many active processes, the OS allocates a portion of secondary storage (like the hard disk) to act as temporary RAM, known as Virtual Memory. It uses a process called 'paging' to swap inactive data out of RAM and into virtual memory. A major drawback is that secondary storage is much slower than RAM, so excessive swapping drastically slows down the computer's performance."
+            },
+            { 
+                q: "Compare and contrast Magnetic Hard Disk Drives (HDD) and Solid State Drives (SSD).",
+                keywords: [{name: "HDD: Moving Parts / Magnetic", words: ["hdd", "magnetic", "moving", "spinning", "platters", "read/write head"]}, {name: "SSD: Flash / No Moving Parts", words: ["ssd", "solid state", "flash", "transistors", "no moving parts"]}, {name: "Performance / Durability", words: ["faster", "quicker", "durable", "quiet", "expensive"]}],
+                model: "Magnetic HDDs use spinning metal platters and a moving read/write head. They are generally cheaper for high capacities but are slower and vulnerable to physical damage. SSDs have no moving parts and use flash memory (transistors and capacitors). This makes SSDs significantly faster, quieter, and more durable, though they tend to be more expensive per gigabyte."
+            },
+            { 
+                q: "What are opcodes and operands in a CPU's instruction set? Provide an example.",
+                keywords: [{name: "Opcode = Action", words: ["opcode", "action", "job", "command", "tell", "what to do"]}, {name: "Operand = Data/Address", words: ["operand", "data", "address", "location"]}, {name: "Example", words: ["add", "div", "goto", "sub", "store"]}],
+                model: "An instruction is split into an opcode and an operand. The opcode (operation code) gives the CPU the specific action to perform, such as ADD or DIV. The operand is the actual data or the memory address that the action is performed on. For example, in 'ADD 5', 'ADD' is the opcode and '5' is the operand."
+            },
+            { 
+                q: "Explain the difference between static and dynamic IP addresses, and how DHCP is involved.",
+                keywords: [{name: "Static = Fixed", words: ["static", "fixed", "never changes", "manual"]}, {name: "Dynamic = Temporary/Assigned", words: ["dynamic", "temporary", "assigned", "issue", "change"]}, {name: "DHCP / Recycled", words: ["dhcp", "dynamic host configuration protocol", "router", "recycle", "prevent duplication"]}],
+                model: "A static IP address is manually configured and never changes, which can cause network conflicts. A dynamic IP address is temporarily assigned to a device when it joins a network. Routers use DHCP (Dynamic Host Configuration Protocol) to issue these dynamic IPs. When a device disconnects, the IP is recycled and given to another device, preventing duplication."
+            },
+            { 
+                q: "Describe how a barcode reader scans a product and retrieves its price.",
+                keywords: [{name: "Infrared Light", words: ["infrared", "light", "laser", "shine", "beam"]}, {name: "Reflects off Bars", words: ["reflect", "bar", "width", "dark", "light", "pattern"]}, {name: "Convert to Digital / Search Database", words: ["digital", "binary", "database", "search", "match", "price"]}],
+                model: "A barcode reader shines infrared light onto the barcode. The light reflects off the pattern of dark and light parallel lines of varying widths. A sensor converts this reflection into digital data (a product ID number). The computer then searches the store's database for this ID, retrieves the matching record, and outputs the current price to the till."
+            },
+            { 
+                q: "Evaluate the use of multi-core processors. Why doesn't a quad-core processor always run exactly four times faster than a single-core processor?",
+                keywords: [{name: "Multiple Cores / Simultaneous", words: ["multiple", "cores", "simultaneous", "parallel", "independent", "power"]}, {name: "Software Limitations", words: ["software", "code", "not written", "program"]}, {name: "Shared Resources / Waiting", words: ["share", "bus", "memory", "wait", "prerequisite", "bottleneck"]}],
+                model: "A multi-core processor has multiple independent processing units (like CUs and ALUs) on one chip, allowing it to execute multiple instructions simultaneously. However, it rarely runs exactly four times faster because software must be specially written to take advantage of parallel processing. Furthermore, cores often have to wait for prerequisite tasks to finish, and they share the same data buses and memory bandwidth, which can cause bottlenecks."
+            }
+        ];
 
-        promptText += `--- SHORT ANSWERS ---\n`;
-        for (let i = 1; i <= 10; i++) {
-            promptText += `Q${i+10}: ${document.getElementById('short'+i).parentElement.querySelector('strong').innerText}\n`;
-            promptText += `Student Answer: ${document.getElementById('short'+i).value || "[No Answer]"}\n\n`;
-        }
+        // --- STATE VARIABLES ---
+        let currentSection = 1; // 1: MCQ, 2: SAQ, 3: LAQ
+        let currentIndex = 0;
+        let isAnswered = false;
 
-        promptText += `--- LONG ANSWERS ---\n`;
-        for (let i = 1; i <= 5; i++) {
-            promptText += `Q${i+20}: ${document.getElementById('long'+i).parentElement.querySelector('strong').innerText}\n`;
-            promptText += `Student Answer: ${document.getElementById('long'+i).value || "[No Answer]"}\n\n`;
-        }
+        // Scores
+        let mcqScore = 0;
+        let saqScoreTotal = 0;
+        let laqScoreTotal = 0;
 
-        // 3. Call the Gemini REST API Directly using 2.5 Flash
-        const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${GEMINI_API_KEY}`;
+        // --- DOM ELEMENTS ---
+        const header = document.getElementById('quiz-header');
+        const subtitle = document.getElementById('section-subtitle');
+        const progressBar = document.getElementById('progress-bar');
+        const questionCounter = document.getElementById('question-counter');
+        const questionText = document.getElementById('question-text');
         
-        try {
-            const response = await fetch(apiUrl, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    contents: [{ parts: [{ text: promptText }] }]
-                })
+        const mcqContainer = document.getElementById('mcq-container');
+        const oeContainer = document.getElementById('open-ended-container');
+        const studentAnswerBox = document.getElementById('student-answer');
+        const checkAnswerBtn = document.getElementById('check-answer-btn');
+        
+        const feedbackContainer = document.getElementById('feedback-container');
+        const mcqFeedback = document.getElementById('mcq-feedback');
+        const oeFeedback = document.getElementById('oe-feedback');
+        const nextBtn = document.getElementById('next-btn');
+
+        // --- CORE LOGIC ---
+
+        function updateUI() {
+            isAnswered = false;
+            feedbackContainer.classList.add('hidden');
+            mcqFeedback.classList.add('hidden-section');
+            oeFeedback.classList.add('hidden-section');
+            
+            let currentData, totalInSection;
+
+            if (currentSection === 1) {
+                currentData = mcqData[currentIndex];
+                totalInSection = mcqData.length;
+                
+                // Set Theme colors for Section 1 (Sky Blue)
+                header.className = "bg-sky-500 p-6 text-white text-center transition-colors duration-500";
+                subtitle.textContent = "Part 1: Multiple Choice";
+                
+                // Setup specific containers
+                mcqContainer.classList.remove('hidden-section');
+                oeContainer.classList.add('hidden-section');
+                buildMCQ(currentData);
+            } 
+            else if (currentSection === 2) {
+                currentData = saqData[currentIndex];
+                totalInSection = saqData.length;
+                
+                // Set Theme colors for Section 2 (Teal/Emerald)
+                header.className = "bg-teal-500 p-6 text-white text-center transition-colors duration-500";
+                subtitle.textContent = "Part 2: Short Answer";
+                
+                // Setup specific containers
+                mcqContainer.classList.add('hidden-section');
+                oeContainer.classList.remove('hidden-section');
+                
+                studentAnswerBox.value = "";
+                studentAnswerBox.disabled = false;
+                studentAnswerBox.className = "w-full p-4 border border-slate-300 rounded-xl focus:ring-2 focus:ring-teal-500 focus:border-teal-500 outline-none transition-shadow resize-y text-slate-700";
+                
+                checkAnswerBtn.className = "mt-4 px-6 py-3 bg-teal-500 hover:bg-teal-600 text-white font-semibold rounded-xl transition-colors w-full shadow-sm";
+                checkAnswerBtn.classList.remove('hidden');
+            } 
+            else if (currentSection === 3) {
+                currentData = laqData[currentIndex];
+                totalInSection = laqData.length;
+                
+                // Set Theme colors for Section 3 (Violet/Purple)
+                header.className = "bg-violet-500 p-6 text-white text-center transition-colors duration-500";
+                subtitle.textContent = "Part 3: Long Answer";
+                
+                // Setup specific containers
+                mcqContainer.classList.add('hidden-section');
+                oeContainer.classList.remove('hidden-section');
+                
+                studentAnswerBox.value = "";
+                studentAnswerBox.disabled = false;
+                studentAnswerBox.rows = 6;
+                studentAnswerBox.className = "w-full p-4 border border-slate-300 rounded-xl focus:ring-2 focus:ring-violet-500 focus:border-violet-500 outline-none transition-shadow resize-y text-slate-700";
+                
+                checkAnswerBtn.className = "mt-4 px-6 py-3 bg-violet-500 hover:bg-violet-600 text-white font-semibold rounded-xl transition-colors w-full shadow-sm";
+                checkAnswerBtn.classList.remove('hidden');
+            }
+
+            // Update text and progress
+            questionText.textContent = currentData.q;
+            questionCounter.textContent = `Question ${currentIndex + 1} of ${totalInSection}`;
+            
+            // Absolute progress calculation (out of 30 total questions)
+            const totalPreviousQuestions = (currentSection - 1) * 10;
+            const absoluteProgress = ((totalPreviousQuestions + currentIndex) / 30) * 100;
+            
+            progressBar.style.width = `${absoluteProgress}%`;
+            
+            // Dynamic Progress Bar Color
+            if (currentSection === 1) progressBar.className = "bg-sky-400 h-2 transition-all duration-300";
+            else if (currentSection === 2) progressBar.className = "bg-teal-400 h-2 transition-all duration-300";
+            else progressBar.className = "bg-violet-400 h-2 transition-all duration-300";
+        }
+
+        function buildMCQ(data) {
+            mcqContainer.innerHTML = '';
+            data.opts.forEach((opt, index) => {
+                const btn = document.createElement('button');
+                btn.className = `w-full text-left p-4 rounded-xl border border-slate-200 hover:border-sky-500 hover:bg-sky-50 transition-colors duration-200 text-slate-700 font-medium`;
+                btn.innerHTML = `<span class="inline-block w-6 h-6 rounded-full bg-slate-200 text-slate-600 text-center text-sm leading-6 mr-3 font-bold">${String.fromCharCode(65 + index)}</span> ${opt}`;
+                btn.onclick = () => gradeMCQ(index, btn, data);
+                mcqContainer.appendChild(btn);
+            });
+        }
+
+        function gradeMCQ(selectedIndex, selectedBtn, data) {
+            if (isAnswered) return;
+            isAnswered = true;
+
+            const buttons = mcqContainer.querySelectorAll('button');
+            buttons.forEach(btn => {
+                btn.classList.remove('hover:border-sky-500', 'hover:bg-sky-50', 'cursor-pointer');
+                btn.classList.add('cursor-default', 'opacity-50');
             });
 
-            const data = await response.json();
-            
-            if (response.ok) {
-                const aiFeedback = data.candidates[0].content.parts[0].text;
-                
-                document.getElementById('quiz-form').style.display = 'none';
-                document.getElementById('results-container').style.display = 'block';
-                document.getElementById('mcq-display-score').innerText = `MCQ Score: ${mcqScore} / 10`;
-                document.getElementById('ai-feedback').innerText = aiFeedback;
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-            } else {
-                alert('API Error: ' + data.error.message);
-                submitBtn.disabled = false;
-                loader.style.display = 'none';
-            }
-        } catch (error) {
-            console.error('Error:', error);
-            alert('Failed to connect to the Gemini API. Please try again.');
-            submitBtn.disabled = false;
-            loader.style.display = 'none';
-        }
-    }
-</script>
+            selectedBtn.classList.remove('opacity-50');
+            mcqFeedback.classList.remove('hidden-section');
 
+            if (selectedIndex === data.ans) {
+                mcqScore++;
+                selectedBtn.classList.replace('border-slate-200', 'border-green-500');
+                selectedBtn.classList.add('bg-green-50', 'text-green-800');
+                
+                document.getElementById('mcq-title').textContent = "✅ Correct!";
+                document.getElementById('mcq-title').className = "font-bold mb-2 text-lg text-green-700";
+                feedbackContainer.className = "mt-6 p-5 rounded-xl border border-green-200 bg-green-50 fade-in";
+            } else {
+                selectedBtn.classList.replace('border-slate-200', 'border-red-500');
+                selectedBtn.classList.add('bg-red-50', 'text-red-800');
+                
+                // Show correct answer
+                buttons[data.ans].classList.remove('opacity-50', 'border-slate-200');
+                buttons[data.ans].classList.add('border-green-500', 'bg-green-50');
+
+                document.getElementById('mcq-title').textContent = "❌ Incorrect";
+                document.getElementById('mcq-title').className = "font-bold mb-2 text-lg text-red-700";
+                feedbackContainer.className = "mt-6 p-5 rounded-xl border border-red-200 bg-red-50 fade-in";
+            }
+
+            document.getElementById('mcq-rationale').textContent = data.reason;
+            feedbackContainer.classList.remove('hidden');
+        }
+
+        // AUTO GRADER LOGIC
+        checkAnswerBtn.onclick = () => {
+            const input = studentAnswerBox.value.trim();
+            if(input.length < 5) {
+                alert("Please type a more detailed answer before checking!");
+                return;
+            }
+            
+            isAnswered = true;
+            studentAnswerBox.disabled = true;
+            checkAnswerBtn.classList.add('hidden');
+            
+            const data = currentSection === 2 ? saqData[currentIndex] : laqData[currentIndex];
+            const textToAnalyse = input.toLowerCase();
+            
+            let matched = 0;
+            const badgeContainer = document.getElementById('keyword-badges');
+            badgeContainer.innerHTML = '';
+
+            // Keyword Scanning
+            data.keywords.forEach(kwObj => {
+                const isFound = kwObj.words.some(word => textToAnalyse.includes(word.toLowerCase()));
+                
+                const badge = document.createElement('span');
+                if(isFound) {
+                    matched++;
+                    badge.className = "px-3 py-1 rounded-full text-xs font-bold bg-green-100 text-green-700 border border-green-200 shadow-sm";
+                    badge.innerHTML = `✓ ${kwObj.name}`;
+                } else {
+                    badge.className = "px-3 py-1 rounded-full text-xs font-bold bg-rose-100 text-rose-700 border border-rose-200 shadow-sm";
+                    badge.innerHTML = `✗ Missed: ${kwObj.name}`;
+                }
+                badgeContainer.appendChild(badge);
+            });
+
+            // Scoring
+            const scorePercent = Math.round((matched / data.keywords.length) * 100);
+            document.getElementById('oe-score').textContent = `${scorePercent}% Match`;
+            
+            if(scorePercent === 100) document.getElementById('oe-score').className = "px-3 py-1 bg-green-100 font-bold text-lg rounded-lg text-green-700";
+            else if(scorePercent > 0) document.getElementById('oe-score').className = "px-3 py-1 bg-amber-100 font-bold text-lg rounded-lg text-amber-700";
+            else document.getElementById('oe-score').className = "px-3 py-1 bg-rose-100 font-bold text-lg rounded-lg text-rose-700";
+
+            // Add to total
+            if(currentSection === 2) saqScoreTotal += scorePercent;
+            else laqScoreTotal += scorePercent;
+
+            document.getElementById('model-answer').textContent = data.model;
+            
+            oeFeedback.classList.remove('hidden-section');
+            feedbackContainer.className = "mt-6 p-6 rounded-xl border border-slate-200 bg-white fade-in shadow-sm";
+            feedbackContainer.classList.remove('hidden');
+        };
+
+        // Navigation
+        nextBtn.onclick = () => {
+            const arrLength = currentSection === 1 ? mcqData.length : currentSection === 2 ? saqData.length : laqData.length;
+            
+            currentIndex++;
+            if (currentIndex >= arrLength) {
+                // Advance to the next section
+                currentSection++;
+                currentIndex = 0;
+                
+                if(currentSection > 3) {
+                    progressBar.style.width = `100%`;
+                    showFinalResults();
+                    return;
+                }
+            }
+            updateUI();
+            
+            // Scroll smoothly back to top of card
+            document.getElementById('main-card').scrollIntoView({ behavior: 'smooth', block: 'start' });
+        };
+
+        function showFinalResults() {
+            document.getElementById('main-card').classList.add('hidden');
+            const results = document.getElementById('results-container');
+            results.classList.remove('hidden');
+            
+            document.getElementById('final-mcq-score').textContent = `${mcqScore}/10`;
+            document.getElementById('final-sa-score').textContent = `${Math.round(saqScoreTotal / saqData.length)}%`;
+            document.getElementById('final-la-score').textContent = `${Math.round(laqScoreTotal / laqData.length)}%`;
+        }
+
+        // Init
+        updateUI();
+
+    </script>
 </body>
 </html>
