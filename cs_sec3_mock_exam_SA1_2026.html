@@ -1,0 +1,1099 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Heritage Academy — IGCSE Computer Science Mock Exam SA1 2026</title>
+<style>
+:root {
+  --navy: #0c1f3f;
+  --navy2: #14305e;
+  --navy3: #1a4080;
+  --gold: #b8922a;
+  --gold2: #d4aa45;
+  --gold3: #f0cc70;
+  --bg: #f2f0ec;
+  --surface: #ffffff;
+  --surface2: #f9f8f5;
+  --border: #dddbd4;
+  --border2: #c8c5bc;
+  --text: #18160f;
+  --muted: #5c5a52;
+  --hint: #9c9a90;
+  --green: #1e6b3c;
+  --green-bg: #eaf4ee;
+  --red: #9b2020;
+  --red-bg: #fdf0f0;
+  --blue-bg: #edf2fb;
+  --blue-border: #b0c4e8;
+  --radius: 8px;
+  --shadow: 0 2px 12px rgba(0,0,0,0.07);
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: Georgia, 'Times New Roman', serif;
+  background: var(--bg);
+  color: var(--text);
+  font-size: 15px;
+  line-height: 1.75;
+  min-height: 100vh;
+}
+
+/* ── HEADER ── */
+.site-header {
+  background: var(--navy);
+  color: #fff;
+  padding: 0;
+  border-bottom: 3px solid var(--gold);
+  position: relative;
+  overflow: hidden;
+}
+.site-header::before {
+  content: '';
+  position: absolute;
+  right: -60px; top: -60px;
+  width: 260px; height: 260px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.04);
+}
+.site-header::after {
+  content: '';
+  position: absolute;
+  right: 100px; bottom: -80px;
+  width: 180px; height: 180px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.03);
+}
+.header-inner {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 28px 24px 22px;
+  position: relative;
+  z-index: 1;
+}
+.header-school {
+  font-family: 'Courier New', monospace;
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--gold3);
+  margin-bottom: 6px;
+}
+.header-title {
+  font-size: 22px;
+  font-weight: normal;
+  letter-spacing: -0.01em;
+  margin-bottom: 4px;
+}
+.header-meta {
+  font-family: 'Courier New', monospace;
+  font-size: 11.5px;
+  color: rgba(255,255,255,0.55);
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+  margin-top: 10px;
+}
+.header-meta span::before { content: '· '; }
+.header-meta span:first-child::before { content: ''; }
+
+/* ── LAYOUT ── */
+.main { max-width: 900px; margin: 0 auto; padding: 32px 20px 80px; }
+
+/* ── NAME CARD ── */
+.name-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 28px 28px 24px;
+  margin-bottom: 28px;
+  box-shadow: var(--shadow);
+}
+.name-card h2 { font-size: 16px; font-weight: normal; color: var(--navy); margin-bottom: 6px; }
+.name-card p { font-size: 13px; color: var(--muted); margin-bottom: 16px; }
+.name-input {
+  width: 100%;
+  padding: 11px 14px;
+  border: 1.5px solid var(--border2);
+  border-radius: 5px;
+  font-family: Georgia, serif;
+  font-size: 15px;
+  background: var(--surface2);
+  color: var(--text);
+  transition: border-color 0.2s;
+}
+.name-input:focus { outline: none; border-color: var(--navy3); background: #fff; }
+.begin-btn {
+  margin-top: 14px;
+  display: block;
+  width: 100%;
+  padding: 13px;
+  background: var(--navy);
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  font-family: 'Courier New', monospace;
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.begin-btn:hover { background: var(--navy3); }
+
+/* ── SECTION HEADER ── */
+.section-hd {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: var(--navy2);
+  color: #fff;
+  padding: 13px 20px;
+  border-radius: 6px 6px 0 0;
+  margin-bottom: 0;
+}
+.section-hd h2 { font-size: 14px; font-weight: normal; letter-spacing: 0.02em; }
+.section-hd .marks {
+  font-family: 'Courier New', monospace;
+  font-size: 11px;
+  color: var(--gold3);
+  letter-spacing: 0.06em;
+}
+.section-body {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-top: none;
+  border-radius: 0 0 6px 6px;
+  padding: 24px;
+  margin-bottom: 28px;
+  box-shadow: var(--shadow);
+}
+
+/* ── QUESTION BLOCK ── */
+.q-block {
+  padding-bottom: 26px;
+  margin-bottom: 26px;
+  border-bottom: 1px dashed var(--border);
+}
+.q-block:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+.q-meta {
+  font-family: 'Courier New', monospace;
+  font-size: 10.5px;
+  color: var(--hint);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: 7px;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+.q-chip {
+  background: var(--navy);
+  color: var(--gold3);
+  padding: 2px 8px;
+  border-radius: 3px;
+  font-size: 10px;
+}
+.q-text { font-size: 14.5px; margin-bottom: 14px; color: var(--text); }
+.q-text strong { color: var(--navy2); }
+
+/* ── MCQ ── */
+.opt-list { list-style: none; display: flex; flex-direction: column; gap: 7px; }
+.opt-label {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 10px 14px;
+  border: 1.5px solid var(--border);
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background 0.15s, border-color 0.15s;
+  background: var(--surface2);
+}
+.opt-label:hover { background: var(--blue-bg); border-color: var(--blue-border); }
+.opt-label input { margin-top: 3px; flex-shrink: 0; }
+.opt-label.correct { background: var(--green-bg); border-color: var(--green); color: var(--green); }
+.opt-label.wrong { background: var(--red-bg); border-color: var(--red); color: var(--red); }
+.opt-label.revealed { background: var(--green-bg); border-color: var(--green); color: var(--green); opacity: 0.6; }
+
+/* ── OPEN ANSWERS ── */
+.open-textarea {
+  width: 100%;
+  min-height: 90px;
+  padding: 12px 14px;
+  border: 1.5px solid var(--border2);
+  border-radius: 5px;
+  font-family: Georgia, serif;
+  font-size: 14px;
+  background: var(--surface2);
+  color: var(--text);
+  resize: vertical;
+  line-height: 1.7;
+  transition: border-color 0.2s;
+}
+.open-textarea:focus { outline: none; border-color: var(--navy3); background: #fff; }
+.sub-q { margin-top: 18px; }
+.sub-label {
+  font-family: 'Courier New', monospace;
+  font-size: 12px;
+  color: var(--navy2);
+  font-weight: bold;
+  margin-bottom: 6px;
+}
+.sub-text { font-size: 14px; color: var(--text); margin-bottom: 8px; }
+
+/* ── FEEDBACK ── */
+.fb-box {
+  margin-top: 12px;
+  padding: 12px 16px;
+  border-radius: 5px;
+  font-size: 13px;
+  line-height: 1.65;
+  border-left: 3px solid;
+  display: none;
+}
+.fb-correct { background: var(--green-bg); border-color: var(--green); color: #1a3a25; }
+.fb-wrong { background: var(--red-bg); border-color: var(--red); color: #4a1a1a; }
+.fb-ai { background: var(--blue-bg); border-color: var(--navy3); color: #0c1f3f; }
+.fb-score { font-family: 'Courier New', monospace; font-weight: bold; }
+
+/* ── STATUS ── */
+.ai-status {
+  display: none;
+  align-items: center;
+  gap: 8px;
+  margin-top: 10px;
+  font-family: 'Courier New', monospace;
+  font-size: 12px;
+  color: var(--muted);
+}
+.spinner {
+  width: 14px; height: 14px;
+  border: 2px solid var(--border2);
+  border-top-color: var(--navy3);
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+  flex-shrink: 0;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ── SUBMIT AREA ── */
+.submit-area {
+  text-align: center;
+  padding: 32px 0 16px;
+}
+.submit-btn {
+  display: inline-block;
+  padding: 15px 48px;
+  background: var(--gold);
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  font-family: 'Courier New', monospace;
+  font-size: 12.5px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.submit-btn:hover { background: var(--gold2); }
+.submit-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+#global-status {
+  font-family: 'Courier New', monospace;
+  font-size: 12px;
+  color: var(--muted);
+  margin-top: 14px;
+  min-height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+/* ── SCORE CARD ── */
+.score-card {
+  background: var(--navy);
+  color: #fff;
+  border-radius: var(--radius);
+  padding: 40px 32px 36px;
+  text-align: center;
+  margin-bottom: 28px;
+  box-shadow: var(--shadow);
+}
+.sc-name { font-family: 'Courier New', monospace; font-size: 11px; color: var(--gold3); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 10px; }
+.sc-total { font-size: 64px; line-height: 1; font-weight: bold; }
+.sc-pct { font-size: 22px; color: var(--gold3); margin-top: 6px; }
+.sc-grade { font-size: 28px; margin-top: 14px; letter-spacing: 0.05em; }
+.sc-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+  margin-top: 28px;
+}
+.sc-tile {
+  background: rgba(255,255,255,0.07);
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 5px;
+  padding: 16px 8px;
+}
+.sc-tile .val { font-size: 22px; font-weight: bold; }
+.sc-tile .lbl { font-family: 'Courier New', monospace; font-size: 10px; color: var(--gold3); text-transform: uppercase; letter-spacing: 0.08em; margin-top: 4px; }
+.sc-note { font-size: 12px; color: rgba(255,255,255,0.45); margin-top: 22px; font-family: 'Courier New', monospace; }
+
+/* ── MCQ SUBMIT ── */
+.mcq-submit-wrap { margin-top: 20px; }
+.mcq-submit-btn {
+  padding: 10px 28px;
+  background: var(--navy);
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  font-family: 'Courier New', monospace;
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.mcq-submit-btn:hover { background: var(--navy3); }
+.mcq-submit-btn:disabled { opacity: 0.45; cursor: not-allowed; }
+
+/* ── PROGRESS BAR ── */
+.progress-wrap { background: var(--border); border-radius: 3px; height: 5px; margin: 10px 0 24px; }
+.progress-bar { height: 5px; background: var(--gold); border-radius: 3px; transition: width 0.5s ease; width: 0%; }
+
+
+/* ── MODEL ANSWER ── */
+.model-answer {
+  margin-top: 14px;
+  background: #fffdf0;
+  border: 1.5px solid var(--gold2);
+  border-radius: 5px;
+  padding: 14px 16px;
+  display: none;
+  font-size: 13.5px;
+  line-height: 1.7;
+}
+.model-answer-hd {
+  font-family: 'Courier New', monospace;
+  font-size: 10.5px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--gold);
+  margin-bottom: 8px;
+  font-weight: bold;
+}
+.model-answer-body { color: #2a2200; }
+.student-answer-review {
+  margin-top: 10px;
+  background: var(--surface2);
+  border: 1px solid var(--border2);
+  border-radius: 5px;
+  padding: 12px 16px;
+  font-size: 13px;
+  color: var(--muted);
+  display: none;
+}
+.student-answer-hd {
+  font-family: 'Courier New', monospace;
+  font-size: 10.5px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--hint);
+  margin-bottom: 6px;
+}
+.review-section {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 24px;
+  margin-bottom: 28px;
+  box-shadow: var(--shadow);
+}
+.review-hd {
+  font-family: 'Courier New', monospace;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--gold);
+  margin-bottom: 16px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--border);
+}
+
+.hidden { display: none !important; }
+
+@media (max-width: 600px) {
+  .section-body { padding: 16px; }
+  .sc-grid { grid-template-columns: 1fr; }
+  .header-title { font-size: 18px; }
+  .sc-total { font-size: 48px; }
+}
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="header-inner">
+    <div class="header-school">Heritage Academy · Singapore</div>
+    <h1 class="header-title">IGCSE Computer Science — Mock Examination SA1 2026</h1>
+    <div class="header-meta">
+      <span>Secondary 3</span>
+      <span>Chapters 1–4</span>
+      <span>100 Marks</span>
+      <span>AI-Marked</span>
+    </div>
+  </div>
+</header>
+
+<div class="main">
+
+  <!-- NAME CARD -->
+  <div class="name-card" id="nameCard">
+    <h2>Before you begin</h2>
+    <p>Enter your full name exactly as registered. Your answers and scores will be recorded automatically.</p>
+    <input type="text" class="name-input" id="sname" placeholder="Full Name" autocomplete="off" />
+    <button class="begin-btn" onclick="beginExam()">Begin Examination</button>
+  </div>
+
+  <div id="examBody" class="hidden">
+
+    <!-- SECTION A -->
+    <div class="section-hd">
+      <h2>Section A &mdash; Multiple Choice Questions</h2>
+      <span class="marks">10 × 1 mark = 10 marks</span>
+    </div>
+    <div class="section-body">
+      <div id="mcq-wrap"></div>
+      <div class="mcq-submit-wrap">
+        <button class="mcq-submit-btn" id="mcq-btn" onclick="submitMCQ()">Submit Section A</button>
+      </div>
+    </div>
+
+    <!-- SECTION B -->
+    <div class="section-hd">
+      <h2>Section B &mdash; Short Answer Questions</h2>
+      <span class="marks">10 × 3 marks = 30 marks</span>
+    </div>
+    <div class="section-body">
+      <div id="sa-wrap"></div>
+    </div>
+
+    <!-- SECTION C -->
+    <div class="section-hd">
+      <h2>Section C &mdash; Long Answer Questions</h2>
+      <span class="marks">10 × 6 marks = 60 marks</span>
+    </div>
+    <div class="section-body">
+      <div id="la-wrap"></div>
+    </div>
+
+    <!-- SUBMIT -->
+    <div class="submit-area">
+      <button class="submit-btn" id="final-btn" onclick="submitAll()">
+        Submit Examination &amp; Get AI Marking
+      </button>
+      <div id="global-status"></div>
+    </div>
+
+  </div><!-- /examBody -->
+
+  <!-- RESULTS -->
+  <div id="results" class="hidden">
+    <div class="score-card" id="score-card"></div>
+    <div id="result-note" style="font-family:'Courier New',monospace;font-size:12px;color:var(--muted);text-align:center;margin-top:8px;"></div>
+  </div>
+
+</div><!-- /main -->
+
+<script>
+// ===============================================
+//  TEACHER CONFIGURATION — not visible to students
+// ===============================================
+const ANTHROPIC_API_KEY  = "claude-sonnet-4-20250514";
+const SHEET_ID           = "1AuvrXcCIaVPaBDAJgfUsyd9vubv-8oJzO7W12F-bfP8";
+const SHEET_WEBHOOK      = "https://script.google.com/macros/s/AKfycbysOPGoapvG-JzDzW7CtwaGJABbmYrk_INxE9NJK7wCmQ_Iy7alZ2k6MLmLdin6-8Yk/exec";
+
+// ===============================================
+//  EXAM DATA
+// ===============================================
+
+const MCQ = [
+  // Chapter 1 — Computer Systems (3 Qs)
+  {
+    ch:1, q:"Which of the following is the correct binary representation of the denary number 53?",
+    opts:["00110011","00110101","00110100","00111001"], ans:1,
+    explain:"53 = 32+16+4+1 = 001101012. Work right-to-left: 1+4+16+32 = 53."
+  },
+  {
+    ch:1, q:"After a right logical shift of 2 places, the binary number 10110100 becomes:",
+    opts:["00101101","00101100","01011010","00110100"], ans:0,
+    explain:"Shift right 2: 10110100 → 00101101. Two 0s fill the leftmost positions; the two rightmost bits are lost."
+  },
+  {
+    ch:1, q:"A bitmap image is 400 x 300 pixels with a colour depth of 24 bits. What is the uncompressed file size in kilobytes (using 1 KB = 1024 bytes)?",
+    opts:["351.6 KB","281.3 KB","360 KB","450 KB"], ans:0,
+    explain:"400 x 300 x 24 bits = 2,880,000 bits / 8 = 360,000 bytes / 1024 = 351.6 KB."
+  },
+  // Chapter 2 — Data Transmission (3 Qs)
+  {
+    ch:2, q:"Which part of a data packet contains the IP addresses of both the sender and the receiver?",
+    opts:["Payload","Trailer","Header","Checksum"], ans:2,
+    explain:"The packet header stores source and destination IP addresses, packet number, and total packet count."
+  },
+  {
+    ch:2, q:"In even parity error checking, a byte 1011001 is transmitted. What parity bit is added to make the total number of 1s even?",
+    opts:["0","1","Either 0 or 1","No parity bit is needed"], ans:1,
+    explain:"1011001 contains four 1-bits (already even), so the parity bit = 0 to keep the total number of 1s even."
+  },
+  {
+    ch:2, q:"What does \'packet switching\' mean?",
+    opts:[
+      "All packets travel along the same fixed route in order",
+      "Packets are sent one at a time and must arrive in order",
+      "Packets may take different routes across the network and are reassembled at the destination",
+      "Packets are encrypted before transmission and decrypted on arrival"
+    ], ans:2,
+    explain:"Packet switching allows packets from the same message to travel via different routes determined by routers, then reassembled at the destination."
+  },
+  // Chapter 3 — Hardware (2 Qs)
+  {
+    ch:3, q:"Which CPU register always holds the memory address of the next instruction to be fetched?",
+    opts:["Accumulator (ACC)","Current Instruction Register (CIR)","Memory Data Register (MDR)","Program Counter (PC)"], ans:3,
+    explain:"The Program Counter (PC) holds the address of the next instruction. After fetching, it increments to point to the following instruction."
+  },
+  {
+    ch:3, q:"Which of the following best describes an embedded system?",
+    opts:[
+      "A general-purpose computer that runs many different applications",
+      "A dedicated computer system built into a device to perform a specific function",
+      "A computer system that relies entirely on cloud storage",
+      "A system that processes data using only analogue signals"
+    ], ans:1,
+    explain:"An embedded system is a computer integrated into a device (e.g., washing machine, microwave) to perform one dedicated function."
+  },
+  // Chapter 4 — Software (2 Qs)
+  {
+    ch:4, q:"A compiler differs from an interpreter because a compiler:",
+    opts:[
+      "Translates and executes the program one line at a time",
+      "Can only be used with low-level languages",
+      "Translates the entire source code into machine code before execution",
+      "Produces source code from machine code"
+    ], ans:2,
+    explain:"A compiler translates the whole program into machine code first, producing an executable. An interpreter translates and runs one line at a time."
+  },
+  {
+    ch:4, q:"What is the primary role of an operating system?",
+    opts:[
+      "To compile source code into machine code",
+      "To manage hardware resources and provide an interface for users and applications",
+      "To connect the computer to the internet",
+      "To store user files on secondary storage"
+    ], ans:1,
+    explain:"The OS manages hardware (CPU, memory, devices), provides a user interface, and allows applications to run by acting as an intermediary between hardware and software."
+  }
+];
+
+// MCQ answers are set correctly in the array above
+
+const SA = [
+  { id:"B1", ch:1, marks:3,
+    q:"State what is meant by \'two\'s complement\' and explain, with an example, how it is used to represent the negative number -19 using 8 bits.",
+    model:"Two\'s complement is a method of representing both positive and negative integers in binary using a fixed number of bits. To represent -19 in 8 bits: first write +19 as 00010011, then invert all bits to get 11101100, then add 1 to give 11101101. The result 11101101 is the two\'s complement representation of -19. The leading 1 in the most significant bit indicates a negative number."
+  },
+  { id:"B2", ch:1, marks:3,
+    q:"Describe the difference between lossy and lossless compression. Give one file format that uses each type and explain why each is suitable for its common use case.",
+    model:"Lossless compression reduces file size without any loss of data — the original file can be perfectly reconstructed (e.g. PNG for images, where exact pixel data must be preserved). Lossy compression permanently removes data that is less perceptible, achieving much higher compression ratios (e.g. JPEG for photographs, where minor detail loss is acceptable to humans). Lossless is preferred for text and medical images; lossy for streaming media and web photos."
+  },
+  { id:"B3", ch:1, marks:3,
+    q:"Explain how a computer represents sound digitally. In your answer include the terms \'sampling rate\' and \'sample resolution\' and explain how each affects the file size and quality of the sound.",
+    model:"A computer represents sound by sampling an analogue sound wave at regular intervals and storing each sample as a binary number. Sampling rate is the number of samples taken per second (measured in Hz) — a higher rate captures more detail, improving quality but increasing file size. Sample resolution (bit depth) is the number of bits used per sample — higher resolution gives more precise amplitude values, improving quality and also increasing file size. CD quality uses 44,100 Hz and 16-bit resolution."
+  },
+  { id:"B4", ch:2, marks:3,
+    q:"Describe the structure of a data packet. Identify and explain the purpose of each of its three main parts.",
+    model:"A data packet has three parts. The header contains the source and destination IP addresses, the packet number, and the total number of packets — it tells routers where to send the packet and allows reassembly in the correct order. The payload is the actual data being transmitted (the content of the message). The trailer (footer) signals the end of the packet and contains error-checking data (such as a checksum or CRC) so the receiver can verify the data arrived intact."
+  },
+  { id:"B5", ch:2, marks:3,
+    q:"Compare simplex, half-duplex, and full-duplex data transmission. Give a real-world example of a device or system that uses each type.",
+    model:"Simplex transmission sends data in one direction only — e.g. a television broadcast where the viewer receives but cannot send back. Half-duplex allows data in both directions but not simultaneously — e.g. a walkie-talkie where users must take turns speaking. Full-duplex allows simultaneous two-way communication — e.g. a telephone call where both parties can speak and listen at the same time. Full-duplex requires more bandwidth but is most efficient for interactive communication."
+  },
+  { id:"B6", ch:2, marks:3,
+    q:"Explain what encryption is and why it is important during data transmission. Describe the difference between symmetric and asymmetric encryption.",
+    model:"Encryption is the process of converting readable plaintext into unreadable ciphertext using an algorithm and a key, so that only authorised parties can decrypt and read it. It is vital during transmission to prevent unauthorised interception. Symmetric encryption uses the same key for both encryption and decryption — it is fast but the key must be securely shared. Asymmetric encryption uses a public key to encrypt and a private key to decrypt — it eliminates the need to share a secret key, making it more secure for internet communications such as HTTPS."
+  },
+  { id:"B7", ch:3, marks:3,
+    q:"Describe the fetch-decode-execute (FDE) cycle. In your answer, state the role of the Program Counter (PC), Memory Address Register (MAR), and Current Instruction Register (CIR) during the cycle.",
+    model:"The FDE cycle is the basic operation of a CPU. In the Fetch stage, the PC holds the address of the next instruction; this address is copied to the MAR, which is used to fetch the instruction from memory into the MDR, and then to the CIR. The PC then increments to point to the next instruction. In the Decode stage, the CIR holds the fetched instruction and the control unit decodes it to determine the operation. In the Execute stage, the instruction is carried out — arithmetic by the ALU or data movement between registers and memory."
+  },
+  { id:"B8", ch:3, marks:3,
+    q:"Explain the difference between primary storage and secondary storage. Give two examples of each and state one advantage of each type over the other.",
+    model:"Primary storage is directly accessible by the CPU and is used for currently running programs and data — examples are RAM and ROM. It is fast but volatile (RAM loses data when power is off) and limited in capacity. Secondary storage holds data permanently when power is off — examples are hard disk drives (HDD) and solid-state drives (SSD). It has much larger capacity than primary storage but is slower to access. The advantage of primary storage is speed; the advantage of secondary storage is permanence and larger capacity."
+  },
+  { id:"B9", ch:4, marks:3,
+    q:"Explain what an interrupt is and describe how the CPU handles an interrupt when one occurs during normal program execution.",
+    model:"An interrupt is a signal sent to the CPU by hardware or software to request immediate attention, pausing the current program. When an interrupt occurs, the CPU finishes its current instruction, then saves the current state (registers and program counter) to a stack. It then checks the interrupt priority and calls the appropriate Interrupt Service Routine (ISR) to handle the request. Once the ISR completes, the saved state is restored from the stack and the original program resumes from where it was paused."
+  },
+  { id:"B10", ch:4, marks:3,
+    q:"Identify and describe three features of an Integrated Development Environment (IDE) that help a programmer write and test code more efficiently.",
+    model:"1) Code editor with syntax highlighting — colours keywords, variables, and errors differently, making code easier to read and spot mistakes. 2) Debugger — allows the programmer to run code step-by-step, set breakpoints, and inspect variable values to locate logic errors. 3) Auto-completion — suggests completions for variable names, functions, and syntax as the programmer types, reducing typing errors and speeding up coding. Other valid features include a built-in compiler/interpreter, error reporting, and a run environment."
+  }
+];
+
+const LA = [
+  {
+    id:"C1", ch:1, marks:6, topic:"Number systems and binary arithmetic",
+    parts:[
+      { label:"(a)", marks:2, q:"Convert the denary number 178 to binary. Show all working. Then convert your binary answer to hexadecimal.",
+        model:"178 ÷ 2: 89 r0, 44 r1, 22 r0, 11 r0, 5 r1, 2 r1, 1 r0, 0 r1 → reading remainders upward: 10110010. Group into nibbles: 1011 0010 → B2 in hexadecimal. So 17810 = 101100102 = B216." },
+      { label:"(b)", marks:2, q:"Perform a left logical shift of 3 places on the binary number 00010110. State the denary value before and after the shift and explain what mathematical operation a left shift represents.",
+        model:"00010110 = 22 in denary. Left shift 3: 10110000 = 176 in denary. A left logical shift by n places multiplies the number by 2n. Here 22 × 23 = 22 × 8 = 176. The three leftmost bits are lost (shifted out), and three 0s fill the rightmost positions." },
+      { label:"(c)", marks:2, q:"A student claims that adding 01101111 and 01010101 in 8-bit binary causes an overflow. Show the addition, state whether overflow occurs, and explain what overflow means and why it is a problem.",
+        model:"01101111 (111) + 01010101 (85) = 11000100 (196). Both operands are positive (leading 0), but the result has a leading 1, which in signed 8-bit would be interpreted as negative — this is overflow. Overflow occurs when the result of an arithmetic operation exceeds the range that can be stored in the available bits (-128 to +127 for signed 8-bit). It is a problem because the result is stored incorrectly, causing program errors or unexpected behaviour." }
+    ]
+  },
+  {
+    id:"C2", ch:1, marks:6, topic:"Data representation — images and compression",
+    parts:[
+      { label:"(a)", marks:2, q:"Explain what colour depth means for a bitmap image. A 24-bit colour image uses more storage than an 8-bit image. Calculate the file size of a 640×480 pixel, 24-bit colour image. Give your answer in MB (1 MB = 1 048 576 bytes).",
+        model:"Colour depth is the number of bits used to represent the colour of each pixel — more bits means more possible colours. File size = 640 × 480 × 24 bits = 7,372,800 bits ÷ 8 = 921,600 bytes ÷ 1,048,576 ≈ 0.879 MB. A 24-bit image can represent 224 = 16,777,216 different colours (true colour), compared to only 256 for an 8-bit image." },
+      { label:"(b)", marks:2, q:"Explain how Run-Length Encoding (RLE) compresses data. Using the pixel row below as an example, show how RLE would represent it and calculate the compression ratio. Original row: WWWWWWBBBBRRRRRRRRWWW",
+        model:"RLE stores repeated data as a count followed by the value, rather than repeating the value itself. Original: WWWWWWBBBBRRRRRRRRWWW = 21 characters. RLE: 6W 4B 8R 3W = 8 characters (4 pairs). Compression ratio = 21/8 = 2.625:1. RLE is most effective when there are long runs of repeated values, such as in simple graphics or images with large areas of solid colour." },
+      { label:"(c)", marks:2, q:"A photographer must upload images to a website. Evaluate whether lossy or lossless compression is more appropriate, giving reasons for your recommendation.",
+        model:"Lossy compression (e.g. JPEG) is more appropriate for website photographs. Websites require fast loading times, so smaller file sizes are important — lossy compression achieves much greater size reduction than lossless. The minor loss of detail in a JPEG is imperceptible to most viewers at normal screen resolutions. Lossless would be better if the images needed to be edited further or if pixel-perfect accuracy were required (e.g. medical or scientific images), but for general web display, lossy is the better choice." }
+    ]
+  },
+  {
+    id:"C3", ch:2, marks:6, topic:"Error detection and data integrity",
+    parts:[
+      { label:"(a)", marks:2, q:"Explain how a parity check works to detect errors in data transmission. State one limitation of parity checking.",
+        model:"A parity bit is added to each byte of data before transmission. In even parity, the parity bit is set so that the total number of 1-bits in the byte (including the parity bit) is even. The receiver recounts the 1-bits; if the count is odd, an error has occurred. Limitation: parity checking can only detect an odd number of bit errors — if two bits flip, the parity remains correct and the error goes undetected." },
+      { label:"(b)", marks:2, q:"Describe how a Cyclic Redundancy Check (CRC) detects errors. Explain why CRC is more reliable than a simple parity check.",
+        model:"In CRC, the sender treats the data as a large binary number and divides it by a pre-agreed polynomial (divisor). The remainder from this division (the CRC value) is appended to the data and transmitted. The receiver performs the same division; if their remainder differs from the received CRC value, an error has occurred. CRC is more reliable than parity because it can detect burst errors (multiple consecutive bit errors), not just single-bit errors, making it suitable for detecting errors in large data blocks." },
+      { label:"(c)", marks:2, q:"Apart from parity and CRC, describe one other method used to detect or correct errors during data transmission. Explain how it works and identify one situation where it would be used.",
+        model:"Checksum: the sender adds up the numerical values of all bytes in the data block and sends this sum (the checksum) alongside the data. The receiver performs the same calculation and compares the result to the received checksum — a mismatch indicates an error. It is used in TCP/IP networking to verify the integrity of data packets transmitted across the internet. Another valid answer is echo checking, where the receiver sends the data back to the sender for comparison." }
+    ]
+  },
+  {
+    id:"C4", ch:2, marks:6, topic:"Data transmission methods and interfaces",
+    parts:[
+      { label:"(a)", marks:2, q:"Distinguish between serial and parallel data transmission. Explain why serial transmission is now preferred over parallel transmission for long-distance communication despite being able to send only one bit at a time.",
+        model:"Serial transmission sends one bit at a time down a single wire; parallel transmission sends multiple bits simultaneously across multiple wires. Although parallel seems faster, it suffers from \'skew\' over long distances — bits sent together arrive at different times, causing data corruption. Serial avoids skew, is cheaper (fewer wires), and can operate at higher clock speeds without synchronisation problems. Modern interfaces like USB and SATA use serial transmission for these reasons." },
+      { label:"(b)", marks:2, q:"Explain how USB (Universal Serial Bus) works as a data transmission interface. State two advantages of USB over older interfaces such as serial and parallel ports.",
+        model:"USB uses serial data transmission with a standard connector. A host controller (in the computer) manages communication with devices; data is transmitted in packets following the USB protocol. Devices can be hot-plugged (connected/disconnected without restarting). Advantages: (1) Universal — one standard interface works with many device types (keyboards, drives, phones). (2) Supports power delivery — USB powers devices directly, eliminating separate power cables. (3) Hot-pluggable and faster than older RS-232 serial or parallel ports." },
+      { label:"(c)", marks:2, q:"Define bandwidth and latency. A video streaming service is experiencing buffering. Explain how both bandwidth and latency could be causing the problem and suggest one technical solution for each.",
+        model:"Bandwidth is the maximum amount of data that can be transmitted per second (measured in bps). Latency is the delay between sending and receiving data (measured in ms). Buffering could be caused by insufficient bandwidth — the connection cannot deliver video data fast enough — solution: upgrade to a higher-bandwidth connection or reduce video quality. High latency causes delays in receiving data packets — solution: use a CDN (Content Delivery Network) to serve video from a server geographically closer to the viewer." }
+    ]
+  },
+  {
+    id:"C5", ch:3, marks:6, topic:"The CPU and its components",
+    parts:[
+      { label:"(a)", marks:2, q:"Describe the role of the Control Unit (CU) and the Arithmetic Logic Unit (ALU) within the CPU. Explain how they work together during program execution.",
+        model:"The Control Unit (CU) manages and coordinates all CPU operations — it fetches and decodes instructions, then sends control signals to other components telling them what to do. The Arithmetic Logic Unit (ALU) performs arithmetic operations (add, subtract, multiply) and logical operations (AND, OR, NOT, comparisons). They work together as follows: the CU decodes an instruction and signals the ALU to perform a specific calculation; the ALU uses values from registers, computes the result, and stores it back in the Accumulator, which the CU then uses for the next operation." },
+      { label:"(b)", marks:2, q:"Explain what cache memory is and describe the difference between L1, L2, and L3 cache. Explain why having a larger cache can improve CPU performance.",
+        model:"Cache memory is a small, very fast type of memory located on or near the CPU that stores frequently used instructions and data, reducing the need to access slower RAM. L1 cache is the smallest and fastest, built directly onto the processor core. L2 cache is larger and slightly slower than L1, still on-chip. L3 cache is larger still and shared across cores, acting as a last resort before RAM. A larger cache means more data can be stored close to the CPU, reducing cache misses (situations where the CPU must wait for data from RAM), which speeds up processing." },
+      { label:"(c)", marks:2, q:"State three factors that affect CPU performance and explain, for each factor, how improving it would increase the speed of processing.",
+        model:"1) Clock speed (GHz) — a higher clock speed means more instruction cycles per second, so more instructions are processed in the same time. 2) Number of cores — each core can process instructions independently, allowing true parallel processing of multiple tasks simultaneously. 3) Cache size — a larger cache reduces the frequency of slow RAM accesses; more data is available instantly, so the CPU spends less time waiting. Other valid factors: word length (bus width), type of processor architecture." }
+    ]
+  },
+  {
+    id:"C6", ch:3, marks:6, topic:"Storage and memory",
+    parts:[
+      { label:"(a)", marks:2, q:"Compare RAM and ROM. State two differences and explain why both are necessary in a computer system.",
+        model:"RAM (Random Access Memory) is volatile — its contents are lost when power is cut — and can be both read from and written to by the CPU. ROM (Read Only Memory) is non-volatile — it retains data permanently — and is read-only (contents fixed at manufacture). Both are necessary: ROM stores the BIOS/firmware needed to start the computer before the OS loads from disk. RAM is needed to hold the OS, running programs, and data during use, providing fast read/write access for the CPU." },
+      { label:"(b)", marks:2, q:"Explain what virtual memory is and describe how the operating system uses it. State one disadvantage of relying heavily on virtual memory.",
+        model:"Virtual memory is a portion of secondary storage (hard disk) that the OS uses as an extension of RAM when physical RAM is full. The OS moves inactive pages of data from RAM to the hard disk (paging/swapping) to free up RAM for active processes, creating the illusion of more memory than physically exists. Disadvantage: accessing secondary storage is far slower than accessing RAM, so heavy use of virtual memory causes \'thrashing\' — the system spends more time swapping pages than executing programs, severely slowing performance." },
+      { label:"(c)", marks:2, q:"A school is deciding between purchasing local file servers or subscribing to a cloud storage service. Evaluate both options, considering cost, security, accessibility, and reliability.",
+        model:"Local servers have higher upfront cost (hardware, maintenance, IT staff) but lower long-term cost and give the school full control over data security — important for protecting student records. Cloud storage has lower initial cost (subscription model) and automatic updates, but ongoing fees and dependency on internet connectivity. Cloud offers superior accessibility (access from any device, anywhere) and reliability (built-in redundancy), while local servers may be inaccessible off-site and require manual backup. For a school, cloud storage offers better accessibility for remote learning, but local storage is preferable for sensitive data under tight budget." }
+    ]
+  },
+  {
+    id:"C7", ch:3, marks:6, topic:"Input/output devices and embedded systems",
+    parts:[
+      { label:"(a)", marks:2, q:"Explain what a sensor is and describe how an analogue sensor reading is converted into digital data that a computer can process. Give one example of a sensor and state the type of data it captures.",
+        model:"A sensor is an input device that detects a physical property from the environment and converts it into an electrical signal. Since sensors produce analogue signals (continuous varying values) and computers process digital data, an Analogue-to-Digital Converter (ADC) samples the signal at regular intervals and converts each sample to a binary number. Example: a temperature sensor (thermistor) captures temperature data in degrees — the resistance changes with temperature, producing a varying voltage that the ADC converts to digital values." },
+      { label:"(b)", marks:2, q:"Define an embedded system. Give two contrasting examples of embedded systems (one simple, one complex) and describe the dedicated function of each.",
+        model:"An embedded system is a computer system built into a device to perform a single, dedicated function, typically with limited user interaction. Simple example: a digital watch — contains a microprocessor that runs a fixed program to keep and display time. Complex example: an aircraft flight management system — contains multiple processors running real-time software to manage navigation, autopilot, fuel monitoring, and communication systems, with strict reliability requirements." },
+      { label:"(c)", marks:2, q:"Evaluate the advantages and disadvantages of embedded systems compared to general-purpose computers. Consider programmability, cost, power consumption, and flexibility in your answer.",
+        model:"Advantages: embedded systems are optimised for their specific task, so they are cheaper to manufacture (no excess hardware), consume less power (important for battery-powered devices), and are highly reliable. Disadvantages: they cannot be easily reprogrammed for different tasks (low flexibility) — if requirements change, the hardware may need replacing. General-purpose computers are flexible and reprogrammable but are more expensive, larger, and consume more power. Embedded systems are ideal for mass-produced consumer devices; general-purpose computers are needed when versatility is required." }
+    ]
+  },
+  {
+    id:"C8", ch:4, marks:6, topic:"Operating systems",
+    parts:[
+      { label:"(a)", marks:2, q:"Identify and explain four key functions of an operating system. For each function, give a specific example of how it operates in practice.",
+        model:"1) Memory management — allocates RAM to running programs and frees it when programs close (e.g. assigning memory to Chrome when it opens). 2) Process management — schedules CPU time between multiple running processes using a scheduler (e.g. allowing a music player and browser to run concurrently). 3) File management — organises files in a directory structure and controls read/write access (e.g. Windows NTFS managing file permissions). 4) Device management — communicates with hardware via device drivers (e.g. loading the printer driver when a document is printed)." },
+      { label:"(b)", marks:2, q:"Explain what multitasking means in the context of an operating system. Describe how the OS scheduler manages multiple processes to create the illusion that they are running simultaneously.",
+        model:"Multitasking is the ability of an OS to run multiple processes apparently at the same time on a single CPU. The OS scheduler rapidly switches the CPU between processes, giving each a small time slice. Because switching happens thousands of times per second, users perceive all processes as running simultaneously. The scheduler uses algorithms (e.g. round-robin, priority scheduling) to decide which process runs next, prioritising time-sensitive tasks like audio playback over background processes." },
+      { label:"(c)", marks:2, q:"Explain the role of BIOS (Basic Input/Output System) in starting up a computer. Distinguish between BIOS stored in ROM and the operating system stored on secondary storage.",
+        model:"BIOS is firmware stored in ROM on the motherboard. When a computer is switched on, the CPU executes BIOS first. BIOS performs a Power-On Self Test (POST) to check that hardware components (RAM, keyboard, drives) are functioning, then locates the boot device (e.g. HDD/SSD) and loads the boot sector into RAM, which in turn loads the operating system. The key distinction: BIOS is in ROM (permanent, executes immediately, cannot be overwritten by normal users), while the OS is on secondary storage (flexible, updateable, loaded into RAM at startup each time)." }
+    ]
+  },
+  {
+    id:"C9", ch:4, marks:6, topic:"Programming languages and translators",
+    parts:[
+      { label:"(a)", marks:2, q:"Distinguish between high-level and low-level programming languages. Give one specific advantage of each type and explain why high-level languages are generally preferred for application development.",
+        model:"High-level languages (e.g. Python, Java) are closer to human language, use readable syntax, and are hardware-independent. Low-level languages (assembly, machine code) are closer to binary and specific to a processor\'s instruction set. Advantage of high-level: easier to read, write, and debug — one line can represent many machine instructions. Advantage of low-level: direct hardware control and faster execution with minimal memory use. High-level languages are preferred for application development because they are portable across hardware platforms and allow faster development with fewer errors." },
+      { label:"(b)", marks:2, q:"Compare a compiler and an interpreter in terms of: (i) how they translate code, (ii) error reporting, and (iii) execution speed. Recommend which is more suitable for a beginner programmer learning to code, justifying your answer.",
+        model:"(i) Compiler translates the entire program to machine code before execution; interpreter translates and executes one line at a time. (ii) Compiler reports all errors after the whole program is analysed; interpreter stops at the first error encountered. (iii) Compiled programs run faster since translation is done once; interpreted programs are slower as translation happens at runtime. Recommendation: an interpreter is better for beginners — immediate feedback on each line helps learners understand and fix errors quickly, making the learning loop faster and less overwhelming." },
+      { label:"(c)", marks:2, q:"Explain what assembly language is and the role of an assembler. Give one reason why a systems programmer might prefer to write certain routines in assembly language rather than a high-level language.",
+        model:"Assembly language is a low-level language that uses human-readable mnemonics (e.g. MOV, ADD, JMP) to represent machine code instructions specific to a processor\'s instruction set. An assembler translates assembly language source code directly into machine code (binary) that the CPU can execute. Reason a systems programmer might prefer it: direct control over hardware registers and memory — for example, writing a device driver or interrupt handler requires precise timing and memory access that high-level language abstractions cannot guarantee." }
+    ]
+  },
+  {
+    id:"C10", ch:4, marks:6, topic:"Software types and memory management",
+    parts:[
+      { label:"(a)", marks:2, q:"Distinguish between system software, application software, and utility software. Give two specific examples of each type.",
+        model:"System software manages hardware and provides a platform for other software — examples: operating systems (Windows, macOS), device drivers. Application software performs specific user tasks — examples: Microsoft Word (word processing), Google Chrome (web browser). Utility software maintains and optimises the system — examples: antivirus software (Avast), disk defragmenter. Note: utility software is technically a subset of system software, but utilities are distinguished by their maintenance role rather than core OS functions." },
+      { label:"(b)", marks:2, q:"Explain what firmware is. Give two examples of firmware found in everyday devices and explain why firmware is important for device operation.",
+        model:"Firmware is software permanently stored in ROM (or flash memory) within a hardware device, providing low-level control of the device\'s specific hardware. It sits between hardware and higher-level software. Examples: (1) BIOS/UEFI in a computer motherboard — initialises hardware and boots the OS. (2) Firmware in a router — manages network routing protocols and wireless communication. Firmware is important because it provides the essential instructions the device needs to function at a basic level, even before any OS or application software loads." },
+      { label:"(c)", marks:2, q:"Describe how an operating system manages memory, including the concept of memory allocation and deallocation. Explain what happens if two programs require more memory than is physically available in RAM.",
+        model:"The OS maintains a memory map tracking which areas of RAM are in use and which are free. When a program starts, the OS allocates a block of RAM to it; when the program closes, that memory is deallocated (freed for reuse). If two programs together require more RAM than is physically available, the OS uses virtual memory — it moves the least recently used pages of data from RAM to a swap file on the hard disk, freeing RAM for the active program. If virtual memory is exhausted too, the OS may terminate a process or display an out-of-memory error." }
+    ]
+  }
+];
+
+// ===============================================
+//  STATE
+// ===============================================
+let studentName = "";
+let mcqDone = false;
+let mcqScore = 0;
+
+// ===============================================
+//  RENDER
+// ===============================================
+function beginExam() {
+  studentName = document.getElementById("sname").value.trim();
+  if (!studentName) { alert("Please enter your full name."); return; }
+  document.getElementById("nameCard").classList.add("hidden");
+  document.getElementById("examBody").classList.remove("hidden");
+  renderMCQ();
+  renderSA();
+  renderLA();
+}
+
+function renderMCQ() {
+  const wrap = document.getElementById("mcq-wrap");
+  wrap.innerHTML = MCQ.map((q, i) => `
+    <div class="q-block" id="mcq-block-${i}">
+      <div class="q-meta">
+        <span>Q${i+1}</span>
+        <span class="q-chip">Chapter ${q.ch}</span>
+        <span class="q-chip">1 mark</span>
+      </div>
+      <div class="q-text">${q.q}</div>
+      <ul class="opt-list">
+        ${q.opts.map((o,j) => `
+          <li>
+            <label class="opt-label" id="opt-${i}-${j}">
+              <input type="radio" name="mcq${i}" value="${j}">
+              <span>${String.fromCharCode(65+j)}. ${o}</span>
+            </label>
+          </li>`).join("")}
+      </ul>
+      <div class="fb-box" id="mcq-fb-${i}"></div>
+    </div>`).join("");
+}
+
+function renderSA() {
+  const wrap = document.getElementById("sa-wrap");
+  wrap.innerHTML = SA.map((q, i) => `
+    <div class="q-block" id="sa-block-${i}">
+      <div class="q-meta">
+        <span>${q.id}</span>
+        <span class="q-chip">Chapter ${q.ch}</span>
+        <span class="q-chip">${q.marks} marks</span>
+      </div>
+      <div class="q-text">${q.q}</div>
+      <textarea class="open-textarea" id="sa-ans-${i}" rows="5" placeholder="Write your answer here..."></textarea>
+      <div class="fb-box fb-ai" id="sa-fb-${i}"></div>
+      <div class="ai-status" id="sa-st-${i}"><div class="spinner"></div><span>Marking your answer...</span></div>
+    </div>`).join("");
+}
+
+function renderLA() {
+  const wrap = document.getElementById("la-wrap");
+  wrap.innerHTML = LA.map((q, i) => `
+    <div class="q-block" id="la-block-${i}">
+      <div class="q-meta">
+        <span>${q.id}</span>
+        <span class="q-chip">Chapter ${q.ch}</span>
+        <span class="q-chip">${q.marks} marks</span>
+      </div>
+      <div class="q-text"><strong>${q.topic}</strong></div>
+      ${q.parts.map((p, j) => `
+        <div class="sub-q">
+          <div class="sub-label">${p.label} <span style="font-weight:normal;color:var(--hint);">[${p.marks} marks]</span></div>
+          <div class="sub-text">${p.q.replace(/\n/g, '<br>')}</div>
+          <textarea class="open-textarea" id="la-ans-${i}-${j}" rows="5" placeholder="Answer for ${p.label}..."></textarea>
+        </div>`).join("")}
+      <div class="fb-box fb-ai" id="la-fb-${i}" style="margin-top:14px;"></div>
+      <div class="ai-status" id="la-st-${i}"><div class="spinner"></div><span>Marking your answer...</span></div>
+    </div>`).join("");
+}
+
+// ===============================================
+//  MCQ MARKING
+// ===============================================
+function submitMCQ() {
+  if (mcqDone) return;
+  mcqDone = true;
+  mcqScore = 0;
+  MCQ.forEach((q, i) => {
+    const sel = document.querySelector(`input[name="mcq${i}"]:checked`);
+    const chosen = sel ? parseInt(sel.value) : -1;
+    document.querySelectorAll(`input[name="mcq${i}"]`).forEach(r => r.disabled = true);
+    q.opts.forEach((_, j) => {
+      const lbl = document.getElementById(`opt-${i}-${j}`);
+      if (j === q.ans) lbl.classList.add(chosen === q.ans ? "correct" : "revealed");
+      else if (j === chosen) lbl.classList.add("wrong");
+    });
+    const fb = document.getElementById(`mcq-fb-${i}`);
+    fb.style.display = "block";
+    if (chosen === q.ans) {
+      mcqScore++;
+      fb.className = "fb-box fb-correct";
+      fb.innerHTML = `<span class="fb-score">✓ Correct (1/1)</span> — ${q.explain}`;
+    } else {
+      fb.className = "fb-box fb-wrong";
+      const correctLetter = String.fromCharCode(65 + q.ans);
+      fb.innerHTML = `<span class="fb-score">✗ Incorrect (0/1)</span> — The correct answer is <strong>${correctLetter}</strong>. ${q.explain}`;
+    }
+  });
+  const btn = document.getElementById("mcq-btn");
+  btn.disabled = true;
+  btn.textContent = `Section A Submitted — ${mcqScore}/10`;
+}
+
+// ===============================================
+//  AI MARKING
+// ===============================================
+async function callClaude(systemPrompt, userPrompt) {
+  const res = await fetch("https://api.anthropic.com/v1/messages", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "x-api-key": ANTHROPIC_API_KEY,
+      "anthropic-version": "2023-06-01",
+      "anthropic-dangerous-direct-browser-access": "true"
+    },
+    body: JSON.stringify({
+      model: "claude-sonnet-4-20250514",
+      max_tokens: 1000,
+      system: systemPrompt,
+      messages: [{ role: "user", content: userPrompt }]
+    })
+  });
+  const data = await res.json();
+  const raw = data.content[0].text.trim().replace(/```json|```/g, "").trim();
+  return JSON.parse(raw);
+}
+
+const MARKER_SYSTEM = `You are an experienced Cambridge IGCSE Computer Science examiner at Heritage Academy, Singapore.
+Your job is to mark student answers HOLISTICALLY — assess understanding, accuracy, and reasoning, NOT keyword matching.
+Rules:
+• Correct explanation in the student's own words earns full marks even without exact textbook vocabulary.
+• Award partial marks for partially correct or incomplete answers.
+• Deduct marks for factual errors.
+• If answer is blank or student says they do not know, award 0.
+• feedback must be exactly 2 sentences:
+  Sentence 1: What the student did well OR what was specifically incorrect/missing.
+  Sentence 2: One specific, actionable improvement tip referencing the correct concept.
+• comment must be a warm, encouraging 1-sentence personal note to the student — acknowledge their effort, note their strongest point, and motivate them to improve.
+• Respond ONLY with valid JSON. No markdown, no preamble.
+Format: {"score": <integer>, "feedback": "<2-sentence examiner feedback>", "comment": "<1-sentence personal comment to student>"}`;
+
+async function markSA(i) {
+  const q = SA[i];
+  const ans = document.getElementById(`sa-ans-${i}`).value.trim() || "[No answer provided]";
+  const stEl = document.getElementById(`sa-st-${i}`);
+  stEl.style.display = "flex";
+  try {
+    const result = await callClaude(MARKER_SYSTEM,
+      `Question (${q.marks} marks): "${q.q}"\n\nModel answer (for reference only — do not require student to match this exactly): "${q.model}"\n\nStudent's answer: "${ans}"\n\nAward 0 to ${q.marks} marks holistically.`);
+    const score = Math.min(q.marks, Math.max(0, result.score || 0));
+    const fb = document.getElementById(`sa-fb-${i}`);
+    fb.style.display = "block";
+    const scoreColor = score === q.marks ? "var(--green)" : score === 0 ? "var(--red)" : "var(--gold)";
+    fb.innerHTML = `
+      <div style="margin-bottom:8px;">
+        <span class="fb-score" style="color:${scoreColor};">${score}/${q.marks}</span>
+        <span style="margin-left:10px;font-size:13px;">${result.feedback}</span>
+      </div>
+      ${result.comment ? `<div style="font-style:italic;color:var(--navy2);font-size:13px;margin-top:6px;padding-top:6px;border-top:1px solid var(--blue-border);">💬 ${result.comment}</div>` : ""}`;
+    // Show model answer
+    const block = document.getElementById(`sa-block-${i}`);
+    let ma = block.querySelector(".model-answer");
+    if (!ma) {
+      ma = document.createElement("div");
+      ma.className = "model-answer";
+      block.appendChild(ma);
+    }
+    ma.innerHTML = `<div class="model-answer-hd">✦ Model Answer</div><div class="model-answer-body">${q.model}</div>`;
+    ma.style.display = "block";
+    stEl.style.display = "none";
+    return { score, feedback: result.feedback, comment: result.comment || "", answer: ans };
+  } catch(e) {
+    stEl.style.display = "none";
+    const fb = document.getElementById(`sa-fb-${i}`);
+    fb.style.display = "block";
+    fb.innerHTML = `<span class="fb-score">⚠ Marking error</span> — Could not connect to AI marker. Check API key.`;
+    return { score: 0, feedback: "Marking error.", comment: "", answer: ans };
+  }
+}
+
+async function markLA(i) {
+  const q = LA[i];
+  const partsText = q.parts.map((p, j) => {
+    const ans = document.getElementById(`la-ans-${i}-${j}`).value.trim() || "[No answer provided]";
+    return `${p.label} [${p.marks} marks]: ${p.q}\nModel answer (reference only): ${p.model}\nStudent answer: ${ans}`;
+  }).join("\n\n");
+  const allAnswers = q.parts.map((p, j) => document.getElementById(`la-ans-${i}-${j}`).value.trim() || "[No answer]");
+  const stEl = document.getElementById(`la-st-${i}`);
+  stEl.style.display = "flex";
+  try {
+    const result = await callClaude(MARKER_SYSTEM,
+      `Long answer question on "${q.topic}" (${q.marks} marks total, ${q.parts.length} parts of ${q.parts.map(p=>p.marks).join("/")} marks each):\n\n${partsText}\n\nAward a total score out of ${q.marks} holistically across all parts.`);
+    const score = Math.min(q.marks, Math.max(0, result.score || 0));
+    const fb = document.getElementById(`la-fb-${i}`);
+    fb.style.display = "block";
+    const scoreColor = score >= q.marks*0.8 ? "var(--green)" : score <= q.marks*0.3 ? "var(--red)" : "var(--gold)";
+    fb.innerHTML = `
+      <div style="margin-bottom:8px;">
+        <span class="fb-score" style="color:${scoreColor};">${score}/${q.marks}</span>
+        <span style="margin-left:10px;font-size:13px;">${result.feedback}</span>
+      </div>
+      ${result.comment ? `<div style="font-style:italic;color:var(--navy2);font-size:13px;margin-top:6px;padding-top:6px;border-top:1px solid var(--blue-border);">💬 ${result.comment}</div>` : ""}`;
+    // Show model answers per part
+    const block = document.getElementById(`la-block-${i}`);
+    q.parts.forEach((p, j) => {
+      const subqs = block.querySelectorAll(".sub-q");
+      if (subqs[j]) {
+        let ma = subqs[j].querySelector(".model-answer");
+        if (!ma) {
+          ma = document.createElement("div");
+          ma.className = "model-answer";
+          subqs[j].appendChild(ma);
+        }
+        ma.innerHTML = `<div class="model-answer-hd">✦ Model Answer ${p.label}</div><div class="model-answer-body">${p.model}</div>`;
+        ma.style.display = "block";
+      }
+    });
+    stEl.style.display = "none";
+    return { score, feedback: result.feedback, comment: result.comment || "", answers: allAnswers };
+  } catch(e) {
+    stEl.style.display = "none";
+    const fb = document.getElementById(`la-fb-${i}`);
+    fb.style.display = "block";
+    fb.innerHTML = `<span class="fb-score">⚠ Marking error</span> — Could not connect to AI marker.`;
+    return { score: 0, feedback: "Marking error.", comment: "", answers: q.parts.map((p,j) => document.getElementById(`la-ans-${i}-${j}`).value.trim()) };
+  }
+}
+
+// ===============================================
+//  SUBMIT ALL
+// ===============================================
+async function submitAll() {
+  if (!mcqDone) submitMCQ();
+  // Lock all textareas
+  document.querySelectorAll(".open-textarea").forEach(t => { t.disabled = true; t.style.background = "var(--surface2)"; t.style.color = "var(--muted)"; });
+  const btn = document.getElementById("final-btn");
+  btn.disabled = true;
+  const statusEl = document.getElementById("global-status");
+  const total_q = SA.length + LA.length;
+  let done = 0;
+
+  function setStatus(msg) {
+    statusEl.innerHTML = `<div class="spinner"></div><span>${msg}</span>`;
+  }
+
+  setStatus(`Marking Section B... (0/${total_q})`);
+
+  const saResults = [];
+  for (let i = 0; i < SA.length; i++) {
+    const r = await markSA(i);
+    saResults.push(r);
+    done++;
+    setStatus(`Marking written answers... (${done}/${total_q})`);
+  }
+
+  const laResults = [];
+  for (let i = 0; i < LA.length; i++) {
+    const r = await markLA(i);
+    laResults.push(r);
+    done++;
+    setStatus(`Marking written answers... (${done}/${total_q})`);
+  }
+
+  statusEl.innerHTML = `<span>✓ Marking complete. Sending results to Google Sheets...</span>`;
+
+  const saTotal = saResults.reduce((s, r) => s + r.score, 0);
+  const laTotal = laResults.reduce((s, r) => s + r.score, 0);
+  const grand = mcqScore + saTotal + laTotal;
+  const pct = grand;
+  const grade = pct >= 90 ? "A*" : pct >= 80 ? "A" : pct >= 70 ? "B" : pct >= 60 ? "C" : pct >= 50 ? "D" : pct >= 40 ? "E" : "U";
+
+  showResults(grand, pct, grade, saTotal, laTotal);
+  await sendToSheet(saResults, laResults, saTotal, laTotal, grand, pct, grade);
+  statusEl.innerHTML = `<span>✓ Results recorded. Scroll up to review your feedback.</span>`;
+}
+
+// ===============================================
+//  RESULTS DISPLAY
+// ===============================================
+function showResults(grand, pct, grade, saTotal, laTotal) {
+  document.getElementById("examBody").classList.add("hidden");
+  const resultsEl = document.getElementById("results");
+  resultsEl.classList.remove("hidden");
+
+  document.getElementById("score-card").innerHTML = `
+    <div class="sc-name">${studentName} — SA1 2026 Results</div>
+    <div class="sc-total">${grand}<span style="font-size:28px;opacity:0.4;">/100</span></div>
+    <div class="sc-pct">${pct}%</div>
+    <div class="sc-grade">Grade: ${grade}</div>
+    <div class="sc-grid">
+      <div class="sc-tile"><div class="val">${mcqScore}/10</div><div class="lbl">Section A * MCQ</div></div>
+      <div class="sc-tile"><div class="val">${saTotal}/30</div><div class="lbl">Section B * Short Answer</div></div>
+      <div class="sc-tile"><div class="val">${laTotal}/60</div><div class="lbl">Section C * Long Answer</div></div>
+    </div>
+    <div class="sc-note">Scroll up to review individual question feedback from your AI examiner.</div>`;
+
+  resultsEl.scrollIntoView({ behavior: "smooth" });
+}
+
+// ===============================================
+//  GOOGLE SHEETS VIA APPS SCRIPT WEBHOOK
+// ===============================================
+async function sendToSheet(saResults, laResults, saTotal, laTotal, grand, pct, grade) {
+  if (!SHEET_WEBHOOK || SHEET_WEBHOOK.includes("PASTE")) {
+    document.getElementById("result-note").textContent = "No webhook URL configured — results not sent to Google Sheets.";
+    return;
+  }
+  const payload = {
+    timestamp: new Date().toISOString(),
+    name: studentName,
+    mcq: mcqScore,
+    sa_score: saTotal,
+    la_score: laTotal,
+    total: grand,
+    max: 100,
+    pct: pct,
+    grade: grade,
+    sa_answers: saResults.map((r,i) => `B${i+1}: ${r.answer}`).join(" || "),
+    la_answers: laResults.map((r,i) => `C${i+1}: ${(r.answers||[]).join(" | ")}`).join(" || "),
+    sa_feedback: saResults.map((r,i) => `B${i+1} (${r.score}/3): ${r.feedback}`).join(" || "),
+    la_feedback: laResults.map((r,i) => `C${i+1} (${r.score}/6): ${r.feedback}`).join(" || ")
+  };
+  try {
+    const encoded = btoa(unescape(encodeURIComponent(JSON.stringify(payload))));
+    await fetch(`${SHEET_WEBHOOK}?data=${encodeURIComponent(encoded)}`, { mode: "no-cors" });
+    document.getElementById("result-note").textContent = "✓ Results recorded in Google Sheets.";
+  } catch(e) {
+    document.getElementById("result-note").textContent = "⚠ Could not send to Google Sheets — check webhook URL.";
+  }
+}
+</script>
+</body>
+</html>
