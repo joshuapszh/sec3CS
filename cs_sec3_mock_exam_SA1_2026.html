@@ -509,247 +509,314 @@ body {
 
 <script>
 // ===============================================
-//  TEACHER CONFIGURATION — not visible to students
+//  TEACHER CONFIGURATION
 // ===============================================
-const ANTHROPIC_API_KEY  = "claude-sonnet-4-20250514";
-const SHEET_ID           = "1AuvrXcCIaVPaBDAJgfUsyd9vubv-8oJzO7W12F-bfP8";
-const SHEET_WEBHOOK      = "https://script.google.com/macros/s/AKfycbysOPGoapvG-JzDzW7CtwaGJABbmYrk_INxE9NJK7wCmQ_Iy7alZ2k6MLmLdin6-8Yk/exec";
+const ANTHROPIC_API_KEY = "PASTE_YOUR_API_KEY_HERE";
+const SHEET_ID          = "1AuvrXcCIaVPaBDAJgfUsyd9vubv-8oJzO7W12F-bfP8";
+const SHEET_WEBHOOK     = "PASTE_YOUR_APPS_SCRIPT_URL_HERE";
 
 // ===============================================
 //  EXAM DATA
 // ===============================================
-
 const MCQ = [
-  // Chapter 1 — Computer Systems (3 Qs)
+  // Ch1 (3 Qs)
   {
-    ch:1, q:"Which of the following is the correct binary representation of the denary number 53?",
-    opts:["00110011","00110101","00110100","00111001"], ans:1,
-    explain:"53 = 32+16+4+1 = 001101012. Work right-to-left: 1+4+16+32 = 53."
+    ch:1,
+    q:"Which of the following is the correct binary representation of the denary number 53?",
+    opts:["00110011","00110101","00110100","00111001"],
+    ans:1,
+    explain:"53 = 32+16+4+1. In binary (128,64,32,16,8,4,2,1): 0,0,1,1,0,1,0,1 = 00110101."
   },
   {
-    ch:1, q:"After a right logical shift of 2 places, the binary number 10110100 becomes:",
-    opts:["00101101","00101100","01011010","00110100"], ans:0,
-    explain:"Shift right 2: 10110100 → 00101101. Two 0s fill the leftmost positions; the two rightmost bits are lost."
+    ch:1,
+    q:"After a right logical shift of 2 places, the binary number 10110100 becomes:",
+    opts:["00101101","00101100","01011010","00110100"],
+    ans:0,
+    explain:"Shift right 2: insert two 0s at the left and discard the two rightmost bits. 10110100 becomes 00101101."
   },
   {
-    ch:1, q:"A bitmap image is 400 x 300 pixels with a colour depth of 24 bits. What is the uncompressed file size in kilobytes (using 1 KB = 1024 bytes)?",
-    opts:["351.6 KB","281.3 KB","360 KB","450 KB"], ans:0,
-    explain:"400 x 300 x 24 bits = 2,880,000 bits / 8 = 360,000 bytes / 1024 = 351.6 KB."
+    ch:1,
+    q:"A bitmap image is 400 x 300 pixels with a colour depth of 24 bits. What is the uncompressed file size in kilobytes (1 KB = 1024 bytes)?",
+    opts:["351.6 KB","281.3 KB","360 KB","450 KB"],
+    ans:0,
+    explain:"400 x 300 x 24 = 2,880,000 bits. Divide by 8 = 360,000 bytes. Divide by 1024 = 351.6 KB."
   },
-  // Chapter 2 — Data Transmission (3 Qs)
+  // Ch2 (3 Qs)
   {
-    ch:2, q:"Which part of a data packet contains the IP addresses of both the sender and the receiver?",
-    opts:["Payload","Trailer","Header","Checksum"], ans:2,
-    explain:"The packet header stores source and destination IP addresses, packet number, and total packet count."
+    ch:2,
+    q:"Which part of a data packet contains the IP addresses of both the sender and the receiver?",
+    opts:["Payload","Trailer","Header","Checksum"],
+    ans:2,
+    explain:"The Header contains source/destination IP addresses, packet number, and total packet count used by routers for delivery and reassembly."
   },
   {
-    ch:2, q:"In even parity error checking, a byte 1011001 is transmitted. What parity bit is added to make the total number of 1s even?",
-    opts:["0","1","Either 0 or 1","No parity bit is needed"], ans:1,
-    explain:"1011001 contains four 1-bits (already even), so the parity bit = 0 to keep the total number of 1s even."
+    ch:2,
+    q:"In even parity, the byte 1011001 is transmitted. What parity bit is added?",
+    opts:["0","1","Either 0 or 1","No parity bit needed"],
+    ans:0,
+    explain:"Count the 1-bits in 1011001: there are four (positions 7,5,4,1). Four is already even, so the parity bit = 0."
   },
   {
-    ch:2, q:"What does \'packet switching\' mean?",
+    ch:2,
+    q:"What does packet switching mean?",
     opts:[
-      "All packets travel along the same fixed route in order",
+      "All packets travel the same fixed route in order",
       "Packets are sent one at a time and must arrive in order",
-      "Packets may take different routes across the network and are reassembled at the destination",
-      "Packets are encrypted before transmission and decrypted on arrival"
-    ], ans:2,
-    explain:"Packet switching allows packets from the same message to travel via different routes determined by routers, then reassembled at the destination."
+      "Packets may take different routes and are reassembled at the destination",
+      "Packets are encrypted before transmission"
+    ],
+    ans:2,
+    explain:"Packet switching allows each packet to travel independently via the best available route. Routers decide the path, and packets are reassembled in order at the destination."
   },
-  // Chapter 3 — Hardware (2 Qs)
+  // Ch3 (2 Qs)
   {
-    ch:3, q:"Which CPU register always holds the memory address of the next instruction to be fetched?",
-    opts:["Accumulator (ACC)","Current Instruction Register (CIR)","Memory Data Register (MDR)","Program Counter (PC)"], ans:3,
-    explain:"The Program Counter (PC) holds the address of the next instruction. After fetching, it increments to point to the following instruction."
+    ch:3,
+    q:"Which CPU register always holds the memory address of the NEXT instruction to be fetched?",
+    opts:["Accumulator (ACC)","Current Instruction Register (CIR)","Memory Data Register (MDR)","Program Counter (PC)"],
+    ans:3,
+    explain:"The Program Counter (PC) always holds the address of the next instruction. After a fetch it increments automatically to point at the following instruction."
   },
   {
-    ch:3, q:"Which of the following best describes an embedded system?",
+    ch:3,
+    q:"Which best describes an embedded system?",
     opts:[
-      "A general-purpose computer that runs many different applications",
-      "A dedicated computer system built into a device to perform a specific function",
-      "A computer system that relies entirely on cloud storage",
-      "A system that processes data using only analogue signals"
-    ], ans:1,
-    explain:"An embedded system is a computer integrated into a device (e.g., washing machine, microwave) to perform one dedicated function."
+      "A general-purpose computer running many applications",
+      "A dedicated computer built into a device to perform one specific function",
+      "A computer that relies entirely on cloud storage",
+      "A system processing data using only analogue signals"
+    ],
+    ans:1,
+    explain:"An embedded system is a processor permanently built into a device (e.g. washing machine, car ABS) to perform a single dedicated task."
   },
-  // Chapter 4 — Software (2 Qs)
+  // Ch4 (2 Qs)
   {
-    ch:4, q:"A compiler differs from an interpreter because a compiler:",
+    ch:4,
+    q:"A compiler differs from an interpreter because a compiler:",
     opts:[
-      "Translates and executes the program one line at a time",
+      "Translates and executes one line at a time",
       "Can only be used with low-level languages",
       "Translates the entire source code into machine code before execution",
       "Produces source code from machine code"
-    ], ans:2,
-    explain:"A compiler translates the whole program into machine code first, producing an executable. An interpreter translates and runs one line at a time."
+    ],
+    ans:2,
+    explain:"A compiler translates the whole program into machine code first and saves an executable. An interpreter translates and runs each line one at a time — no saved executable is produced."
   },
   {
-    ch:4, q:"What is the primary role of an operating system?",
+    ch:4,
+    q:"What is the PRIMARY role of an operating system?",
     opts:[
       "To compile source code into machine code",
       "To manage hardware resources and provide an interface for users and applications",
       "To connect the computer to the internet",
       "To store user files on secondary storage"
-    ], ans:1,
-    explain:"The OS manages hardware (CPU, memory, devices), provides a user interface, and allows applications to run by acting as an intermediary between hardware and software."
+    ],
+    ans:1,
+    explain:"The OS manages CPU time, memory, storage, and devices, and provides the user interface that lets applications run on the hardware."
   }
 ];
 
-// MCQ answers are set correctly in the array above
-
 const SA = [
   { id:"B1", ch:1, marks:3,
-    q:"State what is meant by \'two\'s complement\' and explain, with an example, how it is used to represent the negative number -19 using 8 bits.",
-    model:"Two\'s complement is a method of representing both positive and negative integers in binary using a fixed number of bits. To represent -19 in 8 bits: first write +19 as 00010011, then invert all bits to get 11101100, then add 1 to give 11101101. The result 11101101 is the two\'s complement representation of -19. The leading 1 in the most significant bit indicates a negative number."
+    q:"State what is meant by two's complement and explain, with working, how it represents the negative number -19 using 8 bits.",
+    model:"Two's complement is a method for representing positive and negative integers in binary using a fixed bit width. To find -19 in 8 bits: (1) write +19 as 00010011, (2) invert every bit to get 11101100, (3) add 1 to give 11101101. The result 11101101 is -19 in 8-bit two's complement. A leading 1 in the MSB always indicates a negative value."
   },
   { id:"B2", ch:1, marks:3,
-    q:"Describe the difference between lossy and lossless compression. Give one file format that uses each type and explain why each is suitable for its common use case.",
-    model:"Lossless compression reduces file size without any loss of data — the original file can be perfectly reconstructed (e.g. PNG for images, where exact pixel data must be preserved). Lossy compression permanently removes data that is less perceptible, achieving much higher compression ratios (e.g. JPEG for photographs, where minor detail loss is acceptable to humans). Lossless is preferred for text and medical images; lossy for streaming media and web photos."
+    q:"Describe the difference between lossy and lossless compression. Give one file format that uses each type and explain why each is suitable for its use case.",
+    model:"Lossless compression reduces file size without discarding any data — the original file can be perfectly reconstructed (e.g. PNG, used for graphics where every pixel must be exact). Lossy compression permanently removes data judged to be less perceptible, achieving far greater size reduction (e.g. JPEG, used for photographs where minor quality loss is imperceptible at normal viewing). Lossless suits text and data files; lossy suits images and audio for web delivery."
   },
   { id:"B3", ch:1, marks:3,
-    q:"Explain how a computer represents sound digitally. In your answer include the terms \'sampling rate\' and \'sample resolution\' and explain how each affects the file size and quality of the sound.",
-    model:"A computer represents sound by sampling an analogue sound wave at regular intervals and storing each sample as a binary number. Sampling rate is the number of samples taken per second (measured in Hz) — a higher rate captures more detail, improving quality but increasing file size. Sample resolution (bit depth) is the number of bits used per sample — higher resolution gives more precise amplitude values, improving quality and also increasing file size. CD quality uses 44,100 Hz and 16-bit resolution."
+    q:"Explain how a computer represents sound digitally. Include the terms sampling rate and sample resolution and explain how each affects quality and file size.",
+    model:"A computer captures sound by sampling an analogue sound wave at regular time intervals and converting each sample to a binary number. Sampling rate is the number of samples per second (Hz) — a higher rate captures more detail per second, improving quality and increasing file size. Sample resolution (bit depth) is the number of bits per sample — more bits give finer amplitude detail, improving quality and increasing file size. CD audio uses 44,100 Hz and 16-bit resolution as a quality standard."
   },
   { id:"B4", ch:2, marks:3,
     q:"Describe the structure of a data packet. Identify and explain the purpose of each of its three main parts.",
-    model:"A data packet has three parts. The header contains the source and destination IP addresses, the packet number, and the total number of packets — it tells routers where to send the packet and allows reassembly in the correct order. The payload is the actual data being transmitted (the content of the message). The trailer (footer) signals the end of the packet and contains error-checking data (such as a checksum or CRC) so the receiver can verify the data arrived intact."
+    model:"A packet has three parts: (1) Header — contains source and destination IP addresses, packet sequence number, and total packet count; routers use this to route the packet and the receiver uses it to reassemble packets in order. (2) Payload — the actual data being transmitted (the chunk of the message). (3) Trailer — marks the end of the packet and carries error-checking data (e.g. CRC or checksum) so the receiver can verify the data arrived without corruption."
   },
   { id:"B5", ch:2, marks:3,
-    q:"Compare simplex, half-duplex, and full-duplex data transmission. Give a real-world example of a device or system that uses each type.",
-    model:"Simplex transmission sends data in one direction only — e.g. a television broadcast where the viewer receives but cannot send back. Half-duplex allows data in both directions but not simultaneously — e.g. a walkie-talkie where users must take turns speaking. Full-duplex allows simultaneous two-way communication — e.g. a telephone call where both parties can speak and listen at the same time. Full-duplex requires more bandwidth but is most efficient for interactive communication."
+    q:"Compare simplex, half-duplex, and full-duplex data transmission. Give a real-world example of each.",
+    model:"Simplex sends data in one direction only — e.g. a TV broadcast (viewer receives, cannot send back). Half-duplex sends in both directions but not simultaneously — e.g. a walkie-talkie (one person speaks at a time, the other listens). Full-duplex sends in both directions simultaneously — e.g. a mobile phone call (both parties can speak and hear at the same time). Full-duplex is most efficient for interactive communication but requires greater bandwidth."
   },
   { id:"B6", ch:2, marks:3,
-    q:"Explain what encryption is and why it is important during data transmission. Describe the difference between symmetric and asymmetric encryption.",
-    model:"Encryption is the process of converting readable plaintext into unreadable ciphertext using an algorithm and a key, so that only authorised parties can decrypt and read it. It is vital during transmission to prevent unauthorised interception. Symmetric encryption uses the same key for both encryption and decryption — it is fast but the key must be securely shared. Asymmetric encryption uses a public key to encrypt and a private key to decrypt — it eliminates the need to share a secret key, making it more secure for internet communications such as HTTPS."
+    q:"Explain what encryption is and why it matters during transmission. Describe the difference between symmetric and asymmetric encryption.",
+    model:"Encryption converts readable plaintext into unreadable ciphertext using a key and algorithm, so intercepted data cannot be understood. It protects confidentiality during transmission across public networks. Symmetric encryption uses the same key for encryption and decryption — fast but the key must be securely shared in advance. Asymmetric encryption uses a public key (shared openly) to encrypt and a private key (kept secret) to decrypt — this solves the key distribution problem and is used in HTTPS."
   },
   { id:"B7", ch:3, marks:3,
-    q:"Describe the fetch-decode-execute (FDE) cycle. In your answer, state the role of the Program Counter (PC), Memory Address Register (MAR), and Current Instruction Register (CIR) during the cycle.",
-    model:"The FDE cycle is the basic operation of a CPU. In the Fetch stage, the PC holds the address of the next instruction; this address is copied to the MAR, which is used to fetch the instruction from memory into the MDR, and then to the CIR. The PC then increments to point to the next instruction. In the Decode stage, the CIR holds the fetched instruction and the control unit decodes it to determine the operation. In the Execute stage, the instruction is carried out — arithmetic by the ALU or data movement between registers and memory."
+    q:"Describe the fetch-decode-execute cycle. In your answer state the role of the PC, MAR, and CIR.",
+    model:"The FDE cycle is the CPU's basic operating loop. FETCH: the PC holds the address of the next instruction; this is copied to the MAR, which addresses RAM; the instruction is retrieved into the MDR, then copied to the CIR; the PC increments to the next address. DECODE: the control unit interprets the instruction in the CIR to determine the operation needed. EXECUTE: the instruction is carried out — arithmetic by the ALU, data moves between registers, or a branch changes the PC."
   },
   { id:"B8", ch:3, marks:3,
-    q:"Explain the difference between primary storage and secondary storage. Give two examples of each and state one advantage of each type over the other.",
-    model:"Primary storage is directly accessible by the CPU and is used for currently running programs and data — examples are RAM and ROM. It is fast but volatile (RAM loses data when power is off) and limited in capacity. Secondary storage holds data permanently when power is off — examples are hard disk drives (HDD) and solid-state drives (SSD). It has much larger capacity than primary storage but is slower to access. The advantage of primary storage is speed; the advantage of secondary storage is permanence and larger capacity."
+    q:"Explain the difference between primary and secondary storage. Give two examples of each and state one advantage of each type.",
+    model:"Primary storage is directly accessible by the CPU and holds currently running programs and data — examples: RAM (volatile, fast read/write) and ROM (non-volatile, holds firmware). Secondary storage holds data permanently when power is off — examples: HDD and SSD. Advantage of primary: much faster access speed. Advantage of secondary: non-volatile (data persists) and far greater capacity at lower cost per byte."
   },
   { id:"B9", ch:4, marks:3,
-    q:"Explain what an interrupt is and describe how the CPU handles an interrupt when one occurs during normal program execution.",
-    model:"An interrupt is a signal sent to the CPU by hardware or software to request immediate attention, pausing the current program. When an interrupt occurs, the CPU finishes its current instruction, then saves the current state (registers and program counter) to a stack. It then checks the interrupt priority and calls the appropriate Interrupt Service Routine (ISR) to handle the request. Once the ISR completes, the saved state is restored from the stack and the original program resumes from where it was paused."
+    q:"Explain what an interrupt is and describe how the CPU responds when one occurs.",
+    model:"An interrupt is a signal sent to the CPU by hardware or software requesting immediate attention, pausing the current program. When an interrupt occurs: (1) the CPU completes its current instruction, (2) saves its current state (registers and PC value) to a stack, (3) checks the interrupt priority, (4) executes the appropriate Interrupt Service Routine (ISR) to handle the request, (5) restores the saved state and resumes the original program from where it stopped."
   },
   { id:"B10", ch:4, marks:3,
-    q:"Identify and describe three features of an Integrated Development Environment (IDE) that help a programmer write and test code more efficiently.",
-    model:"1) Code editor with syntax highlighting — colours keywords, variables, and errors differently, making code easier to read and spot mistakes. 2) Debugger — allows the programmer to run code step-by-step, set breakpoints, and inspect variable values to locate logic errors. 3) Auto-completion — suggests completions for variable names, functions, and syntax as the programmer types, reducing typing errors and speeding up coding. Other valid features include a built-in compiler/interpreter, error reporting, and a run environment."
+    q:"Identify and describe three features of an IDE that help programmers write and test code more efficiently.",
+    model:"(1) Syntax highlighting — colours keywords, variables, and errors, making code easier to read and spot mistakes quickly. (2) Debugger — lets the programmer step through code line by line, set breakpoints, and inspect variable values at runtime to locate logic errors. (3) Auto-completion (IntelliSense) — suggests completions for variable names, functions, and syntax as the programmer types, reducing errors and speeding up coding. Other valid features: built-in run environment, line-by-line error reporting, version control integration."
   }
 ];
 
 const LA = [
-  {
-    id:"C1", ch:1, marks:6, topic:"Number systems and binary arithmetic",
+  { id:"C1", ch:1, marks:6, topic:"Number systems and binary arithmetic",
     parts:[
-      { label:"(a)", marks:2, q:"Convert the denary number 178 to binary. Show all working. Then convert your binary answer to hexadecimal.",
-        model:"178 ÷ 2: 89 r0, 44 r1, 22 r0, 11 r0, 5 r1, 2 r1, 1 r0, 0 r1 → reading remainders upward: 10110010. Group into nibbles: 1011 0010 → B2 in hexadecimal. So 17810 = 101100102 = B216." },
-      { label:"(b)", marks:2, q:"Perform a left logical shift of 3 places on the binary number 00010110. State the denary value before and after the shift and explain what mathematical operation a left shift represents.",
-        model:"00010110 = 22 in denary. Left shift 3: 10110000 = 176 in denary. A left logical shift by n places multiplies the number by 2n. Here 22 × 23 = 22 × 8 = 176. The three leftmost bits are lost (shifted out), and three 0s fill the rightmost positions." },
-      { label:"(c)", marks:2, q:"A student claims that adding 01101111 and 01010101 in 8-bit binary causes an overflow. Show the addition, state whether overflow occurs, and explain what overflow means and why it is a problem.",
-        model:"01101111 (111) + 01010101 (85) = 11000100 (196). Both operands are positive (leading 0), but the result has a leading 1, which in signed 8-bit would be interpreted as negative — this is overflow. Overflow occurs when the result of an arithmetic operation exceeds the range that can be stored in the available bits (-128 to +127 for signed 8-bit). It is a problem because the result is stored incorrectly, causing program errors or unexpected behaviour." }
+      { label:"(a)", marks:2,
+        q:"Convert the denary number 178 to binary showing all working. Then convert your binary answer to hexadecimal.",
+        model:"178 in binary: 128+32+16+2 = 178. Bits: 1,0,1,1,0,0,1,0 = 10110010. Grouped into nibbles: 1011|0010. 1011 = B, 0010 = 2. So 178 in hex = B2."
+      },
+      { label:"(b)", marks:2,
+        q:"Perform a left logical shift of 3 on the binary number 00010110. State the denary value before and after the shift and explain what a left shift represents mathematically.",
+        model:"00010110 = 22 in denary. Left shift 3 places: 10110000 = 176 in denary. Three 0s are appended on the right; the three leftmost bits are discarded. A left shift of n places multiplies the value by 2 to the power n: 22 x 8 = 176."
+      },
+      { label:"(c)", marks:2,
+        q:"Show the addition of 01101111 and 01010101 in 8-bit binary. State whether overflow occurs and explain what overflow means and why it causes problems.",
+        model:"01101111 (111) + 01010101 (85): the column-by-column addition gives 11000100. Both operands have leading 0 (positive), but the result has leading 1 — in signed 8-bit this would be read as a negative number, which is incorrect. This is overflow: the true result (196) exceeds the maximum positive value for signed 8-bit (127). It causes errors because the stored result is wrong, leading to incorrect program behaviour."
+      }
     ]
   },
-  {
-    id:"C2", ch:1, marks:6, topic:"Data representation — images and compression",
+  { id:"C2", ch:1, marks:6, topic:"Data representation — images and compression",
     parts:[
-      { label:"(a)", marks:2, q:"Explain what colour depth means for a bitmap image. A 24-bit colour image uses more storage than an 8-bit image. Calculate the file size of a 640×480 pixel, 24-bit colour image. Give your answer in MB (1 MB = 1 048 576 bytes).",
-        model:"Colour depth is the number of bits used to represent the colour of each pixel — more bits means more possible colours. File size = 640 × 480 × 24 bits = 7,372,800 bits ÷ 8 = 921,600 bytes ÷ 1,048,576 ≈ 0.879 MB. A 24-bit image can represent 224 = 16,777,216 different colours (true colour), compared to only 256 for an 8-bit image." },
-      { label:"(b)", marks:2, q:"Explain how Run-Length Encoding (RLE) compresses data. Using the pixel row below as an example, show how RLE would represent it and calculate the compression ratio. Original row: WWWWWWBBBBRRRRRRRRWWW",
-        model:"RLE stores repeated data as a count followed by the value, rather than repeating the value itself. Original: WWWWWWBBBBRRRRRRRRWWW = 21 characters. RLE: 6W 4B 8R 3W = 8 characters (4 pairs). Compression ratio = 21/8 = 2.625:1. RLE is most effective when there are long runs of repeated values, such as in simple graphics or images with large areas of solid colour." },
-      { label:"(c)", marks:2, q:"A photographer must upload images to a website. Evaluate whether lossy or lossless compression is more appropriate, giving reasons for your recommendation.",
-        model:"Lossy compression (e.g. JPEG) is more appropriate for website photographs. Websites require fast loading times, so smaller file sizes are important — lossy compression achieves much greater size reduction than lossless. The minor loss of detail in a JPEG is imperceptible to most viewers at normal screen resolutions. Lossless would be better if the images needed to be edited further or if pixel-perfect accuracy were required (e.g. medical or scientific images), but for general web display, lossy is the better choice." }
+      { label:"(a)", marks:2,
+        q:"Explain what colour depth means. Calculate the file size of a 640x480 pixel, 24-bit colour bitmap image in MB (1 MB = 1,048,576 bytes).",
+        model:"Colour depth is the number of bits used to store the colour of each pixel — more bits means more possible colours. File size = 640 x 480 x 24 bits = 7,372,800 bits / 8 = 921,600 bytes / 1,048,576 = approximately 0.879 MB. A 24-bit image can represent 2^24 = 16,777,216 different colours."
+      },
+      { label:"(b)", marks:2,
+        q:"Explain how Run-Length Encoding compresses data. Apply RLE to: WWWWWWBBBBRRRRRRRRWWW and calculate the compression ratio.",
+        model:"RLE stores runs of repeated values as a count followed by the value, instead of repeating the value. WWWWWWBBBBRRRRRRRRWWW (21 characters) becomes: 6W 4B 8R 3W (8 tokens). Compression ratio = 21/8 = 2.625:1. RLE works best when data contains long runs of the same value, such as simple graphics."
+      },
+      { label:"(c)", marks:2,
+        q:"A photographer is uploading images to a website. Evaluate whether lossy or lossless compression is more appropriate.",
+        model:"Lossy compression (e.g. JPEG) is more appropriate for a website. The primary goals are fast page loading and minimal storage cost, both served by smaller file sizes. Lossy achieves much greater compression than lossless, and the quality loss is imperceptible to visitors at normal screen resolutions. Lossless would be better only if the original images need further editing or must be reproduced at print quality — neither applies to a standard web gallery."
+      }
     ]
   },
-  {
-    id:"C3", ch:2, marks:6, topic:"Error detection and data integrity",
+  { id:"C3", ch:2, marks:6, topic:"Error detection and data integrity",
     parts:[
-      { label:"(a)", marks:2, q:"Explain how a parity check works to detect errors in data transmission. State one limitation of parity checking.",
-        model:"A parity bit is added to each byte of data before transmission. In even parity, the parity bit is set so that the total number of 1-bits in the byte (including the parity bit) is even. The receiver recounts the 1-bits; if the count is odd, an error has occurred. Limitation: parity checking can only detect an odd number of bit errors — if two bits flip, the parity remains correct and the error goes undetected." },
-      { label:"(b)", marks:2, q:"Describe how a Cyclic Redundancy Check (CRC) detects errors. Explain why CRC is more reliable than a simple parity check.",
-        model:"In CRC, the sender treats the data as a large binary number and divides it by a pre-agreed polynomial (divisor). The remainder from this division (the CRC value) is appended to the data and transmitted. The receiver performs the same division; if their remainder differs from the received CRC value, an error has occurred. CRC is more reliable than parity because it can detect burst errors (multiple consecutive bit errors), not just single-bit errors, making it suitable for detecting errors in large data blocks." },
-      { label:"(c)", marks:2, q:"Apart from parity and CRC, describe one other method used to detect or correct errors during data transmission. Explain how it works and identify one situation where it would be used.",
-        model:"Checksum: the sender adds up the numerical values of all bytes in the data block and sends this sum (the checksum) alongside the data. The receiver performs the same calculation and compares the result to the received checksum — a mismatch indicates an error. It is used in TCP/IP networking to verify the integrity of data packets transmitted across the internet. Another valid answer is echo checking, where the receiver sends the data back to the sender for comparison." }
+      { label:"(a)", marks:2,
+        q:"Explain how a parity check detects errors in transmission. State one limitation.",
+        model:"A parity bit is added so the total number of 1-bits in the byte is even (even parity) or odd (odd parity). The receiver recounts the 1-bits; if the count does not match the agreed parity, an error is flagged. Limitation: parity can only detect an odd number of bit errors. If two bits flip, the parity remains correct and the error goes undetected."
+      },
+      { label:"(b)", marks:2,
+        q:"Describe how a Cyclic Redundancy Check detects errors. Explain why CRC is more reliable than simple parity.",
+        model:"CRC treats the data as a large binary number and divides it by a pre-agreed generator polynomial. The remainder from this division is appended to the data as the CRC value. The receiver performs the same division; if their remainder differs from the received CRC, an error is detected. CRC is more reliable because it can detect burst errors (multiple consecutive bit errors), not just single-bit errors, making it suitable for large data block verification."
+      },
+      { label:"(c)", marks:2,
+        q:"Describe one other error-detection method beyond parity and CRC. Explain how it works and when it is used.",
+        model:"Checksum: the sender adds the numerical values of all bytes in the data block and transmits the total (the checksum) alongside the data. The receiver recalculates the sum and compares it to the received checksum — a mismatch indicates corruption. It is used in TCP/IP networking to verify the integrity of packets transmitted over the internet. Another valid answer: echo check, where the receiver sends the data back to the sender verbatim for comparison."
+      }
     ]
   },
-  {
-    id:"C4", ch:2, marks:6, topic:"Data transmission methods and interfaces",
+  { id:"C4", ch:2, marks:6, topic:"Data transmission methods and interfaces",
     parts:[
-      { label:"(a)", marks:2, q:"Distinguish between serial and parallel data transmission. Explain why serial transmission is now preferred over parallel transmission for long-distance communication despite being able to send only one bit at a time.",
-        model:"Serial transmission sends one bit at a time down a single wire; parallel transmission sends multiple bits simultaneously across multiple wires. Although parallel seems faster, it suffers from \'skew\' over long distances — bits sent together arrive at different times, causing data corruption. Serial avoids skew, is cheaper (fewer wires), and can operate at higher clock speeds without synchronisation problems. Modern interfaces like USB and SATA use serial transmission for these reasons." },
-      { label:"(b)", marks:2, q:"Explain how USB (Universal Serial Bus) works as a data transmission interface. State two advantages of USB over older interfaces such as serial and parallel ports.",
-        model:"USB uses serial data transmission with a standard connector. A host controller (in the computer) manages communication with devices; data is transmitted in packets following the USB protocol. Devices can be hot-plugged (connected/disconnected without restarting). Advantages: (1) Universal — one standard interface works with many device types (keyboards, drives, phones). (2) Supports power delivery — USB powers devices directly, eliminating separate power cables. (3) Hot-pluggable and faster than older RS-232 serial or parallel ports." },
-      { label:"(c)", marks:2, q:"Define bandwidth and latency. A video streaming service is experiencing buffering. Explain how both bandwidth and latency could be causing the problem and suggest one technical solution for each.",
-        model:"Bandwidth is the maximum amount of data that can be transmitted per second (measured in bps). Latency is the delay between sending and receiving data (measured in ms). Buffering could be caused by insufficient bandwidth — the connection cannot deliver video data fast enough — solution: upgrade to a higher-bandwidth connection or reduce video quality. High latency causes delays in receiving data packets — solution: use a CDN (Content Delivery Network) to serve video from a server geographically closer to the viewer." }
+      { label:"(a)", marks:2,
+        q:"Distinguish between serial and parallel data transmission. Explain why serial is now preferred for long-distance communication.",
+        model:"Serial transmission sends one bit at a time on a single wire. Parallel transmission sends multiple bits simultaneously on multiple wires. Although parallel seems faster, over long distances the bits travel at slightly different speeds ('skew'), causing them to arrive out of synchronisation and corrupting data. Serial avoids skew entirely, allows higher clock frequencies, and is cheaper (one wire). Modern high-speed interfaces such as USB and SATA use serial for these reasons."
+      },
+      { label:"(b)", marks:2,
+        q:"Explain how USB works as a data interface. State two advantages of USB over older serial/parallel ports.",
+        model:"USB uses a host controller in the computer to manage communication with connected devices. Data is sent serially in packets following the USB protocol. Devices are automatically detected when connected (plug-and-play). Advantages: (1) Universal — one standard connector type works with keyboards, storage, phones, and hundreds of device types. (2) Hot-pluggable and bus-powered — devices can be connected and disconnected without restarting, and USB supplies power to many devices, removing the need for separate power cables."
+      },
+      { label:"(c)", marks:2,
+        q:"Define bandwidth and latency. A streaming service is buffering. Explain how each could cause it and suggest a solution for each.",
+        model:"Bandwidth is the maximum data transfer rate of a connection (bits per second). Latency is the delay between a data request being sent and the first data arriving (milliseconds). Buffering from low bandwidth: the connection cannot deliver video data fast enough to keep up with playback — solution: reduce video quality/resolution to lower data rate requirements. Buffering from high latency: there is a large delay before data packets arrive, causing gaps — solution: use a CDN (Content Delivery Network) with servers geographically closer to the viewer."
+      }
     ]
   },
-  {
-    id:"C5", ch:3, marks:6, topic:"The CPU and its components",
+  { id:"C5", ch:3, marks:6, topic:"The CPU and its components",
     parts:[
-      { label:"(a)", marks:2, q:"Describe the role of the Control Unit (CU) and the Arithmetic Logic Unit (ALU) within the CPU. Explain how they work together during program execution.",
-        model:"The Control Unit (CU) manages and coordinates all CPU operations — it fetches and decodes instructions, then sends control signals to other components telling them what to do. The Arithmetic Logic Unit (ALU) performs arithmetic operations (add, subtract, multiply) and logical operations (AND, OR, NOT, comparisons). They work together as follows: the CU decodes an instruction and signals the ALU to perform a specific calculation; the ALU uses values from registers, computes the result, and stores it back in the Accumulator, which the CU then uses for the next operation." },
-      { label:"(b)", marks:2, q:"Explain what cache memory is and describe the difference between L1, L2, and L3 cache. Explain why having a larger cache can improve CPU performance.",
-        model:"Cache memory is a small, very fast type of memory located on or near the CPU that stores frequently used instructions and data, reducing the need to access slower RAM. L1 cache is the smallest and fastest, built directly onto the processor core. L2 cache is larger and slightly slower than L1, still on-chip. L3 cache is larger still and shared across cores, acting as a last resort before RAM. A larger cache means more data can be stored close to the CPU, reducing cache misses (situations where the CPU must wait for data from RAM), which speeds up processing." },
-      { label:"(c)", marks:2, q:"State three factors that affect CPU performance and explain, for each factor, how improving it would increase the speed of processing.",
-        model:"1) Clock speed (GHz) — a higher clock speed means more instruction cycles per second, so more instructions are processed in the same time. 2) Number of cores — each core can process instructions independently, allowing true parallel processing of multiple tasks simultaneously. 3) Cache size — a larger cache reduces the frequency of slow RAM accesses; more data is available instantly, so the CPU spends less time waiting. Other valid factors: word length (bus width), type of processor architecture." }
+      { label:"(a)", marks:2,
+        q:"Describe the role of the Control Unit and ALU. Explain how they work together during execution.",
+        model:"The Control Unit (CU) directs all CPU operations: it fetches and decodes instructions and sends control signals telling other components what to do and when. The Arithmetic Logic Unit (ALU) performs arithmetic (add, subtract, multiply) and logical operations (AND, OR, NOT, comparisons). During execution: the CU decodes an instruction and signals the ALU to perform a specific operation on values from registers; the ALU computes the result and places it in the Accumulator; the CU uses that result for the next operation."
+      },
+      { label:"(b)", marks:2,
+        q:"Explain what cache memory is. Describe L1, L2, and L3 cache. Explain why larger cache improves performance.",
+        model:"Cache is a small, very fast memory built on or near the CPU that stores copies of frequently accessed instructions and data, reducing the need to fetch from slower RAM. L1 cache is the smallest (typically 32-256 KB) and fastest, located directly on each core. L2 is larger (256 KB - 4 MB), slightly slower, still on-chip. L3 is the largest (4-32 MB), slowest of the three, and shared across all cores. A larger cache reduces cache misses — occasions when the CPU must wait for RAM — so more data is available instantly, speeding up processing."
+      },
+      { label:"(c)", marks:2,
+        q:"State three factors that affect CPU performance and explain how improving each increases processing speed.",
+        model:"(1) Clock speed (GHz): more cycles per second means more instruction operations per second — doubling clock speed roughly doubles throughput for single-threaded tasks. (2) Number of cores: each core executes instructions independently, so multiple cores allow genuine parallel processing of different program threads simultaneously. (3) Cache size: a larger cache reduces the frequency of slow RAM accesses, keeping the CPU supplied with data and reducing idle wait time."
+      }
     ]
   },
-  {
-    id:"C6", ch:3, marks:6, topic:"Storage and memory",
+  { id:"C6", ch:3, marks:6, topic:"Storage and memory",
     parts:[
-      { label:"(a)", marks:2, q:"Compare RAM and ROM. State two differences and explain why both are necessary in a computer system.",
-        model:"RAM (Random Access Memory) is volatile — its contents are lost when power is cut — and can be both read from and written to by the CPU. ROM (Read Only Memory) is non-volatile — it retains data permanently — and is read-only (contents fixed at manufacture). Both are necessary: ROM stores the BIOS/firmware needed to start the computer before the OS loads from disk. RAM is needed to hold the OS, running programs, and data during use, providing fast read/write access for the CPU." },
-      { label:"(b)", marks:2, q:"Explain what virtual memory is and describe how the operating system uses it. State one disadvantage of relying heavily on virtual memory.",
-        model:"Virtual memory is a portion of secondary storage (hard disk) that the OS uses as an extension of RAM when physical RAM is full. The OS moves inactive pages of data from RAM to the hard disk (paging/swapping) to free up RAM for active processes, creating the illusion of more memory than physically exists. Disadvantage: accessing secondary storage is far slower than accessing RAM, so heavy use of virtual memory causes \'thrashing\' — the system spends more time swapping pages than executing programs, severely slowing performance." },
-      { label:"(c)", marks:2, q:"A school is deciding between purchasing local file servers or subscribing to a cloud storage service. Evaluate both options, considering cost, security, accessibility, and reliability.",
-        model:"Local servers have higher upfront cost (hardware, maintenance, IT staff) but lower long-term cost and give the school full control over data security — important for protecting student records. Cloud storage has lower initial cost (subscription model) and automatic updates, but ongoing fees and dependency on internet connectivity. Cloud offers superior accessibility (access from any device, anywhere) and reliability (built-in redundancy), while local servers may be inaccessible off-site and require manual backup. For a school, cloud storage offers better accessibility for remote learning, but local storage is preferable for sensitive data under tight budget." }
+      { label:"(a)", marks:2,
+        q:"Compare RAM and ROM. State two differences and explain why both are needed in a computer.",
+        model:"RAM (Random Access Memory) is volatile — data is lost when power is cut — and can be both read and written by the CPU at any time. ROM (Read-Only Memory) is non-volatile — data is permanent and cannot be changed by normal program execution. Both are needed: ROM stores the BIOS/firmware that runs immediately at power-on to initialise hardware before the OS loads. RAM holds the OS, applications, and active data during use, providing the fast read/write workspace the CPU needs."
+      },
+      { label:"(b)", marks:2,
+        q:"Explain what virtual memory is and how the OS uses it. State one disadvantage of heavy virtual memory use.",
+        model:"Virtual memory is an area of secondary storage (hard disk/SSD) that the OS treats as an extension of RAM. When RAM is full, the OS moves the least recently used blocks of data (pages) from RAM to the swap file on disk, freeing RAM for active processes. This creates the illusion of more RAM than physically exists. Disadvantage: accessing secondary storage is orders of magnitude slower than RAM, so heavy virtual memory use causes thrashing — the CPU spends more time swapping pages than running programs, severely degrading performance."
+      },
+      { label:"(c)", marks:2,
+        q:"A school is deciding between local file servers and cloud storage. Evaluate both options considering cost, security, accessibility, and reliability.",
+        model:"Local servers have high upfront hardware and maintenance cost but give the school complete control over data security and access — important for protecting confidential student records under data-protection law. Cloud storage has low initial cost (subscription) and automatic backups and updates, but ongoing fees accumulate and access depends on reliable internet. Cloud is superior for accessibility (any device, any location) and reliability (built-in redundancy). For a school, cloud is better for day-to-day access and disaster recovery; local storage is better for sensitive data requiring strict access control."
+      }
     ]
   },
-  {
-    id:"C7", ch:3, marks:6, topic:"Input/output devices and embedded systems",
+  { id:"C7", ch:3, marks:6, topic:"Input/output devices and embedded systems",
     parts:[
-      { label:"(a)", marks:2, q:"Explain what a sensor is and describe how an analogue sensor reading is converted into digital data that a computer can process. Give one example of a sensor and state the type of data it captures.",
-        model:"A sensor is an input device that detects a physical property from the environment and converts it into an electrical signal. Since sensors produce analogue signals (continuous varying values) and computers process digital data, an Analogue-to-Digital Converter (ADC) samples the signal at regular intervals and converts each sample to a binary number. Example: a temperature sensor (thermistor) captures temperature data in degrees — the resistance changes with temperature, producing a varying voltage that the ADC converts to digital values." },
-      { label:"(b)", marks:2, q:"Define an embedded system. Give two contrasting examples of embedded systems (one simple, one complex) and describe the dedicated function of each.",
-        model:"An embedded system is a computer system built into a device to perform a single, dedicated function, typically with limited user interaction. Simple example: a digital watch — contains a microprocessor that runs a fixed program to keep and display time. Complex example: an aircraft flight management system — contains multiple processors running real-time software to manage navigation, autopilot, fuel monitoring, and communication systems, with strict reliability requirements." },
-      { label:"(c)", marks:2, q:"Evaluate the advantages and disadvantages of embedded systems compared to general-purpose computers. Consider programmability, cost, power consumption, and flexibility in your answer.",
-        model:"Advantages: embedded systems are optimised for their specific task, so they are cheaper to manufacture (no excess hardware), consume less power (important for battery-powered devices), and are highly reliable. Disadvantages: they cannot be easily reprogrammed for different tasks (low flexibility) — if requirements change, the hardware may need replacing. General-purpose computers are flexible and reprogrammable but are more expensive, larger, and consume more power. Embedded systems are ideal for mass-produced consumer devices; general-purpose computers are needed when versatility is required." }
+      { label:"(a)", marks:2,
+        q:"Explain what a sensor is and how an analogue sensor reading becomes digital data a computer can process. Give one example.",
+        model:"A sensor detects a physical quantity from the environment and converts it to an electrical signal. Since sensors produce analogue signals (continuously varying voltages) and computers process digital data, an Analogue-to-Digital Converter (ADC) samples the signal at regular intervals and converts each sample to a binary number. Example: a temperature sensor (thermistor) — as temperature changes, resistance changes, producing a varying voltage that the ADC converts to a digital temperature reading in binary."
+      },
+      { label:"(b)", marks:2,
+        q:"Define an embedded system. Give two contrasting examples (one simple, one complex) and describe each one's dedicated function.",
+        model:"An embedded system is a computer processor permanently integrated into a device to perform one specific, dedicated function. Simple example: a digital watch — a small microprocessor runs a fixed program to count time and drive the display; it does nothing else. Complex example: an aircraft flight management system — multiple processors run real-time software managing navigation, autopilot, fuel monitoring, and radio communication simultaneously, with strict safety and reliability requirements."
+      },
+      { label:"(c)", marks:2,
+        q:"Evaluate the advantages and disadvantages of embedded systems vs general-purpose computers. Consider programmability, cost, power, and flexibility.",
+        model:"Advantages of embedded systems: optimised for their task (fast, reliable), low power consumption (critical for battery devices), low manufacturing cost (no unnecessary hardware), small physical size. Disadvantages: very limited programmability — changing the function typically requires replacing hardware; no flexibility for other tasks. General-purpose computers are fully reprogrammable and versatile but are larger, more expensive, and consume more power. Embedded systems are ideal for mass-produced consumer products; general-purpose computers are needed wherever flexibility and varied software use are required."
+      }
     ]
   },
-  {
-    id:"C8", ch:4, marks:6, topic:"Operating systems",
+  { id:"C8", ch:4, marks:6, topic:"Operating systems",
     parts:[
-      { label:"(a)", marks:2, q:"Identify and explain four key functions of an operating system. For each function, give a specific example of how it operates in practice.",
-        model:"1) Memory management — allocates RAM to running programs and frees it when programs close (e.g. assigning memory to Chrome when it opens). 2) Process management — schedules CPU time between multiple running processes using a scheduler (e.g. allowing a music player and browser to run concurrently). 3) File management — organises files in a directory structure and controls read/write access (e.g. Windows NTFS managing file permissions). 4) Device management — communicates with hardware via device drivers (e.g. loading the printer driver when a document is printed)." },
-      { label:"(b)", marks:2, q:"Explain what multitasking means in the context of an operating system. Describe how the OS scheduler manages multiple processes to create the illusion that they are running simultaneously.",
-        model:"Multitasking is the ability of an OS to run multiple processes apparently at the same time on a single CPU. The OS scheduler rapidly switches the CPU between processes, giving each a small time slice. Because switching happens thousands of times per second, users perceive all processes as running simultaneously. The scheduler uses algorithms (e.g. round-robin, priority scheduling) to decide which process runs next, prioritising time-sensitive tasks like audio playback over background processes." },
-      { label:"(c)", marks:2, q:"Explain the role of BIOS (Basic Input/Output System) in starting up a computer. Distinguish between BIOS stored in ROM and the operating system stored on secondary storage.",
-        model:"BIOS is firmware stored in ROM on the motherboard. When a computer is switched on, the CPU executes BIOS first. BIOS performs a Power-On Self Test (POST) to check that hardware components (RAM, keyboard, drives) are functioning, then locates the boot device (e.g. HDD/SSD) and loads the boot sector into RAM, which in turn loads the operating system. The key distinction: BIOS is in ROM (permanent, executes immediately, cannot be overwritten by normal users), while the OS is on secondary storage (flexible, updateable, loaded into RAM at startup each time)." }
+      { label:"(a)", marks:2,
+        q:"Identify and explain four key functions of an operating system. Give a practical example of each.",
+        model:"(1) Memory management — allocates RAM to programs as they launch and frees it when they close; e.g. Chrome is given a RAM block when opened. (2) Process management/scheduling — allocates CPU time to running processes using a scheduler; e.g. allows a browser and music player to run concurrently. (3) File management — organises files in a directory hierarchy and controls read/write permissions; e.g. Windows NTFS restricts which users can access system files. (4) Device management — loads and communicates with hardware via device drivers; e.g. loading a printer driver when a document is sent to print."
+      },
+      { label:"(b)", marks:2,
+        q:"Explain multitasking. Describe how the OS scheduler creates the illusion that multiple programs run simultaneously on a single CPU.",
+        model:"Multitasking is the ability of an OS to run multiple processes apparently at the same time on one CPU. The scheduler rapidly switches the CPU between processes, giving each a short time slice (typically a few milliseconds). Because switching happens thousands of times per second, all processes appear to run simultaneously to the user. The scheduler uses algorithms such as round-robin or priority scheduling to decide which process runs next, prioritising time-critical tasks like audio processing over background tasks."
+      },
+      { label:"(c)", marks:2,
+        q:"Explain the role of BIOS in starting up a computer. Distinguish between BIOS in ROM and the OS in secondary storage.",
+        model:"When power is switched on, the CPU immediately executes BIOS code stored in ROM. BIOS performs a Power-On Self Test (POST) to verify that RAM, keyboard, and storage devices are working, then locates the boot device and loads the boot sector into RAM, which in turn loads the OS. Key distinction: BIOS is stored in ROM (permanent, executes instantly on power-on, protected from accidental overwriting), whereas the OS is stored on secondary storage (flexible, updateable, but must be loaded into RAM each time the computer starts)."
+      }
     ]
   },
-  {
-    id:"C9", ch:4, marks:6, topic:"Programming languages and translators",
+  { id:"C9", ch:4, marks:6, topic:"Programming languages and translators",
     parts:[
-      { label:"(a)", marks:2, q:"Distinguish between high-level and low-level programming languages. Give one specific advantage of each type and explain why high-level languages are generally preferred for application development.",
-        model:"High-level languages (e.g. Python, Java) are closer to human language, use readable syntax, and are hardware-independent. Low-level languages (assembly, machine code) are closer to binary and specific to a processor\'s instruction set. Advantage of high-level: easier to read, write, and debug — one line can represent many machine instructions. Advantage of low-level: direct hardware control and faster execution with minimal memory use. High-level languages are preferred for application development because they are portable across hardware platforms and allow faster development with fewer errors." },
-      { label:"(b)", marks:2, q:"Compare a compiler and an interpreter in terms of: (i) how they translate code, (ii) error reporting, and (iii) execution speed. Recommend which is more suitable for a beginner programmer learning to code, justifying your answer.",
-        model:"(i) Compiler translates the entire program to machine code before execution; interpreter translates and executes one line at a time. (ii) Compiler reports all errors after the whole program is analysed; interpreter stops at the first error encountered. (iii) Compiled programs run faster since translation is done once; interpreted programs are slower as translation happens at runtime. Recommendation: an interpreter is better for beginners — immediate feedback on each line helps learners understand and fix errors quickly, making the learning loop faster and less overwhelming." },
-      { label:"(c)", marks:2, q:"Explain what assembly language is and the role of an assembler. Give one reason why a systems programmer might prefer to write certain routines in assembly language rather than a high-level language.",
-        model:"Assembly language is a low-level language that uses human-readable mnemonics (e.g. MOV, ADD, JMP) to represent machine code instructions specific to a processor\'s instruction set. An assembler translates assembly language source code directly into machine code (binary) that the CPU can execute. Reason a systems programmer might prefer it: direct control over hardware registers and memory — for example, writing a device driver or interrupt handler requires precise timing and memory access that high-level language abstractions cannot guarantee." }
+      { label:"(a)", marks:2,
+        q:"Distinguish between high-level and low-level programming languages. Give one advantage of each and explain why high-level is generally preferred for application development.",
+        model:"High-level languages (e.g. Python, Java) use human-readable syntax similar to English and are hardware-independent — the same code runs on different processors. Low-level languages (assembly, machine code) use processor-specific mnemonics or binary — they give direct hardware control but are hard to read and write. Advantage of high-level: faster to write, easier to debug, portable across platforms. Advantage of low-level: maximum speed and direct hardware access with minimal memory use. High-level is preferred for applications because portability, developer productivity, and maintainability outweigh the small performance advantage of low-level code."
+      },
+      { label:"(b)", marks:2,
+        q:"Compare a compiler and interpreter in terms of: (i) how they translate code, (ii) error reporting, (iii) execution speed. Recommend which is better for a beginner.",
+        model:"(i) Compiler: translates the entire program to machine code in one pass before execution; interpreter: translates and immediately executes one line at a time. (ii) Compiler: reports all errors found after scanning the whole program; interpreter: stops at the first error encountered, making errors visible immediately. (iii) Compiled programs run faster because translation is done once; interpreted programs are slower as translation happens at run time. Recommendation: an interpreter is better for beginners — immediate feedback on each error helps learners correct and understand mistakes line by line, making the learning cycle much faster."
+      },
+      { label:"(c)", marks:2,
+        q:"Explain what assembly language is and the role of an assembler. Give one reason a systems programmer might prefer assembly over a high-level language.",
+        model:"Assembly language is a low-level programming language that uses short mnemonics (e.g. MOV, ADD, JMP) to represent individual machine code instructions for a specific processor architecture. An assembler translates assembly language source code directly into machine code (binary) without the overhead of a compiler. Reason a systems programmer might prefer it: writing device drivers or interrupt handlers requires exact control over individual CPU registers, memory addresses, and timing that high-level language abstractions cannot guarantee."
+      }
     ]
   },
-  {
-    id:"C10", ch:4, marks:6, topic:"Software types and memory management",
+  { id:"C10", ch:4, marks:6, topic:"Software types and memory management",
     parts:[
-      { label:"(a)", marks:2, q:"Distinguish between system software, application software, and utility software. Give two specific examples of each type.",
-        model:"System software manages hardware and provides a platform for other software — examples: operating systems (Windows, macOS), device drivers. Application software performs specific user tasks — examples: Microsoft Word (word processing), Google Chrome (web browser). Utility software maintains and optimises the system — examples: antivirus software (Avast), disk defragmenter. Note: utility software is technically a subset of system software, but utilities are distinguished by their maintenance role rather than core OS functions." },
-      { label:"(b)", marks:2, q:"Explain what firmware is. Give two examples of firmware found in everyday devices and explain why firmware is important for device operation.",
-        model:"Firmware is software permanently stored in ROM (or flash memory) within a hardware device, providing low-level control of the device\'s specific hardware. It sits between hardware and higher-level software. Examples: (1) BIOS/UEFI in a computer motherboard — initialises hardware and boots the OS. (2) Firmware in a router — manages network routing protocols and wireless communication. Firmware is important because it provides the essential instructions the device needs to function at a basic level, even before any OS or application software loads." },
-      { label:"(c)", marks:2, q:"Describe how an operating system manages memory, including the concept of memory allocation and deallocation. Explain what happens if two programs require more memory than is physically available in RAM.",
-        model:"The OS maintains a memory map tracking which areas of RAM are in use and which are free. When a program starts, the OS allocates a block of RAM to it; when the program closes, that memory is deallocated (freed for reuse). If two programs together require more RAM than is physically available, the OS uses virtual memory — it moves the least recently used pages of data from RAM to a swap file on the hard disk, freeing RAM for the active program. If virtual memory is exhausted too, the OS may terminate a process or display an out-of-memory error." }
+      { label:"(a)", marks:2,
+        q:"Distinguish between system software, application software, and utility software. Give two specific examples of each.",
+        model:"System software manages hardware and provides a platform for other software — examples: operating systems (Windows, Linux), device drivers. Application software performs specific user tasks — examples: Microsoft Word (word processing), Google Chrome (web browser). Utility software maintains and optimises system performance — examples: antivirus software, disk defragmenter. Utility software is technically a subset of system software but is distinguished by its maintenance/optimisation role rather than core OS functions."
+      },
+      { label:"(b)", marks:2,
+        q:"Explain what firmware is. Give two examples in everyday devices and explain why firmware is essential.",
+        model:"Firmware is software permanently embedded in ROM (or flash memory) within a hardware device, providing the low-level instructions the device needs to function at a basic level — it sits between the hardware and any higher-level software. Examples: (1) BIOS/UEFI in a computer motherboard — initialises all hardware components and starts the OS boot process. (2) Firmware in a router — manages wireless protocols, routing tables, and security settings. Firmware is essential because without it the device has no instructions telling its processor what to do when powered on."
+      },
+      { label:"(c)", marks:2,
+        q:"Describe how an OS manages memory, including allocation and deallocation. Explain what happens if two programs together need more RAM than is available.",
+        model:"The OS maintains a memory map tracking which areas of RAM are allocated to which process and which are free. When a program starts, the OS allocates a contiguous block of RAM to it; when the program closes, that memory is deallocated and returned to the free pool. If two programs together need more RAM than is physically available, the OS uses virtual memory — it moves the least recently used pages from RAM to a swap file on the hard disk, freeing RAM for active processes. If even virtual memory is exhausted, the OS may forcibly terminate a process or display an out-of-memory error."
+      }
     ]
   }
 ];
@@ -762,7 +829,7 @@ let mcqDone = false;
 let mcqScore = 0;
 
 // ===============================================
-//  RENDER
+//  BEGIN EXAM
 // ===============================================
 function beginExam() {
   studentName = document.getElementById("sname").value.trim();
@@ -774,9 +841,11 @@ function beginExam() {
   renderLA();
 }
 
+// ===============================================
+//  RENDER
+// ===============================================
 function renderMCQ() {
-  const wrap = document.getElementById("mcq-wrap");
-  wrap.innerHTML = MCQ.map((q, i) => `
+  document.getElementById("mcq-wrap").innerHTML = MCQ.map((q, i) => `
     <div class="q-block" id="mcq-block-${i}">
       <div class="q-meta">
         <span>Q${i+1}</span>
@@ -786,20 +855,17 @@ function renderMCQ() {
       <div class="q-text">${q.q}</div>
       <ul class="opt-list">
         ${q.opts.map((o,j) => `
-          <li>
-            <label class="opt-label" id="opt-${i}-${j}">
-              <input type="radio" name="mcq${i}" value="${j}">
-              <span>${String.fromCharCode(65+j)}. ${o}</span>
-            </label>
-          </li>`).join("")}
+          <li><label class="opt-label" id="opt-${i}-${j}">
+            <input type="radio" name="mcq${i}" value="${j}">
+            <span>${String.fromCharCode(65+j)}. ${o}</span>
+          </label></li>`).join("")}
       </ul>
       <div class="fb-box" id="mcq-fb-${i}"></div>
     </div>`).join("");
 }
 
 function renderSA() {
-  const wrap = document.getElementById("sa-wrap");
-  wrap.innerHTML = SA.map((q, i) => `
+  document.getElementById("sa-wrap").innerHTML = SA.map((q, i) => `
     <div class="q-block" id="sa-block-${i}">
       <div class="q-meta">
         <span>${q.id}</span>
@@ -809,13 +875,16 @@ function renderSA() {
       <div class="q-text">${q.q}</div>
       <textarea class="open-textarea" id="sa-ans-${i}" rows="5" placeholder="Write your answer here..."></textarea>
       <div class="fb-box fb-ai" id="sa-fb-${i}"></div>
-      <div class="ai-status" id="sa-st-${i}"><div class="spinner"></div><span>Marking your answer...</span></div>
+      <div class="ai-status" id="sa-st-${i}"><div class="spinner"></div><span>Marking...</span></div>
+      <div class="model-answer" id="sa-ma-${i}">
+        <div class="model-answer-hd">Model Answer</div>
+        <div class="model-answer-body">${q.model}</div>
+      </div>
     </div>`).join("");
 }
 
 function renderLA() {
-  const wrap = document.getElementById("la-wrap");
-  wrap.innerHTML = LA.map((q, i) => `
+  document.getElementById("la-wrap").innerHTML = LA.map((q, i) => `
     <div class="q-block" id="la-block-${i}">
       <div class="q-meta">
         <span>${q.id}</span>
@@ -824,18 +893,22 @@ function renderLA() {
       </div>
       <div class="q-text"><strong>${q.topic}</strong></div>
       ${q.parts.map((p, j) => `
-        <div class="sub-q">
+        <div class="sub-q" id="la-subq-${i}-${j}">
           <div class="sub-label">${p.label} <span style="font-weight:normal;color:var(--hint);">[${p.marks} marks]</span></div>
-          <div class="sub-text">${p.q.replace(/\n/g, '<br>')}</div>
+          <div class="sub-text">${p.q}</div>
           <textarea class="open-textarea" id="la-ans-${i}-${j}" rows="5" placeholder="Answer for ${p.label}..."></textarea>
+          <div class="model-answer" id="la-ma-${i}-${j}">
+            <div class="model-answer-hd">Model Answer ${p.label}</div>
+            <div class="model-answer-body">${p.model}</div>
+          </div>
         </div>`).join("")}
       <div class="fb-box fb-ai" id="la-fb-${i}" style="margin-top:14px;"></div>
-      <div class="ai-status" id="la-st-${i}"><div class="spinner"></div><span>Marking your answer...</span></div>
+      <div class="ai-status" id="la-st-${i}"><div class="spinner"></div><span>Marking...</span></div>
     </div>`).join("");
 }
 
 // ===============================================
-//  MCQ MARKING
+//  MCQ MARKING — shows correct answer + explanation always
 // ===============================================
 function submitMCQ() {
   if (mcqDone) return;
@@ -844,33 +917,41 @@ function submitMCQ() {
   MCQ.forEach((q, i) => {
     const sel = document.querySelector(`input[name="mcq${i}"]:checked`);
     const chosen = sel ? parseInt(sel.value) : -1;
+    // Disable all radio buttons
     document.querySelectorAll(`input[name="mcq${i}"]`).forEach(r => r.disabled = true);
+    // Highlight correct and wrong
     q.opts.forEach((_, j) => {
       const lbl = document.getElementById(`opt-${i}-${j}`);
-      if (j === q.ans) lbl.classList.add(chosen === q.ans ? "correct" : "revealed");
-      else if (j === chosen) lbl.classList.add("wrong");
+      if (j === q.ans) {
+        lbl.classList.add(chosen === q.ans ? "correct" : "revealed");
+      } else if (j === chosen && chosen !== q.ans) {
+        lbl.classList.add("wrong");
+      }
     });
+    // Always show correct answer + explanation
     const fb = document.getElementById(`mcq-fb-${i}`);
     fb.style.display = "block";
     if (chosen === q.ans) {
       mcqScore++;
       fb.className = "fb-box fb-correct";
-      fb.innerHTML = `<span class="fb-score">✓ Correct (1/1)</span> — ${q.explain}`;
+      fb.innerHTML = `<span class="fb-score" style="color:var(--green);">Correct — 1/1</span><br><strong>Why:</strong> ${q.explain}`;
+    } else if (chosen === -1) {
+      fb.className = "fb-box fb-wrong";
+      fb.innerHTML = `<span class="fb-score" style="color:var(--red);">Not answered — 0/1</span><br><strong>Correct answer: ${String.fromCharCode(65+q.ans)}.</strong> ${q.explain}`;
     } else {
       fb.className = "fb-box fb-wrong";
-      const correctLetter = String.fromCharCode(65 + q.ans);
-      fb.innerHTML = `<span class="fb-score">✗ Incorrect (0/1)</span> — The correct answer is <strong>${correctLetter}</strong>. ${q.explain}`;
+      fb.innerHTML = `<span class="fb-score" style="color:var(--red);">Incorrect — 0/1</span><br><strong>Correct answer: ${String.fromCharCode(65+q.ans)}.</strong> ${q.explain}`;
     }
   });
   const btn = document.getElementById("mcq-btn");
   btn.disabled = true;
-  btn.textContent = `Section A Submitted — ${mcqScore}/10`;
+  btn.textContent = "Section A Submitted — " + mcqScore + "/10";
 }
 
 // ===============================================
 //  AI MARKING
 // ===============================================
-async function callClaude(systemPrompt, userPrompt) {
+async function callClaude(prompt) {
   const res = await fetch("https://api.anthropic.com/v1/messages", {
     method: "POST",
     headers: {
@@ -881,114 +962,88 @@ async function callClaude(systemPrompt, userPrompt) {
     },
     body: JSON.stringify({
       model: "claude-sonnet-4-20250514",
-      max_tokens: 1000,
-      system: systemPrompt,
-      messages: [{ role: "user", content: userPrompt }]
+      max_tokens: 800,
+      system: `You are a Cambridge IGCSE Computer Science examiner at Heritage Academy Singapore.
+Mark HOLISTICALLY — reward correct understanding in the student's own words, not just matching keywords.
+Rules:
+- Full marks for correct understanding even without exact textbook terms.
+- Partial marks for partially correct answers.
+- 0 for blank, gibberish, or completely wrong answers.
+- feedback: exactly 2 sentences. Sentence 1 = what was good or what was wrong/missing. Sentence 2 = one specific improvement tip naming the correct concept.
+- comment: 1 warm encouraging sentence to the student noting their effort or strongest point.
+Respond ONLY with valid JSON, no markdown fences:
+{"score":<integer>,"feedback":"<2 sentences>","comment":"<1 sentence>"}`,
+      messages: [{ role: "user", content: prompt }]
     })
   });
+  if (!res.ok) throw new Error("API error " + res.status);
   const data = await res.json();
-  const raw = data.content[0].text.trim().replace(/```json|```/g, "").trim();
+  if (!data.content || !data.content[0]) throw new Error("Empty API response");
+  const raw = data.content[0].text.trim().replace(/^```json|```$/g, "").trim();
   return JSON.parse(raw);
 }
-
-const MARKER_SYSTEM = `You are an experienced Cambridge IGCSE Computer Science examiner at Heritage Academy, Singapore.
-Your job is to mark student answers HOLISTICALLY — assess understanding, accuracy, and reasoning, NOT keyword matching.
-Rules:
-• Correct explanation in the student's own words earns full marks even without exact textbook vocabulary.
-• Award partial marks for partially correct or incomplete answers.
-• Deduct marks for factual errors.
-• If answer is blank or student says they do not know, award 0.
-• feedback must be exactly 2 sentences:
-  Sentence 1: What the student did well OR what was specifically incorrect/missing.
-  Sentence 2: One specific, actionable improvement tip referencing the correct concept.
-• comment must be a warm, encouraging 1-sentence personal note to the student — acknowledge their effort, note their strongest point, and motivate them to improve.
-• Respond ONLY with valid JSON. No markdown, no preamble.
-Format: {"score": <integer>, "feedback": "<2-sentence examiner feedback>", "comment": "<1-sentence personal comment to student>"}`;
 
 async function markSA(i) {
   const q = SA[i];
   const ans = document.getElementById(`sa-ans-${i}`).value.trim() || "[No answer provided]";
   const stEl = document.getElementById(`sa-st-${i}`);
+  const fbEl = document.getElementById(`sa-fb-${i}`);
+  const maEl = document.getElementById(`sa-ma-${i}`);
   stEl.style.display = "flex";
+  // Always reveal model answer regardless of API outcome
+  maEl.style.display = "block";
   try {
-    const result = await callClaude(MARKER_SYSTEM,
-      `Question (${q.marks} marks): "${q.q}"\n\nModel answer (for reference only — do not require student to match this exactly): "${q.model}"\n\nStudent's answer: "${ans}"\n\nAward 0 to ${q.marks} marks holistically.`);
-    const score = Math.min(q.marks, Math.max(0, result.score || 0));
-    const fb = document.getElementById(`sa-fb-${i}`);
-    fb.style.display = "block";
-    const scoreColor = score === q.marks ? "var(--green)" : score === 0 ? "var(--red)" : "var(--gold)";
-    fb.innerHTML = `
-      <div style="margin-bottom:8px;">
-        <span class="fb-score" style="color:${scoreColor};">${score}/${q.marks}</span>
-        <span style="margin-left:10px;font-size:13px;">${result.feedback}</span>
-      </div>
-      ${result.comment ? `<div style="font-style:italic;color:var(--navy2);font-size:13px;margin-top:6px;padding-top:6px;border-top:1px solid var(--blue-border);">💬 ${result.comment}</div>` : ""}`;
-    // Show model answer
-    const block = document.getElementById(`sa-block-${i}`);
-    let ma = block.querySelector(".model-answer");
-    if (!ma) {
-      ma = document.createElement("div");
-      ma.className = "model-answer";
-      block.appendChild(ma);
-    }
-    ma.innerHTML = `<div class="model-answer-hd">✦ Model Answer</div><div class="model-answer-body">${q.model}</div>`;
-    ma.style.display = "block";
+    const result = await callClaude(
+      `Question (${q.marks} marks): ${q.q}\n\nModel answer for examiner reference: ${q.model}\n\nStudent answer: ${ans}\n\nAward 0 to ${q.marks} marks.`
+    );
+    const score = Math.min(q.marks, Math.max(0, parseInt(result.score) || 0));
+    const col = score === q.marks ? "var(--green)" : score === 0 ? "var(--red)" : "var(--gold)";
+    fbEl.style.display = "block";
+    fbEl.innerHTML = `
+      <div><span class="fb-score" style="color:${col};">${score}/${q.marks}</span>&nbsp;&nbsp;${result.feedback}</div>
+      ${result.comment ? `<div style="margin-top:8px;padding-top:8px;border-top:1px solid var(--blue-border);font-style:italic;color:var(--navy2);font-size:13px;">${result.comment}</div>` : ""}`;
     stEl.style.display = "none";
     return { score, feedback: result.feedback, comment: result.comment || "", answer: ans };
   } catch(e) {
     stEl.style.display = "none";
-    const fb = document.getElementById(`sa-fb-${i}`);
-    fb.style.display = "block";
-    fb.innerHTML = `<span class="fb-score">⚠ Marking error</span> — Could not connect to AI marker. Check API key.`;
-    return { score: 0, feedback: "Marking error.", comment: "", answer: ans };
+    fbEl.style.display = "block";
+    fbEl.innerHTML = `<span class="fb-score" style="color:var(--red);">AI marking unavailable</span> — Check your API key. Model answer is shown above.`;
+    return { score: 0, feedback: "API error.", comment: "", answer: ans };
   }
 }
 
 async function markLA(i) {
   const q = LA[i];
-  const partsText = q.parts.map((p, j) => {
-    const ans = document.getElementById(`la-ans-${i}-${j}`).value.trim() || "[No answer provided]";
-    return `${p.label} [${p.marks} marks]: ${p.q}\nModel answer (reference only): ${p.model}\nStudent answer: ${ans}`;
-  }).join("\n\n");
-  const allAnswers = q.parts.map((p, j) => document.getElementById(`la-ans-${i}-${j}`).value.trim() || "[No answer]");
+  const fbEl = document.getElementById(`la-fb-${i}`);
   const stEl = document.getElementById(`la-st-${i}`);
+  // Collect answers and always show model answers
+  const partsData = q.parts.map((p, j) => {
+    const ans = document.getElementById(`la-ans-${i}-${j}`).value.trim() || "[No answer provided]";
+    document.getElementById(`la-ma-${i}-${j}`).style.display = "block";
+    return { p, ans };
+  });
   stEl.style.display = "flex";
+  const allAnswers = partsData.map(d => d.ans);
+  const promptParts = partsData.map(d =>
+    `${d.p.label} [${d.p.marks} marks]: ${d.p.q}\nModel answer: ${d.p.model}\nStudent answer: ${d.ans}`
+  ).join("\n\n");
   try {
-    const result = await callClaude(MARKER_SYSTEM,
-      `Long answer question on "${q.topic}" (${q.marks} marks total, ${q.parts.length} parts of ${q.parts.map(p=>p.marks).join("/")} marks each):\n\n${partsText}\n\nAward a total score out of ${q.marks} holistically across all parts.`);
-    const score = Math.min(q.marks, Math.max(0, result.score || 0));
-    const fb = document.getElementById(`la-fb-${i}`);
-    fb.style.display = "block";
-    const scoreColor = score >= q.marks*0.8 ? "var(--green)" : score <= q.marks*0.3 ? "var(--red)" : "var(--gold)";
-    fb.innerHTML = `
-      <div style="margin-bottom:8px;">
-        <span class="fb-score" style="color:${scoreColor};">${score}/${q.marks}</span>
-        <span style="margin-left:10px;font-size:13px;">${result.feedback}</span>
-      </div>
-      ${result.comment ? `<div style="font-style:italic;color:var(--navy2);font-size:13px;margin-top:6px;padding-top:6px;border-top:1px solid var(--blue-border);">💬 ${result.comment}</div>` : ""}`;
-    // Show model answers per part
-    const block = document.getElementById(`la-block-${i}`);
-    q.parts.forEach((p, j) => {
-      const subqs = block.querySelectorAll(".sub-q");
-      if (subqs[j]) {
-        let ma = subqs[j].querySelector(".model-answer");
-        if (!ma) {
-          ma = document.createElement("div");
-          ma.className = "model-answer";
-          subqs[j].appendChild(ma);
-        }
-        ma.innerHTML = `<div class="model-answer-hd">✦ Model Answer ${p.label}</div><div class="model-answer-body">${p.model}</div>`;
-        ma.style.display = "block";
-      }
-    });
+    const result = await callClaude(
+      `Long answer on "${q.topic}" (${q.marks} marks total across ${q.parts.length} parts):\n\n${promptParts}\n\nAward total 0-${q.marks} marks.`
+    );
+    const score = Math.min(q.marks, Math.max(0, parseInt(result.score) || 0));
+    const col = score >= q.marks * 0.75 ? "var(--green)" : score <= q.marks * 0.3 ? "var(--red)" : "var(--gold)";
+    fbEl.style.display = "block";
+    fbEl.innerHTML = `
+      <div><span class="fb-score" style="color:${col};">${score}/${q.marks}</span>&nbsp;&nbsp;${result.feedback}</div>
+      ${result.comment ? `<div style="margin-top:8px;padding-top:8px;border-top:1px solid var(--blue-border);font-style:italic;color:var(--navy2);font-size:13px;">${result.comment}</div>` : ""}`;
     stEl.style.display = "none";
     return { score, feedback: result.feedback, comment: result.comment || "", answers: allAnswers };
   } catch(e) {
     stEl.style.display = "none";
-    const fb = document.getElementById(`la-fb-${i}`);
-    fb.style.display = "block";
-    fb.innerHTML = `<span class="fb-score">⚠ Marking error</span> — Could not connect to AI marker.`;
-    return { score: 0, feedback: "Marking error.", comment: "", answers: q.parts.map((p,j) => document.getElementById(`la-ans-${i}-${j}`).value.trim()) };
+    fbEl.style.display = "block";
+    fbEl.innerHTML = `<span class="fb-score" style="color:var(--red);">AI marking unavailable</span> — Check your API key. Model answers are shown above.`;
+    return { score: 0, feedback: "API error.", comment: "", answers: allAnswers };
   }
 }
 
@@ -996,79 +1051,76 @@ async function markLA(i) {
 //  SUBMIT ALL
 // ===============================================
 async function submitAll() {
+  // Force MCQ submit if student skipped it
   if (!mcqDone) submitMCQ();
   // Lock all textareas
-  document.querySelectorAll(".open-textarea").forEach(t => { t.disabled = true; t.style.background = "var(--surface2)"; t.style.color = "var(--muted)"; });
-  const btn = document.getElementById("final-btn");
-  btn.disabled = true;
+  document.querySelectorAll(".open-textarea").forEach(t => {
+    t.disabled = true;
+    t.style.background = "var(--surface2)";
+    t.style.color = "var(--muted)";
+  });
+  document.getElementById("final-btn").disabled = true;
   const statusEl = document.getElementById("global-status");
-  const total_q = SA.length + LA.length;
+  const total = SA.length + LA.length;
   let done = 0;
 
   function setStatus(msg) {
     statusEl.innerHTML = `<div class="spinner"></div><span>${msg}</span>`;
   }
 
-  setStatus(`Marking Section B... (0/${total_q})`);
-
+  setStatus("Marking Section B... (0/" + total + ")");
   const saResults = [];
   for (let i = 0; i < SA.length; i++) {
-    const r = await markSA(i);
-    saResults.push(r);
+    saResults.push(await markSA(i));
     done++;
-    setStatus(`Marking written answers... (${done}/${total_q})`);
+    setStatus("Marking answers... (" + done + "/" + total + ")");
   }
 
   const laResults = [];
   for (let i = 0; i < LA.length; i++) {
-    const r = await markLA(i);
-    laResults.push(r);
+    laResults.push(await markLA(i));
     done++;
-    setStatus(`Marking written answers... (${done}/${total_q})`);
+    setStatus("Marking answers... (" + done + "/" + total + ")");
   }
-
-  statusEl.innerHTML = `<span>✓ Marking complete. Sending results to Google Sheets...</span>`;
 
   const saTotal = saResults.reduce((s, r) => s + r.score, 0);
   const laTotal = laResults.reduce((s, r) => s + r.score, 0);
-  const grand = mcqScore + saTotal + laTotal;
-  const pct = grand;
-  const grade = pct >= 90 ? "A*" : pct >= 80 ? "A" : pct >= 70 ? "B" : pct >= 60 ? "C" : pct >= 50 ? "D" : pct >= 40 ? "E" : "U";
+  const grand   = mcqScore + saTotal + laTotal;
+  const grade   = grand >= 90 ? "A*" : grand >= 80 ? "A" : grand >= 70 ? "B" : grand >= 60 ? "C" : grand >= 50 ? "D" : grand >= 40 ? "E" : "U";
 
-  showResults(grand, pct, grade, saTotal, laTotal);
-  await sendToSheet(saResults, laResults, saTotal, laTotal, grand, pct, grade);
-  statusEl.innerHTML = `<span>✓ Results recorded. Scroll up to review your feedback.</span>`;
+  statusEl.innerHTML = "Marking complete. Sending to Google Sheets...";
+  showScoreCard(grand, grade, saTotal, laTotal);
+  await sendToSheet(saResults, laResults, saTotal, laTotal, grand, grade);
+  statusEl.innerHTML = "Done. Your score card is below. Scroll up to review all feedback and model answers.";
 }
 
 // ===============================================
-//  RESULTS DISPLAY
+//  SCORE CARD — inserted at top, exam stays visible
 // ===============================================
-function showResults(grand, pct, grade, saTotal, laTotal) {
-  document.getElementById("examBody").classList.add("hidden");
-  const resultsEl = document.getElementById("results");
-  resultsEl.classList.remove("hidden");
-
-  document.getElementById("score-card").innerHTML = `
-    <div class="sc-name">${studentName} — SA1 2026 Results</div>
+function showScoreCard(grand, grade, saTotal, laTotal) {
+  const card = document.getElementById("score-card");
+  card.innerHTML = `
+    <div class="sc-name">${studentName} — SA1 2026</div>
     <div class="sc-total">${grand}<span style="font-size:28px;opacity:0.4;">/100</span></div>
-    <div class="sc-pct">${pct}%</div>
+    <div class="sc-pct">${grand}%</div>
     <div class="sc-grade">Grade: ${grade}</div>
     <div class="sc-grid">
-      <div class="sc-tile"><div class="val">${mcqScore}/10</div><div class="lbl">Section A * MCQ</div></div>
-      <div class="sc-tile"><div class="val">${saTotal}/30</div><div class="lbl">Section B * Short Answer</div></div>
-      <div class="sc-tile"><div class="val">${laTotal}/60</div><div class="lbl">Section C * Long Answer</div></div>
+      <div class="sc-tile"><div class="val">${mcqScore}/10</div><div class="lbl">Section A MCQ</div></div>
+      <div class="sc-tile"><div class="val">${saTotal}/30</div><div class="lbl">Section B Short Answer</div></div>
+      <div class="sc-tile"><div class="val">${laTotal}/60</div><div class="lbl">Section C Long Answer</div></div>
     </div>
-    <div class="sc-note">Scroll up to review individual question feedback from your AI examiner.</div>`;
-
-  resultsEl.scrollIntoView({ behavior: "smooth" });
+    <div class="sc-note">Scroll up through the exam to review your feedback and model answers for every question.</div>`;
+  document.getElementById("results").classList.remove("hidden");
+  document.getElementById("results").scrollIntoView({ behavior: "smooth" });
 }
 
 // ===============================================
-//  GOOGLE SHEETS VIA APPS SCRIPT WEBHOOK
+//  GOOGLE SHEETS WEBHOOK
 // ===============================================
-async function sendToSheet(saResults, laResults, saTotal, laTotal, grand, pct, grade) {
+async function sendToSheet(saResults, laResults, saTotal, laTotal, grand, grade) {
+  const noteEl = document.getElementById("result-note");
   if (!SHEET_WEBHOOK || SHEET_WEBHOOK.includes("PASTE")) {
-    document.getElementById("result-note").textContent = "No webhook URL configured — results not sent to Google Sheets.";
+    noteEl.textContent = "No webhook URL set — results not sent to Google Sheets.";
     return;
   }
   const payload = {
@@ -1079,19 +1131,19 @@ async function sendToSheet(saResults, laResults, saTotal, laTotal, grand, pct, g
     la_score: laTotal,
     total: grand,
     max: 100,
-    pct: pct,
+    pct: grand,
     grade: grade,
-    sa_answers: saResults.map((r,i) => `B${i+1}: ${r.answer}`).join(" || "),
-    la_answers: laResults.map((r,i) => `C${i+1}: ${(r.answers||[]).join(" | ")}`).join(" || "),
-    sa_feedback: saResults.map((r,i) => `B${i+1} (${r.score}/3): ${r.feedback}`).join(" || "),
-    la_feedback: laResults.map((r,i) => `C${i+1} (${r.score}/6): ${r.feedback}`).join(" || ")
+    sa_answers:  saResults.map((r,i) => "B"+(i+1)+": "+r.answer).join(" || "),
+    la_answers:  laResults.map((r,i) => "C"+(i+1)+": "+(r.answers||[]).join(" | ")).join(" || "),
+    sa_feedback: saResults.map((r,i) => "B"+(i+1)+" ("+r.score+"/3): "+r.feedback).join(" || "),
+    la_feedback: laResults.map((r,i) => "C"+(i+1)+" ("+r.score+"/6): "+r.feedback).join(" || ")
   };
   try {
     const encoded = btoa(unescape(encodeURIComponent(JSON.stringify(payload))));
-    await fetch(`${SHEET_WEBHOOK}?data=${encodeURIComponent(encoded)}`, { mode: "no-cors" });
-    document.getElementById("result-note").textContent = "✓ Results recorded in Google Sheets.";
+    await fetch(SHEET_WEBHOOK + "?data=" + encodeURIComponent(encoded), { mode: "no-cors" });
+    noteEl.textContent = "Results recorded in Google Sheets.";
   } catch(e) {
-    document.getElementById("result-note").textContent = "⚠ Could not send to Google Sheets — check webhook URL.";
+    noteEl.textContent = "Could not send to Google Sheets — check webhook URL.";
   }
 }
 </script>
