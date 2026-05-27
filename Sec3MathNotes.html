@@ -1,0 +1,1322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Secondary 3 Mathematics — Revision Notes</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css">
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.js"></script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}]})"></script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Source+Sans+3:wght@400;600;700&family=Fira+Mono:wght@400;500&display=swap');
+:root{--navy:#1a2e4a;--blue:#2563a8;--teal:#0e7490;--gold:#c8860a;--green:#1a7a4a;--red:#b02020;--purple:#6d28d9;--bg:#f8f7f4;--border:#c8d8e8;--text:#1a1a2e;--muted:#5a6a7a;}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Source Sans 3',sans-serif;background:var(--bg);color:var(--text);font-size:17px;line-height:1.8;}
+.cover{background:linear-gradient(135deg,#0e1a2e 0%,#1a3a6a 100%);color:white;text-align:center;padding:80px 40px 60px;position:relative;overflow:hidden;}
+.cover::before{content:'';position:absolute;inset:0;background:repeating-linear-gradient(45deg,rgba(255,255,255,.025) 0,rgba(255,255,255,.025) 1px,transparent 1px,transparent 32px);}
+.cover h1{font-family:'Libre Baskerville',serif;font-size:2.9rem;position:relative;letter-spacing:.02em;}
+.cover h2{font-size:1.25rem;font-weight:400;color:#90b8d8;margin-top:12px;position:relative;}
+.cover .subtitle{margin-top:20px;font-size:.95rem;color:#6090b0;position:relative;}
+.toc{max-width:860px;margin:40px auto;padding:28px 40px;background:#fff;border:1px solid var(--border);border-radius:4px;}
+.toc h3{font-family:'Libre Baskerville',serif;color:var(--navy);font-size:1.05rem;margin-bottom:14px;border-bottom:2px solid var(--navy);padding-bottom:6px;}
+.toc ol{padding-left:20px;columns:2;column-gap:40px;}
+.toc li{margin-bottom:5px;font-size:.9rem;}
+.toc a{color:var(--blue);text-decoration:none;}
+.toc a:hover{text-decoration:underline;}
+.page{max-width:860px;margin:0 auto;padding:0 24px 60px;}
+.chapter{margin-top:56px;border-top:3px solid var(--navy);padding-top:22px;}
+.chapter-title{font-family:'Libre Baskerville',serif;font-size:1.55rem;color:var(--navy);margin-bottom:22px;}
+.chapter-title span{display:inline-block;background:var(--navy);color:white;font-size:.78rem;font-family:'Source Sans 3',sans-serif;padding:2px 10px;border-radius:2px;vertical-align:middle;margin-right:10px;}
+.section{margin:28px 0;}
+.section-title{font-family:'Libre Baskerville',serif;font-size:1.1rem;color:var(--blue);border-bottom:1px solid var(--border);padding-bottom:4px;margin-bottom:14px;font-weight:700;text-decoration:underline;}
+.subsection{font-size:1.05rem;font-weight:700;color:var(--navy);margin:16px 0 8px;}
+p{margin-bottom:12px;}
+.formula{background:#eff6ff;border-left:4px solid var(--blue);border-radius:0 4px 4px 0;padding:14px 22px;margin:14px 0;font-size:1.1rem;overflow-x:auto;}
+.formula-green{background:#f0fff4;border-left:4px solid var(--green);border-radius:0 4px 4px 0;padding:14px 22px;margin:14px 0;font-size:1.1rem;}
+.formula-gold{background:#fffbeb;border-left:4px solid var(--gold);border-radius:0 4px 4px 0;padding:14px 22px;margin:14px 0;font-size:1.1rem;}
+.example{background:#fafaf5;border:1px solid #d8d8b0;border-radius:4px;padding:16px 22px;margin:16px 0;}
+.ex-label{font-weight:700;color:var(--gold);font-size:.88rem;text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px;}
+.ex-step{margin:7px 0 7px 18px;font-size:1rem;}
+.note{background:#f0fff4;border:1px solid #a0d8b0;border-radius:4px;padding:12px 18px;margin:14px 0;font-size:.98rem;color:var(--green);}
+.warn{background:#fff7ed;border:1px solid #f59e0b;border-radius:4px;padding:12px 18px;margin:14px 0;font-size:.98rem;color:#92400e;}
+table{width:100%;border-collapse:collapse;margin:16px 0;font-size:1rem;}
+th{background:var(--navy);color:white;padding:11px 16px;text-align:left;font-weight:600;font-size:1rem;}
+td{padding:10px 16px;border:1px solid var(--border);vertical-align:top;}
+tr:nth-child(even) td{background:#f4f8fc;}
+.diagram-wrap{margin:20px auto;display:flex;flex-direction:column;align-items:center;gap:8px;}
+.diagram-row{display:flex;gap:40px;justify-content:center;flex-wrap:wrap;align-items:flex-start;margin:18px 0;}
+.diagram-caption{font-size:.92rem;color:var(--muted);font-style:italic;text-align:center;}
+svg text{font-family:'Source Sans 3',sans-serif;}
+.indices-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px 32px;margin:14px 0;}
+.indices-row{display:flex;gap:16px;align-items:baseline;}
+.law{background:#f4f8fc;border:1px solid var(--border);border-radius:4px;padding:8px 14px;margin:5px 0;font-size:.95rem;}
+@media print{.chapter{break-before:page;}}
+</style>
+</head>
+<body>
+<div class="cover">
+  <h1>Secondary 3 Mathematics</h1>
+  <h2>Complete Revision Notes — All 10 Chapters</h2>
+  <p class="subtitle">Diagrams · LaTeX Equations · Key Formulas · Worked Examples</p>
+</div>
+<div class="toc">
+  <h3>Contents</h3>
+  <ol>
+    <li><a href="#ch1">Indices</a></li>
+    <li><a href="#ch2">Quadratic Equations</a></li>
+    <li><a href="#ch3">Linear Inequalities</a></li>
+    <li><a href="#ch4">Coordinate Geometry</a></li>
+    <li><a href="#ch5">Graphs</a></li>
+    <li><a href="#ch6">Congruence and Similarity</a></li>
+    <li><a href="#ch7">Properties of Circles</a></li>
+    <li><a href="#ch8">Trigonometry</a></li>
+    <li><a href="#ch9">Applications of Trigonometry</a></li>
+    <li><a href="#ch10">Circular Measure</a></li>
+  </ol>
+</div>
+<div class="page">
+
+<!-- ═══════════════════ CH 1: INDICES ═══════════════════ -->
+<div class="chapter" id="ch1">
+  <div class="chapter-title"><span>Ch 1</span> Indices</div>
+  <p>$a^n$ means the $n^{\text{th}}$ power of $a$, where $a>0$ and $n$ is a positive integer. $a$ is the <strong>base</strong>, $n$ is the <strong>index</strong> (power).</p>
+  <div class="formula">$$a^m = \underbrace{a \times a \times a \times \cdots \times a}_{m \text{ factors}}$$</div>
+
+  <div class="section">
+    <div class="section-title">Laws of Indices</div>
+    <table>
+      <tr><th>#</th><th>Law</th><th>Condition</th><th>Example</th></tr>
+      <tr><td>1</td><td>$a^m \times a^n = a^{m+n}$</td><td>Same base</td><td>$2^3 \times 2^6 = 2^9$</td></tr>
+      <tr><td>2</td><td>$a^m \div a^n = a^{m-n}$</td><td>Same base</td><td>$2^7 \div 2^2 = 2^5$</td></tr>
+      <tr><td>3</td><td>$a^m \times b^m = (a \times b)^m$</td><td>Same index</td><td>$2^3 \times 5^3 = 10^3$</td></tr>
+      <tr><td>4</td><td>$a^m \div b^m = \left(\dfrac{a}{b}\right)^m$</td><td>Same index</td><td>$2^3 \div 5^3 = \left(\dfrac{2}{5}\right)^3$</td></tr>
+      <tr><td>5</td><td>$(a^m)^n = a^{mn}$</td><td>Power of power</td><td>$(2^3)^4 = 2^{12}$</td></tr>
+      <tr><td>6</td><td>$a^0 = 1$</td><td>Zero index</td><td>$2^0 = 1$</td></tr>
+      <tr><td>7</td><td>$a^1 = a$</td><td>Index of 1</td><td>$2^1 = 2$</td></tr>
+      <tr><td>8</td><td>$a^{-m} = \dfrac{1}{a^m}$</td><td>Negative index</td><td>$2^{-3} = \dfrac{1}{2^3}$</td></tr>
+      <tr><td>9</td><td>$\left(\dfrac{a}{b}\right)^{-m} = \left(\dfrac{b}{a}\right)^m$</td><td>Negative index (fraction)</td><td>$\left(\dfrac{2}{5}\right)^{-3} = \left(\dfrac{5}{2}\right)^3$</td></tr>
+      <tr><td>10</td><td>$a^{\frac{1}{m}} = \sqrt[m]{a}$</td><td>Fractional index</td><td>$2^{\frac{1}{3}} = \sqrt[3]{2}$</td></tr>
+      <tr><td>11</td><td>$a^{\frac{m}{n}} = \sqrt[n]{a^m}$</td><td>Fractional index</td><td>$2^{\frac{3}{5}} = \sqrt[5]{2^3}$</td></tr>
+    </table>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Solving Indices Equations</div>
+    <div class="note"><strong>Key principle:</strong> If $a^m = a^n \Rightarrow m = n$ &nbsp;|&nbsp; If $a^m = b^m \Rightarrow a = b$</div>
+    <div class="example">
+      <div class="ex-label">Example 1 — Solve $125^{x+1} = 0.2$</div>
+      <div class="ex-step">$(5^3)^{x+1} = 5^{-1}$</div>
+      <div class="ex-step">$5^{3x+3} = 5^{-1}$</div>
+      <div class="ex-step">$3x + 3 = -1 \Rightarrow x = -\dfrac{4}{3}$</div>
+    </div>
+    <div class="example">
+      <div class="ex-label">Example 2 — Substitution: Solve $2^{2x+3} + 2^{x+2} + 3(2^x) = 1$</div>
+      <div class="ex-step">Let $U = 2^x$: $\quad 8U^2 + 4U + 3U = 1$</div>
+      <div class="ex-step">$8U^2 + 7U - 1 = 0 \Rightarrow (8U-1)(U+1) = 0$</div>
+      <div class="ex-step">$U = \dfrac{1}{8}$ or $U = -1$ (N.A. since $2^x > 0$)</div>
+      <div class="ex-step">$2^x = 2^{-3} \Rightarrow x = -3$</div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════ CH 2: QUADRATIC EQUATIONS ═══════════════════ -->
+<div class="chapter" id="ch2">
+  <div class="chapter-title"><span>Ch 2</span> Quadratic Equations</div>
+  <p>A quadratic equation is in the form $ax^2 + bx + c = 0$ where $a, b, c$ are constants and $a \neq 0$.</p>
+  <p>Three methods of solution: (i) Factorisation &nbsp; (ii) Completing the square &nbsp; (iii) Quadratic formula</p>
+
+  <div class="section">
+    <div class="section-title">(i) Factorisation — Cross Method</div>
+    <div class="example">
+      <div class="ex-label">Example — Solve $2x^2 - 3x - 9 = 0$</div>
+      <!-- Cross diagram — enlarged for clarity -->
+      <div class="diagram-wrap">
+        <svg width="520" height="220" viewBox="0 0 520 220" style="max-width:100%">
+          <!-- vertical divider and horizontal divider -->
+          <line x1="160" y1="20" x2="160" y2="200" stroke="#777" stroke-width="2"/>
+          <line x1="40"  y1="150" x2="430" y2="150" stroke="#777" stroke-width="2"/>
+
+          <!-- Row 1 labels: 2x  |  +3  |  +3x -->
+          <text x="90"  y="100" text-anchor="middle" font-size="24" fill="#333" font-style="italic" font-weight="600">2x</text>
+          <text x="240" y="100" text-anchor="middle" font-size="24" fill="#27ae60" font-weight="700">+3</text>
+          <text x="355" y="100" text-anchor="start"  font-size="22" fill="#27ae60" font-weight="600">+3x</text>
+
+          <!-- X cross lines between 2x and +3 -->
+          <line x1="130" y1="55"  x2="220" y2="140" stroke="#27ae60" stroke-width="2.5"/>
+          <line x1="130" y1="140" x2="220" y2="55"  stroke="#27ae60" stroke-width="2.5"/>
+
+          <!-- Row 2 labels: x  |  −3  |  −6x -->
+          <text x="90"  y="140" text-anchor="middle" font-size="24" fill="#333" font-style="italic" font-weight="600">x</text>
+          <text x="240" y="140" text-anchor="middle" font-size="24" fill="#27ae60" font-weight="700">−3</text>
+          <text x="355" y="140" text-anchor="start"  font-size="22" fill="#27ae60" font-weight="600">−6x</text>
+
+          <!-- Horizontal rule under rows -->
+          <line x1="40" y1="168" x2="290" y2="168" stroke="#777" stroke-width="1.5"/>
+
+          <!-- Bottom row: 2x²  |  −9  |  −3x ✓ -->
+          <text x="90"  y="196" text-anchor="middle" font-size="22" fill="#333" font-style="italic">2x²</text>
+          <text x="240" y="196" text-anchor="middle" font-size="22" fill="#333">−9</text>
+          <text x="355" y="196" text-anchor="start"  font-size="22" fill="#27ae60" font-weight="600">−3x ✓</text>
+        </svg>
+        <div class="diagram-caption">Cross-multiplication check: $+3x + (-6x) = -3x$ ✓</div>
+      </div>
+      <div class="ex-step">$(2x+3)(x-3) = 0$</div>
+      <div class="ex-step">$$x = -\frac{3}{2} \quad \text{or} \quad x = 3$$</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">(ii) Completing the Square</div>
+    <p>Steps for $ax^2 + bx + c = 0,\ a \neq 0$:</p>
+    <table>
+      <tr><th>Step</th><th>Action</th><th>Result</th></tr>
+      <tr><td>1</td><td>Divide by $a$</td><td>$x^2 + \dfrac{b}{a}x + \dfrac{c}{a} = 0$</td></tr>
+      <tr><td>2</td><td>Move constant to RHS</td><td>$x^2 + \dfrac{b}{a}x = -\dfrac{c}{a}$</td></tr>
+      <tr><td>3</td><td>Add $\left(\dfrac{b}{2a}\right)^2$ to both sides</td><td>$x^2 + \dfrac{b}{a}x + \left(\dfrac{b}{2a}\right)^2 = -\dfrac{c}{a} + \left(\dfrac{b}{2a}\right)^2$</td></tr>
+      <tr><td>4</td><td>Factorise LHS as perfect square</td><td>$\left(x + \dfrac{b}{2a}\right)^2 = \ldots$</td></tr>
+      <tr><td>5</td><td>Take square root and solve</td><td>$x = \ldots$</td></tr>
+    </table>
+    <div class="example">
+      <div class="ex-label">Example — Solve $2x^2 - 3x - 9 = 0$ by completing the square</div>
+      <div class="ex-step">$x^2 - \dfrac{3}{2}x - \dfrac{9}{2} = 0$</div>
+      <div class="ex-step">$x^2 - \dfrac{3}{2}x + \left(-\dfrac{3}{4}\right)^2 = \dfrac{9}{2} + \dfrac{9}{16} = \dfrac{81}{16}$</div>
+      <div class="ex-step">$\left(x - \dfrac{3}{4}\right)^2 = \dfrac{81}{16}$</div>
+      <div class="ex-step">$x - \dfrac{3}{4} = \pm\dfrac{9}{4}$</div>
+      <div class="ex-step">$$x = 3 \quad \text{or} \quad x = -\frac{3}{2}$$</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">(iii) Quadratic Formula</div>
+    <div class="formula">$$x = \frac{-b \pm \sqrt{b^2 - 4ac}}{2a}$$</div>
+    <div class="warn"><strong>Discriminant:</strong> If $b^2 - 4ac < 0$, the equation has <strong>no real roots</strong>.</div>
+    <div class="example">
+      <div class="ex-label">Example — Solve $2x^2 - 4x + 1 = 0$ ($a=2, b=-4, c=1$)</div>
+      <div class="ex-step">$x = \dfrac{4 \pm \sqrt{16 - 8}}{4} = \dfrac{4 \pm \sqrt{8}}{4}$</div>
+      <div class="ex-step">$x \approx 1.71$ or $x \approx 0.293$ (to 3 s.f.)</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Graphical Method</div>
+    <p>Solutions of $ax^2 + bx + c = 0$ are the $x$-intercepts (where $y=0$) of the parabola $y = ax^2 + bx + c$.</p>
+    <div class="diagram-row">
+      <!-- a>0: upward parabola crossing x-axis at two points -->
+      <div style="text-align:center">
+        <svg width="220" height="220" viewBox="0 0 220 220" style="max-width:100%">
+          <defs><marker id="aQ" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0,8 3,0 6" fill="#555"/></marker></defs>
+          <defs><pattern id="sg3" width="20" height="20" patternUnits="userSpaceOnUse"><path d="M 20 0 L 0 0 0 20" fill="none" stroke="#e8eef4" stroke-width="0.8"/></pattern></defs>
+          <rect width="220" height="220" fill="url(#sg3)"/>
+          <line x1="10" y1="120" x2="210" y2="120" stroke="#444" stroke-width="1.8" marker-end="url(#aQ)"/>
+          <line x1="110" y1="210" x2="110" y2="10" stroke="#444" stroke-width="1.8" marker-end="url(#aQ)"/>
+          <text x="212" y="124" font-size="16" font-style="italic" fill="#444">x</text>
+          <text x="114" y="8" font-size="16" font-style="italic" fill="#444">y</text>
+          <!-- upward parabola, x-intercepts at ~60 and ~160 (x=-3/2 and x=3) -->
+          <path d="M 30,180 Q 110,30 190,180" fill="none" stroke="#7c3aed" stroke-width="2.8"/>
+          <!-- x-intercept marks -->
+          <circle cx="60" cy="120" r="5" fill="#b02020"/>
+          <circle cx="160" cy="120" r="5" fill="#b02020"/>
+          <text x="47" y="138" font-size="17" fill="#b02020">$-\frac{3}{2}$</text>
+          <text x="157" y="138" font-size="17" fill="#b02020">$3$</text>
+          <!-- axis of symmetry dashed -->
+          <line x1="110" y1="50" x2="110" y2="120" stroke="#888" stroke-width="1.2" stroke-dasharray="5,3"/>
+          <text x="60" y="40" font-size="16" fill="#555">$y=2x^2-3x-9$</text>
+        </svg>
+        <div class="diagram-caption">$a > 0$: opens upwards</div>
+      </div>
+      <!-- a<0: downward parabola -->
+      <div style="text-align:center">
+        <svg width="220" height="220" viewBox="0 0 220 220" style="max-width:100%">
+          <rect width="220" height="220" fill="url(#sg3)"/>
+          <line x1="10" y1="110" x2="210" y2="110" stroke="#444" stroke-width="1.8" marker-end="url(#aQ)"/>
+          <line x1="110" y1="210" x2="110" y2="10" stroke="#444" stroke-width="1.8" marker-end="url(#aQ)"/>
+          <text x="212" y="114" font-size="16" font-style="italic" fill="#444">x</text>
+          <text x="114" y="8" font-size="16" font-style="italic" fill="#444">y</text>
+          <!-- downward parabola with max point -->
+          <path d="M 30,180 Q 110,20 190,180" fill="none" stroke="#b02020" stroke-width="2.8"/>
+          <circle cx="30" cy="180" r="5" fill="#2563a8"/>
+          <circle cx="190" cy="180" r="5" fill="#2563a8"/>
+          <!-- max point dashed -->
+          <line x1="110" y1="20" x2="110" y2="110" stroke="#888" stroke-width="1.2" stroke-dasharray="5,3"/>
+          <text x="114" y="30" font-size="16" fill="#555">max</text>
+          <text x="120" y="190" font-size="16" fill="#2563a8">$x$-intercepts</text>
+        </svg>
+        <div class="diagram-caption">$a < 0$: opens downwards</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════ CH 3: LINEAR INEQUALITIES ═══════════════════ -->
+<div class="chapter" id="ch3">
+  <div class="chapter-title"><span>Ch 3</span> Linear Inequalities</div>
+
+  <div class="section">
+    <div class="section-title">Symbols and Number Line Notation</div>
+    <table>
+      <tr><th>Symbol</th><th>Meaning</th><th>Number line</th></tr>
+      <tr><td>$a < x < b$</td><td>$x$ is between $a$ and $b$ (exclusive)</td><td>Open circles ○ at $a$ and $b$</td></tr>
+      <tr><td>$a \leq x < b$</td><td>$x$ includes $a$, excludes $b$</td><td>Closed ● at $a$, open ○ at $b$</td></tr>
+      <tr><td>$a < x \leq b$</td><td>$x$ excludes $a$, includes $b$</td><td>Open ○ at $a$, closed ● at $b$</td></tr>
+    </table>
+    <!-- Three number line diagrams -->
+    <div class="diagram-wrap">
+      <svg width="640" height="260" viewBox="0 0 640 260" style="max-width:100%">
+        <defs><marker id="aNL" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0,8 3,0 6" fill="#333"/></marker></defs>
+        <!-- NL 1: a < x < b -->
+        <text x="10" y="28" font-size="17" fill="#333" font-weight="600">$a &lt; x &lt; b$</text>
+        <line x1="40" y1="50" x2="600" y2="50" stroke="#ccc" stroke-width="2" marker-end="url(#aNL)"/>
+        <line x1="200" y1="44" x2="200" y2="56" stroke="#555" stroke-width="1.5"/><text x="200" y="70" text-anchor="middle" font-size="16" fill="#333" font-style="italic">a</text>
+        <line x1="350" y1="44" x2="350" y2="56" stroke="#555" stroke-width="1.5"/><text x="350" y="70" text-anchor="middle" font-size="16" fill="#555">0</text>
+        <line x1="500" y1="44" x2="500" y2="56" stroke="#555" stroke-width="1.5"/><text x="500" y="70" text-anchor="middle" font-size="16" fill="#333" font-style="italic">b</text>
+        <circle cx="200" cy="50" r="7" fill="white" stroke="#2563a8" stroke-width="2.5"/>
+        <circle cx="500" cy="50" r="7" fill="white" stroke="#2563a8" stroke-width="2.5"/>
+        <line x1="200" y1="50" x2="500" y2="50" stroke="#2563a8" stroke-width="3"/>
+
+        <!-- NL 2: a ≤ x < b -->
+        <text x="10" y="115" font-size="17" fill="#333" font-weight="600">$a \leq x &lt; b$</text>
+        <line x1="40" y1="138" x2="600" y2="138" stroke="#ccc" stroke-width="2" marker-end="url(#aNL)"/>
+        <line x1="200" y1="132" x2="200" y2="144" stroke="#555" stroke-width="1.5"/><text x="200" y="158" text-anchor="middle" font-size="16" fill="#333" font-style="italic">a</text>
+        <line x1="350" y1="132" x2="350" y2="144" stroke="#555" stroke-width="1.5"/><text x="350" y="158" text-anchor="middle" font-size="16" fill="#555">0</text>
+        <line x1="500" y1="132" x2="500" y2="144" stroke="#555" stroke-width="1.5"/><text x="500" y="158" text-anchor="middle" font-size="16" fill="#333" font-style="italic">b</text>
+        <circle cx="200" cy="138" r="7" fill="#27ae60" stroke="#27ae60" stroke-width="2.5"/>
+        <circle cx="500" cy="138" r="7" fill="white" stroke="#27ae60" stroke-width="2.5"/>
+        <line x1="200" y1="138" x2="500" y2="138" stroke="#27ae60" stroke-width="3"/>
+
+        <!-- NL 3: a < x ≤ b -->
+        <text x="10" y="202" font-size="17" fill="#333" font-weight="600">$a &lt; x \leq b$</text>
+        <line x1="40" y1="225" x2="600" y2="225" stroke="#ccc" stroke-width="2" marker-end="url(#aNL)"/>
+        <line x1="200" y1="219" x2="200" y2="231" stroke="#555" stroke-width="1.5"/><text x="200" y="245" text-anchor="middle" font-size="16" fill="#333" font-style="italic">a</text>
+        <line x1="350" y1="219" x2="350" y2="231" stroke="#555" stroke-width="1.5"/><text x="350" y="245" text-anchor="middle" font-size="16" fill="#555">0</text>
+        <line x1="500" y1="219" x2="500" y2="231" stroke="#555" stroke-width="1.5"/><text x="500" y="245" text-anchor="middle" font-size="16" fill="#333" font-style="italic">b</text>
+        <circle cx="200" cy="225" r="7" fill="white" stroke="#b02020" stroke-width="2.5"/>
+        <circle cx="500" cy="225" r="7" fill="#b02020" stroke="#b02020" stroke-width="2.5"/>
+        <line x1="200" y1="225" x2="500" y2="225" stroke="#b02020" stroke-width="3"/>
+      </svg>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Special Rules</div>
+    <div class="warn"><strong>Multiplying or dividing by a negative number reverses the inequality sign!</strong></div>
+    <div class="example">
+      <div class="ex-label">Example 1 — Solve $-2x > 10$</div>
+      <div class="ex-step">Multiply both sides by $-1$ (reverse sign): $2x < -10$</div>
+      <div class="ex-step">$$x < -5$$</div>
+    </div>
+    <div class="example">
+      <div class="ex-label">Example 2 — Taking reciprocal: $3 > \dfrac{1}{x}$</div>
+      <div class="ex-step">Taking reciprocal reverses sign: $\dfrac{1}{3} < x$</div>
+      <div class="ex-step">$$x > \frac{1}{3}$$</div>
+    </div>
+    <div class="example">
+      <div class="ex-label">Example 3 — Combined inequality: Solve $-7 \leq 3x - 5 \leq 2$</div>
+      <div class="ex-step">$-7 \leq 3x-5$ and $3x-5 \leq 2$</div>
+      <div class="ex-step">$-2 \leq 3x$ and $3x \leq 7$</div>
+      <div class="ex-step">$$-\frac{2}{3} \leq x \leq \frac{7}{3}$$</div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════ CH 4: COORDINATE GEOMETRY ═══════════════════ -->
+<div class="chapter" id="ch4">
+  <div class="chapter-title"><span>Ch 4</span> Coordinate Geometry</div>
+
+  <div class="section">
+    <div class="section-title">Length of a Line Segment</div>
+    <div class="formula">$$AB = \sqrt{(x_2 - x_1)^2 + (y_2 - y_1)^2}$$</div>
+    <div class="diagram-wrap">
+      <svg width="340" height="220" viewBox="0 0 340 220" style="max-width:100%">
+        <defs><marker id="aCG" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0,8 3,0 6" fill="#444"/></marker></defs>
+        <line x1="30" y1="180" x2="320" y2="180" stroke="#444" stroke-width="1.8" marker-end="url(#aCG)"/>
+        <line x1="60" y1="210" x2="60" y2="15" stroke="#444" stroke-width="1.8" marker-end="url(#aCG)"/>
+        <text x="322" y="184" font-size="16" font-style="italic" fill="#444">x</text>
+        <text x="64" y="12" font-size="16" font-style="italic" fill="#444">y</text>
+        <text x="48" y="196" font-size="17" fill="#555">0</text>
+        <!-- Point A(x1,y1) at (100,140), Point B(x2,y2) at (260,60) -->
+        <circle cx="100" cy="140" r="5" fill="#2563a8"/>
+        <circle cx="260" cy="60" r="5" fill="#2563a8"/>
+        <text x="72" y="148" font-size="17" fill="#2563a8">$A(x_1, y_1)$</text>
+        <text x="264" y="58" font-size="17" fill="#2563a8">$B(x_2, y_2)$</text>
+        <!-- Line AB -->
+        <line x1="100" y1="140" x2="260" y2="60" stroke="#2563a8" stroke-width="2.5"/>
+        <!-- dashed helper lines -->
+        <line x1="100" y1="140" x2="260" y2="140" stroke="#888" stroke-width="1.2" stroke-dasharray="5,3"/>
+        <line x1="260" y1="60" x2="260" y2="140" stroke="#888" stroke-width="1.2" stroke-dasharray="5,3"/>
+        <!-- labels -->
+        <text x="175" y="158" text-anchor="middle" font-size="17" fill="#555">$x_2 - x_1$</text>
+        <text x="274" y="105" font-size="17" fill="#555">$y_2 - y_1$</text>
+      </svg>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Gradient</div>
+    <div class="formula">$$m = \frac{y_2 - y_1}{x_2 - x_1} \quad (x_1 \neq x_2)$$</div>
+    <div class="diagram-row">
+      <!-- m>0 -->
+      <div style="text-align:center">
+        <svg width="160" height="140" viewBox="0 0 160 140" style="max-width:100%">
+          <line x1="10" y1="90" x2="150" y2="90" stroke="#444" stroke-width="1.5" marker-end="url(#aCG)"/>
+          <line x1="30" y1="130" x2="30" y2="10" stroke="#444" stroke-width="1.5" marker-end="url(#aCG)"/>
+          <line x1="20" y1="120" x2="145" y2="30" stroke="#2563a8" stroke-width="2.5"/>
+          <text x="25" y="70" font-size="17" fill="#555">$c$</text>
+          <text x="80" y="55" font-size="17" fill="#2563a8">$m > 0$</text>
+          <text x="80" y="70" font-size="16" fill="#555">$c > 0$</text>
+        </svg>
+        <div class="diagram-caption">Positive slope</div>
+      </div>
+      <!-- m<0 -->
+      <div style="text-align:center">
+        <svg width="160" height="140" viewBox="0 0 160 140" style="max-width:100%">
+          <line x1="10" y1="90" x2="150" y2="90" stroke="#444" stroke-width="1.5" marker-end="url(#aCG)"/>
+          <line x1="30" y1="130" x2="30" y2="10" stroke="#444" stroke-width="1.5" marker-end="url(#aCG)"/>
+          <line x1="20" y1="30" x2="145" y2="120" stroke="#b02020" stroke-width="2.5"/>
+          <text x="25" y="42" font-size="17" fill="#555">$c$</text>
+          <text x="80" y="55" font-size="17" fill="#b02020">$m &lt; 0$</text>
+          <text x="80" y="70" font-size="16" fill="#555">$c > 0$</text>
+        </svg>
+        <div class="diagram-caption">Negative slope</div>
+      </div>
+      <!-- m=0 -->
+      <div style="text-align:center">
+        <svg width="160" height="140" viewBox="0 0 160 140" style="max-width:100%">
+          <line x1="10" y1="90" x2="150" y2="90" stroke="#444" stroke-width="1.5" marker-end="url(#aCG)"/>
+          <line x1="30" y1="130" x2="30" y2="10" stroke="#444" stroke-width="1.5" marker-end="url(#aCG)"/>
+          <line x1="20" y1="60" x2="145" y2="60" stroke="#27ae60" stroke-width="2.5"/>
+          <text x="25" y="72" font-size="17" fill="#555">$c$</text>
+          <text x="70" y="48" font-size="17" fill="#27ae60">$y = c$</text>
+          <text x="70" y="62" font-size="17" fill="#27ae60">$m = 0$</text>
+        </svg>
+        <div class="diagram-caption">Zero slope ($y=c$)</div>
+      </div>
+      <!-- undefined -->
+      <div style="text-align:center">
+        <svg width="120" height="140" viewBox="0 0 120 140" style="max-width:100%">
+          <line x1="10" y1="90" x2="110" y2="90" stroke="#444" stroke-width="1.5" marker-end="url(#aCG)"/>
+          <line x1="30" y1="130" x2="30" y2="10" stroke="#444" stroke-width="1.5" marker-end="url(#aCG)"/>
+          <line x1="80" y1="20" x2="80" y2="128" stroke="#c8860a" stroke-width="2.5"/>
+          <text x="44" y="104" font-size="16" fill="#555">0</text>
+          <text x="83" y="108" font-size="17" fill="#c8860a">$x=k$</text>
+          <text x="83" y="30" font-size="16" fill="#c8860a">$m=\infty$</text>
+        </svg>
+        <div class="diagram-caption">Undefined slope ($x=k$)</div>
+      </div>
+    </div>
+
+    <div class="note"><strong>Parallel lines</strong> have the same gradient $m$.</div>
+    <div class="diagram-wrap">
+      <svg width="260" height="160" viewBox="0 0 260 160" style="max-width:100%">
+        <line x1="10" y1="130" x2="250" y2="130" stroke="#444" stroke-width="1.5" marker-end="url(#aCG)"/>
+        <line x1="30" y1="150" x2="30" y2="10" stroke="#444" stroke-width="1.5" marker-end="url(#aCG)"/>
+        <text x="38" y="148" font-size="17" fill="#555">0</text>
+        <!-- Two parallel lines -->
+        <line x1="20" y1="120" x2="230" y2="50" stroke="#2563a8" stroke-width="2.5"/>
+        <line x1="20" y1="145" x2="230" y2="75" stroke="#b02020" stroke-width="2.5"/>
+        <text x="190" y="45" font-size="17" fill="#2563a8">$y_1=mx_1+c_1$</text>
+        <text x="190" y="72" font-size="17" fill="#b02020">$y_2=mx_2+c_2$</text>
+      </svg>
+      <div class="diagram-caption">Parallel lines share the same gradient</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Equation of a Straight Line</div>
+    <div class="formula">$$y = mx + c \qquad (m = \text{gradient},\quad c = y\text{-intercept})$$</div>
+  </div>
+</div>
+
+
+<!-- ═══════════════════ CH 5: GRAPHS ═══════════════════ -->
+<div class="chapter" id="ch5">
+  <div class="chapter-title"><span>Ch 5</span> Graphs</div>
+
+  <div class="section">
+    <div class="section-title">Straight Line Graphs</div>
+    <!-- Gradient diagram with vertical/horizontal change -->
+    <div class="diagram-wrap">
+      <svg width="340" height="220" viewBox="0 0 340 220" style="max-width:100%">
+        <defs><marker id="aG5" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0,8 3,0 6" fill="#444"/></marker></defs>
+        <line x1="20" y1="170" x2="320" y2="170" stroke="#444" stroke-width="1.8" marker-end="url(#aG5)"/>
+        <line x1="50" y1="210" x2="50" y2="15" stroke="#444" stroke-width="1.8" marker-end="url(#aG5)"/>
+        <text x="322" y="174" font-size="16" font-style="italic" fill="#444">x</text>
+        <text x="54" y="12" font-size="16" font-style="italic" fill="#444">y</text>
+        <!-- Line y=mx+c -->
+        <line x1="40" y1="200" x2="290" y2="50" stroke="#7c3aed" stroke-width="2.8"/>
+        <text x="240" y="45" font-size="16" fill="#7c3aed">$y = mx + c$</text>
+        <!-- vertical/horizontal change arrows -->
+        <line x1="140" y1="138" x2="220" y2="138" stroke="#555" stroke-width="1.5" stroke-dasharray="5,3"/>
+        <line x1="220" y1="86" x2="220" y2="138" stroke="#555" stroke-width="1.5" stroke-dasharray="5,3"/>
+        <text x="172" y="155" font-size="17" fill="#555" font-style="italic">horizontal change</text>
+        <text x="223" y="116" font-size="17" fill="#555" font-style="italic">vertical change</text>
+        <!-- c label -->
+        <text x="28" y="152" font-size="16" fill="#7c3aed" font-style="italic">c</text>
+        <!-- gradient annotation -->
+        <text x="170" y="30" font-size="17" fill="#333">gradient $= \dfrac{\text{vertical change}}{\text{horizontal change}}$</text>
+      </svg>
+    </div>
+    <div class="diagram-row">
+      <!-- x=a vertical -->
+      <div style="text-align:center">
+        <svg width="160" height="160" viewBox="0 0 160 160" style="max-width:100%">
+          <line x1="10" y1="100" x2="150" y2="100" stroke="#444" stroke-width="1.5" marker-end="url(#aG5)"/>
+          <line x1="30" y1="150" x2="30" y2="10" stroke="#444" stroke-width="1.5" marker-end="url(#aG5)"/>
+          <text x="38" y="118" font-size="17" fill="#555">0</text>
+          <line x1="100" y1="15" x2="100" y2="148" stroke="#c8860a" stroke-width="2.5"/>
+          <text x="100" y="145" text-anchor="middle" font-size="17" fill="#c8860a">$|a$</text>
+          <text x="105" y="40" font-size="16" fill="#c8860a">$x = a$</text>
+        </svg>
+        <div class="diagram-caption">Vertical line $x = a$</div>
+      </div>
+      <!-- y=b horizontal -->
+      <div style="text-align:center">
+        <svg width="200" height="160" viewBox="0 0 200 160" style="max-width:100%">
+          <line x1="10" y1="100" x2="190" y2="100" stroke="#444" stroke-width="1.5" marker-end="url(#aG5)"/>
+          <line x1="30" y1="150" x2="30" y2="10" stroke="#444" stroke-width="1.5" marker-end="url(#aG5)"/>
+          <text x="38" y="118" font-size="17" fill="#555">0</text>
+          <line x1="15" y1="60" x2="185" y2="60" stroke="#27ae60" stroke-width="2.5"/>
+          <text x="10" y="72" font-size="17" fill="#27ae60">$b$</text>
+          <text x="130" y="52" font-size="16" fill="#27ae60">$y = b$</text>
+        </svg>
+        <div class="diagram-caption">Horizontal line $y = b$</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Quadratic Graphs $y = ax^2 + bx + c$</div>
+    <div class="diagram-row">
+      <!-- y=(x-p)^2+q: min at (p,q) -->
+      <div style="text-align:center">
+        <svg width="200" height="200" viewBox="0 0 200 200" style="max-width:100%">
+          <line x1="10" y1="130" x2="190" y2="130" stroke="#444" stroke-width="1.5" marker-end="url(#aG5)"/>
+          <line x1="50" y1="195" x2="50" y2="10" stroke="#444" stroke-width="1.5" marker-end="url(#aG5)"/>
+          <text x="192" y="134" font-size="17" font-style="italic" fill="#444">x</text>
+          <text x="54" y="8" font-size="17" font-style="italic" fill="#444">y</text>
+          <text x="36" y="148" font-size="17" fill="#555">0</text>
+          <!-- Upward parabola, min at (100,110) i.e. (p,q) -->
+          <path d="M 20,180 Q 100,60 180,180" fill="none" stroke="#7c3aed" stroke-width="2.5"/>
+          <!-- min point dashed -->
+          <line x1="100" y1="120" x2="100" y2="130" stroke="#888" stroke-width="1.2" stroke-dasharray="4,3"/>
+          <line x1="50" y1="120" x2="100" y2="120" stroke="#888" stroke-width="1.2" stroke-dasharray="4,3"/>
+          <circle cx="100" cy="120" r="5" fill="#7c3aed"/>
+          <text x="28" y="123" font-size="16" fill="#555" font-style="italic">q</text>
+          <text x="100" y="145" text-anchor="middle" font-size="16" fill="#555" font-style="italic">p</text>
+          <text x="110" y="85" font-size="16" fill="#555">min $(p,q)$</text>
+          <text x="115" y="175" font-size="16" fill="#7c3aed">$y=(x-p)^2+q$</text>
+        </svg>
+        <div class="diagram-caption">$a>0$: min at $(p,q)$<br>Line of symmetry $x=p$</div>
+      </div>
+      <!-- y=-(x-p)^2+q: max at (p,q) -->
+      <div style="text-align:center">
+        <svg width="200" height="200" viewBox="0 0 200 200" style="max-width:100%">
+          <line x1="10" y1="80" x2="190" y2="80" stroke="#444" stroke-width="1.5" marker-end="url(#aG5)"/>
+          <line x1="50" y1="195" x2="50" y2="10" stroke="#444" stroke-width="1.5" marker-end="url(#aG5)"/>
+          <text x="192" y="84" font-size="17" font-style="italic" fill="#444">x</text>
+          <text x="54" y="8" font-size="17" font-style="italic" fill="#444">y</text>
+          <text x="36" y="98" font-size="17" fill="#555">0</text>
+          <!-- Downward parabola, max at (100,45) -->
+          <path d="M 20,180 Q 100,10 180,180" fill="none" stroke="#b02020" stroke-width="2.5"/>
+          <circle cx="100" cy="30" r="5" fill="#b02020"/>
+          <line x1="100" y1="30" x2="100" y2="80" stroke="#888" stroke-width="1.2" stroke-dasharray="4,3"/>
+          <line x1="50" y1="30" x2="100" y2="30" stroke="#888" stroke-width="1.2" stroke-dasharray="4,3"/>
+          <text x="28" y="33" font-size="16" fill="#555" font-style="italic">q</text>
+          <text x="100" y="97" text-anchor="middle" font-size="16" fill="#555" font-style="italic">p</text>
+          <text x="110" y="25" font-size="16" fill="#555">max $(p,q)$</text>
+          <text x="110" y="160" font-size="16" fill="#b02020">$y=-(x-p)^2+q$</text>
+        </svg>
+        <div class="diagram-caption">$a<0$: max at $(p,q)$<br>Line of symmetry $x=p$</div>
+      </div>
+    </div>
+    <div class="note">For $y = (x-a)(x-b)$: $x$-intercepts at $x=a$ and $x=b$; line of symmetry $x = \dfrac{a+b}{2}$</div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Cubic Graphs $y = ax^n,\ n=3$</div>
+    <div class="diagram-row">
+      <div style="text-align:center">
+        <svg width="180" height="160" viewBox="0 0 180 160" style="max-width:100%">
+          <line x1="10" y1="80" x2="170" y2="80" stroke="#444" stroke-width="1.5" marker-end="url(#aG5)"/>
+          <line x1="90" y1="155" x2="90" y2="10" stroke="#444" stroke-width="1.5" marker-end="url(#aG5)"/>
+          <text x="172" y="84" font-size="17" font-style="italic" fill="#444">x</text>
+          <text x="94" y="8" font-size="17" font-style="italic" fill="#444">y</text>
+          <!-- cubic a>0: S-curve -->
+          <path d="M 20,145 C 50,130 70,90 90,80 C 110,70 130,30 160,15" fill="none" stroke="#2563a8" stroke-width="2.5"/>
+          <text x="100" y="155" font-size="17" fill="#2563a8">$a > 0$</text>
+        </svg>
+      </div>
+      <div style="text-align:center">
+        <svg width="180" height="160" viewBox="0 0 180 160" style="max-width:100%">
+          <line x1="10" y1="80" x2="170" y2="80" stroke="#444" stroke-width="1.5" marker-end="url(#aG5)"/>
+          <line x1="90" y1="155" x2="90" y2="10" stroke="#444" stroke-width="1.5" marker-end="url(#aG5)"/>
+          <text x="172" y="84" font-size="17" font-style="italic" fill="#444">x</text>
+          <text x="94" y="8" font-size="17" font-style="italic" fill="#444">y</text>
+          <!-- cubic a<0 -->
+          <path d="M 20,15 C 50,30 70,70 90,80 C 110,90 130,130 160,145" fill="none" stroke="#b02020" stroke-width="2.5"/>
+          <text x="100" y="155" font-size="17" fill="#b02020">$a &lt; 0$</text>
+        </svg>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Reciprocal Graphs $y = ax^{-1} = \dfrac{a}{x}$</div>
+    <div class="diagram-row">
+      <div style="text-align:center">
+        <svg width="180" height="160" viewBox="0 0 180 160" style="max-width:100%">
+          <line x1="10" y1="80" x2="170" y2="80" stroke="#444" stroke-width="1.5" marker-end="url(#aG5)"/>
+          <line x1="90" y1="155" x2="90" y2="10" stroke="#444" stroke-width="1.5" marker-end="url(#aG5)"/>
+          <text x="172" y="84" font-size="17" font-style="italic" fill="#444">x</text>
+          <text x="94" y="8" font-size="17" font-style="italic" fill="#444">y</text>
+          <!-- Hyperbola a>0: Q1 and Q3 -->
+          <path d="M 95,12 Q 100,20 130,40 Q 155,60 165,78" fill="none" stroke="#2563a8" stroke-width="2.5"/>
+          <path d="M 15,82 Q 25,100 55,120 Q 80,138 85,148" fill="none" stroke="#2563a8" stroke-width="2.5"/>
+          <text x="140" y="65" font-size="16" fill="#2563a8">$a > 0$</text>
+        </svg>
+        <div class="diagram-caption">$y = \dfrac{a}{x}$, $a>0$</div>
+      </div>
+      <div style="text-align:center">
+        <svg width="180" height="160" viewBox="0 0 180 160" style="max-width:100%">
+          <line x1="10" y1="80" x2="170" y2="80" stroke="#444" stroke-width="1.5" marker-end="url(#aG5)"/>
+          <line x1="90" y1="155" x2="90" y2="10" stroke="#444" stroke-width="1.5" marker-end="url(#aG5)"/>
+          <text x="172" y="84" font-size="17" font-style="italic" fill="#444">x</text>
+          <text x="94" y="8" font-size="17" font-style="italic" fill="#444">y</text>
+          <!-- Hyperbola a<0: Q2 and Q4 -->
+          <path d="M 15,82 Q 25,60 55,40 Q 80,22 85,12" fill="none" stroke="#b02020" stroke-width="2.5"/>
+          <path d="M 95,148 Q 100,138 130,120 Q 155,100 165,82" fill="none" stroke="#b02020" stroke-width="2.5"/>
+          <text x="40" y="30" font-size="16" fill="#b02020">$a &lt; 0$</text>
+        </svg>
+        <div class="diagram-caption">$y = \dfrac{a}{x}$, $a<0$</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Exponential Graphs $y = ka^x$</div>
+    <div class="diagram-row">
+      <div style="text-align:center">
+        <svg width="200" height="160" viewBox="0 0 200 160" style="max-width:100%">
+          <line x1="10" y1="130" x2="190" y2="130" stroke="#444" stroke-width="1.5" marker-end="url(#aG5)"/>
+          <line x1="40" y1="155" x2="40" y2="10" stroke="#444" stroke-width="1.5" marker-end="url(#aG5)"/>
+          <text x="192" y="134" font-size="17" font-style="italic" fill="#444">x</text>
+          <text x="44" y="8" font-size="17" font-style="italic" fill="#444">y</text>
+          <text x="26" y="148" font-size="17" fill="#555">0</text>
+          <!-- Exponential growth -->
+          <path d="M 20,128 Q 60,125 100,110 Q 140,85 180,30" fill="none" stroke="#27ae60" stroke-width="2.5"/>
+          <text x="26" y="107" font-size="17" fill="#555" font-style="italic">k</text>
+          <text x="120" y="60" font-size="17" fill="#27ae60">$a>0,k>0$</text>
+        </svg>
+        <div class="diagram-caption">Growth: $a>1, k>0$</div>
+      </div>
+      <div style="text-align:center">
+        <svg width="200" height="160" viewBox="0 0 200 160" style="max-width:100%">
+          <line x1="10" y1="30" x2="190" y2="30" stroke="#444" stroke-width="1.5" marker-end="url(#aG5)"/>
+          <line x1="40" y1="10" x2="40" y2="155" stroke="#444" stroke-width="1.5" marker-end="url(#aG5)"/>
+          <text x="192" y="34" font-size="17" font-style="italic" fill="#444">x</text>
+          <text x="44" y="8" font-size="17" font-style="italic" fill="#444">y</text>
+          <text x="26" y="48" font-size="17" fill="#555">0</text>
+          <!-- Exponential decay (k<0 means reflected) -->
+          <path d="M 20,32 Q 60,35 100,50 Q 140,75 180,130" fill="none" stroke="#b02020" stroke-width="2.5"/>
+          <text x="26" y="55" font-size="17" fill="#555" font-style="italic">k</text>
+          <text x="100" y="100" font-size="17" fill="#b02020">$a>0,k&lt;0$</text>
+        </svg>
+        <div class="diagram-caption">Decay: $a>1, k<0$</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ═══════════════════ CH 6: CONGRUENCE AND SIMILARITY ═══════════════════ -->
+<div class="chapter" id="ch6">
+  <div class="chapter-title"><span>Ch 6</span> Congruence and Similarity</div>
+
+  <div class="section">
+    <div class="section-title">Tests of Congruency</div>
+    <table>
+      <tr><th>#</th><th>Rule</th><th>Condition</th></tr>
+      <tr><td>1</td><td><strong>SSS</strong> (Side–Side–Side)</td><td>3 pairs of equal sides: $AB=DE,\ BC=EF,\ AC=DF$</td></tr>
+      <tr><td>2</td><td><strong>ASA</strong> (Angle–Side–Angle)</td><td>2 pairs of equal angles + included side: $\angle B=\angle E,\ BC=EF,\ \angle C=\angle F$</td></tr>
+      <tr><td>3</td><td><strong>SAS</strong> (Side–Angle–Side)</td><td>2 pairs of equal sides + included angle: $AB=EF,\ \angle ABC=\angle EFG,\ BC=FG$</td></tr>
+      <tr><td>4</td><td><strong>RHS</strong> (Right angle–Hypotenuse–Side)</td><td>Right angle, hypotenuse and 1 side equal: $\angle B=\angle Y=90°,\ AC=XZ,\ AB=XY$</td></tr>
+    </table>
+    <!-- Congruence diagrams -->
+    <div class="diagram-row">
+      <!-- SSS: two triangles with tick marks -->
+      <div style="text-align:center">
+        <svg width="280" height="130" viewBox="0 0 280 130" style="max-width:100%">
+          <!-- Triangle ABC -->
+          <polygon points="10,120 90,120 50,30" fill="#dbeafe" stroke="#2563a8" stroke-width="2"/>
+          <text x="4" y="125" font-size="17" fill="#1a2e4a">A</text>
+          <text x="93" y="125" font-size="17" fill="#1a2e4a">C</text>
+          <text x="43" y="24" font-size="17" fill="#1a2e4a">B</text>
+          <!-- single tick on AC base -->
+          <line x1="47" y1="120" x2="53" y2="120" stroke="#2563a8" stroke-width="2"/>
+          <!-- double tick on sides -->
+          <line x1="27" y1="73" x2="33" y2="78" stroke="#2563a8" stroke-width="2"/>
+          <line x1="68" y1="73" x2="74" y2="78" stroke="#2563a8" stroke-width="2"/>
+          <!-- Triangle DEF -->
+          <polygon points="160,120 240,120 200,30" fill="#dcfce7" stroke="#059669" stroke-width="2"/>
+          <text x="154" y="125" font-size="17" fill="#1a2e4a">D</text>
+          <text x="243" y="125" font-size="17" fill="#1a2e4a">F</text>
+          <text x="193" y="24" font-size="17" fill="#1a2e4a">E</text>
+          <line x1="197" y1="120" x2="203" y2="120" stroke="#059669" stroke-width="2"/>
+          <line x1="177" y1="73" x2="183" y2="78" stroke="#059669" stroke-width="2"/>
+          <line x1="218" y1="73" x2="224" y2="78" stroke="#059669" stroke-width="2"/>
+        </svg>
+        <div class="diagram-caption">SSS — $\triangle ABC \cong \triangle DEF$</div>
+      </div>
+      <!-- RHS: two right triangles -->
+      <div style="text-align:center">
+        <svg width="280" height="130" viewBox="0 0 280 130" style="max-width:100%">
+          <polygon points="10,120 90,120 10,30" fill="#fef9c3" stroke="#ca8a04" stroke-width="2"/>
+          <rect x="10" y="108" width="12" height="12" fill="none" stroke="#ca8a04" stroke-width="1.5"/>
+          <text x="4" y="125" font-size="17" fill="#1a2e4a">B</text>
+          <text x="93" y="125" font-size="17" fill="#1a2e4a">C</text>
+          <text x="3" y="24" font-size="17" fill="#1a2e4a">A</text>
+          <!-- tick on hyp -->
+          <line x1="47" y1="72" x2="55" y2="78" stroke="#ca8a04" stroke-width="2"/>
+          <polygon points="160,120 240,120 160,30" fill="#fef9c3" stroke="#ca8a04" stroke-width="2"/>
+          <rect x="160" y="108" width="12" height="12" fill="none" stroke="#ca8a04" stroke-width="1.5"/>
+          <text x="154" y="125" font-size="17" fill="#1a2e4a">Y</text>
+          <text x="243" y="125" font-size="17" fill="#1a2e4a">Z</text>
+          <text x="153" y="24" font-size="17" fill="#1a2e4a">X</text>
+          <line x1="197" y1="72" x2="205" y2="78" stroke="#ca8a04" stroke-width="2"/>
+        </svg>
+        <div class="diagram-caption">RHS — $\triangle ABC \cong \triangle XYZ$</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Tests of Similarity</div>
+    <table>
+      <tr><th>#</th><th>Rule</th><th>Condition</th></tr>
+      <tr><td>1</td><td><strong>AA</strong></td><td>2 pairs of equal corresponding angles</td></tr>
+      <tr><td>2</td><td><strong>SSS</strong></td><td>3 pairs of corresponding sides in same ratio: $\dfrac{AB}{DE}=\dfrac{BC}{EF}=\dfrac{AC}{DF}$</td></tr>
+    </table>
+    <div class="example">
+      <div class="ex-label">AA Similarity Example — Nested triangles</div>
+      <div class="diagram-wrap">
+        <svg width="260" height="200" viewBox="0 0 260 200" style="max-width:100%">
+          <!-- large triangle ABC -->
+          <polygon points="20,180 240,180 80,20" fill="none" stroke="#2563a8" stroke-width="2"/>
+          <text x="10" y="192" font-size="16" fill="#1a2e4a">A</text>
+          <text x="242" y="192" font-size="16" fill="#1a2e4a">C</text>
+          <text x="74" y="14" font-size="16" fill="#1a2e4a">B</text>
+          <!-- inner triangle DEC: D on AB, E on BC, C shared -->
+          <polygon points="55,113 170,180 80,20" fill="none" stroke="#b02020" stroke-width="2" stroke-dasharray="5,3"/>
+          <text x="40" y="120" font-size="16" fill="#b02020">D</text>
+          <text x="172" y="192" font-size="16" fill="#b02020">E</text>
+          <!-- angle arcs -->
+          <path d="M 36,180 A 18,18 0 0,1 28,163" fill="none" stroke="#2563a8" stroke-width="1.8"/>
+          <path d="M 55,113 A 14,14 0 0,1 49,98" fill="none" stroke="#b02020" stroke-width="1.8"/>
+          <text x="130" y="100" font-size="16" fill="#555">$\angle ACB = \angle DCE$ (common)</text>
+          <text x="130" y="118" font-size="16" fill="#555">$\angle ABC = \angle DEC$ (corresp.)</text>
+          <text x="130" y="136" font-size="16" fill="#27ae60">$\therefore \triangle ABC \sim \triangle DEC$</text>
+        </svg>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Ratio of Areas and Volumes of Similar Figures</div>
+    <div class="formula">$$\frac{A_1}{A_2} = \left(\frac{l_1}{l_2}\right)^2 = \left(\frac{h_1}{h_2}\right)^2 \qquad\text{(area ratio = square of length ratio)}$$</div>
+    <div class="formula">$$\frac{V_1}{V_2} = \left(\frac{l_1}{l_2}\right)^3 = \left(\frac{h_1}{h_2}\right)^3 \qquad\text{(volume ratio = cube of length ratio)}$$</div>
+    <!-- Two similar cones -->
+    <div class="diagram-wrap">
+      <svg width="420" height="160" viewBox="0 0 420 160" style="max-width:100%">
+        <!-- Small cone -->
+        <ellipse cx="90" cy="130" rx="50" ry="14" fill="#e0f2fe" stroke="#0284c7" stroke-width="1.5"/>
+        <line x1="40" y1="130" x2="90" y2="40" stroke="#0284c7" stroke-width="2"/>
+        <line x1="140" y1="130" x2="90" y2="40" stroke="#0284c7" stroke-width="2"/>
+        <line x1="90" y1="40" x2="90" y2="130" stroke="#888" stroke-width="1.2" stroke-dasharray="4,3"/>
+        <text x="93" y="90" font-size="17" fill="#888" font-style="italic">$h_1$</text>
+        <text x="94" y="50" font-size="17" fill="#333" font-style="italic">$l_1$</text>
+        <text x="75" y="148" font-size="17" fill="#333">$A_1$</text>
+        <!-- Large cone -->
+        <ellipse cx="310" cy="130" rx="80" ry="20" fill="#dcfce7" stroke="#059669" stroke-width="1.5"/>
+        <line x1="230" y1="130" x2="310" y2="20" stroke="#059669" stroke-width="2"/>
+        <line x1="390" y1="130" x2="310" y2="20" stroke="#059669" stroke-width="2"/>
+        <line x1="310" y1="20" x2="310" y2="130" stroke="#888" stroke-width="1.2" stroke-dasharray="4,3"/>
+        <text x="313" y="80" font-size="17" fill="#888" font-style="italic">$h_2$</text>
+        <text x="316" y="35" font-size="17" fill="#333" font-style="italic">$l_2$</text>
+        <text x="295" y="152" font-size="17" fill="#333">$A_2$</text>
+      </svg>
+      <div class="diagram-caption">Two similar cones: length ratio $l_1:l_2$, area ratio $l_1^2:l_2^2$, volume ratio $l_1^3:l_2^3$</div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════ CH 7: PROPERTIES OF CIRCLES ═══════════════════ -->
+<div class="chapter" id="ch7">
+  <div class="chapter-title"><span>Ch 7</span> Properties of Circles</div>
+
+  <div class="section">
+    <div class="section-title">Parts of a Circle</div>
+    <div class="diagram-row">
+      <div>
+        <svg width="260" height="220" viewBox="0 0 260 220" style="max-width:100%">
+          <circle cx="120" cy="110" r="90" fill="#f0f9ff" stroke="#0284c7" stroke-width="2"/>
+          <!-- arc label -->
+          <path d="M 48,55 A 90,90 0 0,1 192,55" fill="none" stroke="#b02020" stroke-width="3"/>
+          <text x="180" y="40" font-size="17" fill="#b02020">Arc</text>
+          <!-- chord -->
+          <line x1="48" y1="55" x2="192" y2="55" stroke="#c8860a" stroke-width="2.5" stroke-dasharray="6,3"/>
+          <text x="100" y="48" font-size="17" fill="#c8860a">Chord</text>
+          <!-- segment (shaded) -->
+          <path d="M 48,55 A 90,90 0 0,1 192,55 Z" fill="rgba(124,58,237,0.15)" stroke="none"/>
+          <text x="95" y="75" font-size="17" fill="#7c3aed">Segment</text>
+          <!-- radius -->
+          <line x1="120" y1="110" x2="192" y2="55" stroke="#27ae60" stroke-width="2"/>
+          <text x="164" y="105" font-size="17" fill="#27ae60">radius</text>
+          <!-- diameter -->
+          <line x1="30" y1="110" x2="210" y2="110" stroke="#1a2e4a" stroke-width="2"/>
+          <text x="60" y="126" font-size="17" fill="#1a2e4a">diameter</text>
+          <!-- centre O -->
+          <circle cx="120" cy="110" r="4" fill="#1a2e4a"/>
+          <text x="124" y="108" font-size="17" fill="#1a2e4a" font-weight="700">O</text>
+          <!-- tangent -->
+          <line x1="30" y1="200" x2="210" y2="200" stroke="#db2777" stroke-width="2.5"/>
+          <circle cx="120" cy="200" r="4" fill="#db2777"/>
+          <line x1="120" y1="110" x2="120" y2="200" stroke="#db2777" stroke-width="1.5" stroke-dasharray="4,3"/>
+          <text x="180" y="198" font-size="17" fill="#db2777">Tangent</text>
+        </svg>
+      </div>
+      <div style="font-size:.93rem;line-height:2;margin-top:10px">
+        <p><strong>Arc</strong>: segment along the circumference</p>
+        <p><strong>Chord</strong>: line segment with both endpoints on the circle</p>
+        <p><strong>Segment</strong>: area bounded by a chord and its arc</p>
+        <p><strong>Radius</strong>: line from centre to circumference</p>
+        <p><strong>Diameter</strong>: chord through the centre</p>
+        <p><strong>Tangent</strong>: line that touches the circle at exactly one point</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Symmetry Properties</div>
+    <!-- 4 symmetry diagrams in 2×2 grid -->
+    <div class="diagram-row" style="flex-wrap:wrap;gap:24px;">
+      <!-- Property 1: Equal chords equidistant -->
+      <div style="text-align:center">
+        <svg width="190" height="190" viewBox="0 0 190 190" style="max-width:100%">
+          <circle cx="95" cy="95" r="80" fill="#f0f9ff" stroke="#0284c7" stroke-width="2"/>
+          <circle cx="95" cy="95" r="4" fill="#1a2e4a"/>
+          <text x="99" y="93" font-size="17" fill="#1a2e4a" font-weight="700">O</text>
+          <!-- chord AB -->
+          <line x1="30" y1="60" x2="160" y2="60" stroke="#2563a8" stroke-width="2.5"/>
+          <text x="24" y="57" font-size="17" fill="#2563a8">A</text>
+          <text x="163" y="57" font-size="17" fill="#2563a8">B</text>
+          <text x="90" y="52" font-size="16" fill="#2563a8">H</text>
+          <!-- perpendicular from O to AB -->
+          <line x1="95" y1="95" x2="95" y2="60" stroke="#888" stroke-width="1.5" stroke-dasharray="4,3"/>
+          <!-- chord CD -->
+          <line x1="30" y1="140" x2="160" y2="140" stroke="#b02020" stroke-width="2.5"/>
+          <text x="24" y="155" font-size="17" fill="#b02020">C</text>
+          <text x="163" y="155" font-size="17" fill="#b02020">D</text>
+          <text x="160" y="138" font-size="16" fill="#b02020">G</text>
+          <line x1="95" y1="95" x2="95" y2="140" stroke="#888" stroke-width="1.5" stroke-dasharray="4,3"/>
+          <!-- equal marks -->
+          <line x1="93" y1="78" x2="97" y2="78" stroke="#555" stroke-width="2"/>
+          <line x1="93" y1="118" x2="97" y2="118" stroke="#555" stroke-width="2"/>
+        </svg>
+        <div class="diagram-caption"><strong>1.</strong> $AB=CD \Leftrightarrow OH=OG$<br>Equal chords equidistant from centre</div>
+      </div>
+      <!-- Property 2: Perp bisector through centre -->
+      <div style="text-align:center">
+        <svg width="190" height="190" viewBox="0 0 190 190" style="max-width:100%">
+          <circle cx="95" cy="60" r="75" fill="#f0fdf4" stroke="#059669" stroke-width="2"/>
+          <circle cx="95" cy="60" r="4" fill="#1a2e4a"/>
+          <text x="99" y="58" font-size="17" fill="#1a2e4a" font-weight="700">O</text>
+          <!-- chord AM=MB -->
+          <line x1="25" y1="145" x2="165" y2="145" stroke="#059669" stroke-width="2.5"/>
+          <text x="18" y="157" font-size="17" fill="#059669">A</text>
+          <text x="167" y="157" font-size="17" fill="#059669">B</text>
+          <!-- midpoint M -->
+          <circle cx="95" cy="145" r="4" fill="#059669"/>
+          <text x="99" y="158" font-size="17" fill="#059669">M</text>
+          <!-- equal marks on AM and MB -->
+          <line x1="55" y1="143" x2="55" y2="147" stroke="#059669" stroke-width="2"/>
+          <line x1="135" y1="143" x2="135" y2="147" stroke="#059669" stroke-width="2"/>
+          <!-- perp line from O -->
+          <line x1="95" y1="60" x2="95" y2="145" stroke="#888" stroke-width="1.5" stroke-dasharray="4,3"/>
+          <!-- right angle mark -->
+          <rect x="95" y="133" width="10" height="10" fill="none" stroke="#555" stroke-width="1.5"/>
+        </svg>
+        <div class="diagram-caption"><strong>2.</strong> $AM=MB \Leftrightarrow OM \perp AB$<br>Perpendicular bisector of chord passes through centre</div>
+      </div>
+      <!-- Property 3: Equal tangents from external point -->
+      <div style="text-align:center">
+        <svg width="190" height="190" viewBox="0 0 190 190" style="max-width:100%">
+          <circle cx="70" cy="95" r="60" fill="#fff7ed" stroke="#ea580c" stroke-width="2"/>
+          <circle cx="70" cy="95" r="4" fill="#1a2e4a"/>
+          <text x="74" y="93" font-size="17" fill="#1a2e4a" font-weight="700">O</text>
+          <!-- tangent points A and B -->
+          <circle cx="70" cy="35" r="4" fill="#ea580c"/>
+          <circle cx="70" cy="155" r="4" fill="#ea580c"/>
+          <text x="74" y="32" font-size="17" fill="#ea580c">A</text>
+          <text x="74" y="168" font-size="17" fill="#ea580c">B</text>
+          <!-- external point T -->
+          <text x="168" y="99" font-size="17" fill="#ea580c">T</text>
+          <circle cx="165" cy="95" r="4" fill="#ea580c"/>
+          <!-- tangent lines TA and TB -->
+          <line x1="70" y1="35" x2="165" y2="95" stroke="#ea580c" stroke-width="2.5"/>
+          <line x1="70" y1="155" x2="165" y2="95" stroke="#ea580c" stroke-width="2.5"/>
+          <!-- equal marks -->
+          <line x1="112" y1="59" x2="120" y2="65" stroke="#ea580c" stroke-width="2"/>
+          <line x1="112" y1="131" x2="120" y2="125" stroke="#ea580c" stroke-width="2"/>
+          <!-- centre line OT dashed -->
+          <line x1="70" y1="95" x2="165" y2="95" stroke="#888" stroke-width="1.2" stroke-dasharray="4,3"/>
+        </svg>
+        <div class="diagram-caption"><strong>3.</strong> $TA = TB$<br>Tangents from external point are equal</div>
+      </div>
+      <!-- Property: radius perp to tangent -->
+      <div style="text-align:center">
+        <svg width="190" height="190" viewBox="0 0 190 190" style="max-width:100%">
+          <circle cx="95" cy="70" r="70" fill="#fdf4ff" stroke="#7c3aed" stroke-width="2"/>
+          <circle cx="95" cy="70" r="4" fill="#1a2e4a"/>
+          <text x="99" y="68" font-size="17" fill="#1a2e4a" font-weight="700">O</text>
+          <!-- tangent line at A(95,140) -->
+          <line x1="20" y1="140" x2="170" y2="140" stroke="#7c3aed" stroke-width="2.5"/>
+          <circle cx="95" cy="140" r="4" fill="#7c3aed"/>
+          <text x="98" y="158" font-size="17" fill="#7c3aed">A</text>
+          <text x="18" y="152" font-size="17" fill="#7c3aed">B</text>
+          <text x="165" y="152" font-size="17" fill="#7c3aed">C</text>
+          <!-- radius OA -->
+          <line x1="95" y1="70" x2="95" y2="140" stroke="#7c3aed" stroke-width="2"/>
+          <!-- right angle -->
+          <rect x="95" y="128" width="12" height="12" fill="none" stroke="#555" stroke-width="1.5"/>
+        </svg>
+        <div class="diagram-caption"><strong>4.</strong> $OA \perp BC$<br>Radius perpendicular to tangent at point of contact</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Angle Properties</div>
+    <div class="diagram-row" style="flex-wrap:wrap;gap:24px;">
+      <!-- Angle in semicircle -->
+      <div style="text-align:center">
+        <svg width="180" height="180" viewBox="0 0 180 180" style="max-width:100%">
+          <circle cx="90" cy="90" r="80" fill="#f0f9ff" stroke="#0284c7" stroke-width="2"/>
+          <!-- diameter AB -->
+          <line x1="10" y1="90" x2="170" y2="90" stroke="#1a2e4a" stroke-width="2.5"/>
+          <text x="4" y="105" font-size="16" fill="#1a2e4a">A</text>
+          <text x="166" y="105" font-size="16" fill="#1a2e4a">B</text>
+          <!-- point P on circle -->
+          <circle cx="90" cy="15" r="5" fill="#b02020"/>
+          <text x="93" y="12" font-size="16" fill="#b02020">P</text>
+          <!-- PA and PB -->
+          <line x1="90" y1="15" x2="10" y2="90" stroke="#b02020" stroke-width="2"/>
+          <line x1="90" y1="15" x2="170" y2="90" stroke="#b02020" stroke-width="2"/>
+          <!-- right angle at P -->
+          <rect x="90" y="15" width="0" height="0" fill="none"/>
+          <text x="85" y="40" font-size="16" fill="#b02020">90°</text>
+          <!-- centre O -->
+          <circle cx="90" cy="90" r="4" fill="#555"/>
+          <text x="93" y="88" font-size="16" fill="#555">O</text>
+        </svg>
+        <div class="diagram-caption"><strong>1.</strong> $\angle APB = 90°$<br>Angle in semicircle is a right angle</div>
+      </div>
+      <!-- Angle at centre = 2× angle at circumference -->
+      <div style="text-align:center">
+        <svg width="180" height="180" viewBox="0 0 180 180" style="max-width:100%">
+          <circle cx="90" cy="90" r="80" fill="#f0fdf4" stroke="#059669" stroke-width="2"/>
+          <circle cx="90" cy="90" r="4" fill="#1a2e4a"/>
+          <text x="93" y="88" font-size="17" fill="#1a2e4a" font-weight="700">O</text>
+          <!-- Arc AB at bottom, C at top -->
+          <circle cx="30" cy="140" r="4" fill="#2563a8"/>
+          <circle cx="150" cy="140" r="4" fill="#2563a8"/>
+          <circle cx="90" cy="12" r="4" fill="#b02020"/>
+          <text x="18" y="155" font-size="16" fill="#2563a8">A</text>
+          <text x="153" y="155" font-size="16" fill="#2563a8">B</text>
+          <text x="93" y="10" font-size="16" fill="#b02020">C</text>
+          <!-- OA OB: angle at centre -->
+          <line x1="90" y1="90" x2="30" y2="140" stroke="#2563a8" stroke-width="2"/>
+          <line x1="90" y1="90" x2="150" y2="140" stroke="#2563a8" stroke-width="2"/>
+          <!-- CA CB: angle at circumference -->
+          <line x1="90" y1="12" x2="30" y2="140" stroke="#b02020" stroke-width="2"/>
+          <line x1="90" y1="12" x2="150" y2="140" stroke="#b02020" stroke-width="2"/>
+          <text x="55" y="100" font-size="16" fill="#2563a8">$2\angle ACB$</text>
+          <text x="70" y="40" font-size="16" fill="#b02020">$\angle ACB$</text>
+        </svg>
+        <div class="diagram-caption"><strong>3.</strong> $\angle AOB = 2\angle ACB$<br>Angle at centre = 2 × angle at circumference</div>
+      </div>
+      <!-- Angles in same segment -->
+      <div style="text-align:center">
+        <svg width="180" height="180" viewBox="0 0 180 180" style="max-width:100%">
+          <circle cx="90" cy="90" r="80" fill="#fff7ed" stroke="#ea580c" stroke-width="2"/>
+          <!-- chord AB -->
+          <circle cx="20" cy="130" r="4" fill="#1a2e4a"/>
+          <circle cx="160" cy="130" r="4" fill="#1a2e4a"/>
+          <text x="8" y="145" font-size="16" fill="#1a2e4a">A</text>
+          <text x="163" y="145" font-size="16" fill="#1a2e4a">B</text>
+          <!-- C and D in same segment -->
+          <circle cx="60" cy="25" r="4" fill="#2563a8"/>
+          <circle cx="140" cy="40" r="4" fill="#b02020"/>
+          <text x="50" y="20" font-size="16" fill="#2563a8">C</text>
+          <text x="143" y="37" font-size="16" fill="#b02020">D</text>
+          <line x1="60" y1="25" x2="20" y2="130" stroke="#2563a8" stroke-width="1.8"/>
+          <line x1="60" y1="25" x2="160" y2="130" stroke="#2563a8" stroke-width="1.8"/>
+          <line x1="140" y1="40" x2="20" y2="130" stroke="#b02020" stroke-width="1.8"/>
+          <line x1="140" y1="40" x2="160" y2="130" stroke="#b02020" stroke-width="1.8"/>
+          <text x="90" y="90" text-anchor="middle" font-size="16" fill="#27ae60">$\angle ACB = \angle ADB$</text>
+        </svg>
+        <div class="diagram-caption"><strong>4.</strong> Angles in same segment are equal</div>
+      </div>
+      <!-- Opposite angles supplementary -->
+      <div style="text-align:center">
+        <svg width="180" height="180" viewBox="0 0 180 180" style="max-width:100%">
+          <circle cx="90" cy="90" r="80" fill="#fdf4ff" stroke="#7c3aed" stroke-width="2"/>
+          <!-- Cyclic quad ABCD -->
+          <polygon points="20,90 90,15 160,90 90,165" fill="none" stroke="#7c3aed" stroke-width="2"/>
+          <circle cx="20" cy="90" r="4" fill="#1a2e4a"/>
+          <circle cx="90" cy="15" r="4" fill="#1a2e4a"/>
+          <circle cx="160" cy="90" r="4" fill="#1a2e4a"/>
+          <circle cx="90" cy="165" r="4" fill="#1a2e4a"/>
+          <text x="4" y="95" font-size="16" fill="#1a2e4a">A</text>
+          <text x="93" y="12" font-size="16" fill="#1a2e4a">D</text>
+          <text x="163" y="95" font-size="16" fill="#1a2e4a">C</text>
+          <text x="93" y="178" font-size="16" fill="#1a2e4a">B</text>
+          <text x="60" y="80" font-size="17" fill="#b02020">$a$</text>
+          <text x="110" y="112" font-size="17" fill="#b02020">$c$</text>
+          <text x="110" y="80" font-size="17" fill="#2563a8">$b$</text>
+          <text x="60" y="112" font-size="17" fill="#2563a8">$d$</text>
+          <text x="55" y="155" font-size="14" fill="#27ae60">$a+c=180°$, $b+d=180°$</text>
+        </svg>
+        <div class="diagram-caption"><strong>5.</strong> Opposite angles of a cyclic quadrilateral are supplementary</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ═══════════════════ CH 8: TRIGONOMETRY ═══════════════════ -->
+<div class="chapter" id="ch8">
+  <div class="chapter-title"><span>Ch 8</span> Trigonometry</div>
+
+  <div class="section">
+    <div class="section-title">SOH CAH TOA (Right-Angled Triangle)</div>
+    <div class="diagram-row">
+      <div>
+        <svg width="220" height="180" viewBox="0 0 220 180" style="max-width:100%">
+          <polygon points="20,160 180,160 20,30" fill="#f0fdf4" stroke="#15803d" stroke-width="2.5"/>
+          <rect x="20" y="148" width="12" height="12" fill="none" stroke="#15803d" stroke-width="2"/>
+          <text x="6" y="170" font-size="16" fill="#1a2e4a">A</text>
+          <text x="183" y="170" font-size="16" fill="#1a2e4a">B</text>
+          <text x="6" y="24" font-size="16" fill="#1a2e4a">C</text>
+          <!-- angle theta at A -->
+          <path d="M 44,160 A 24,24 0 0,1 26,140" fill="none" stroke="#7c3aed" stroke-width="2"/>
+          <text x="38" y="155" font-size="16" fill="#7c3aed">$\theta$</text>
+          <!-- labels -->
+          <text x="4" y="100" font-size="16" fill="#0284c7" font-style="italic">opposite</text>
+          <text x="88" y="176" font-size="16" fill="#555" font-style="italic">adjacent</text>
+          <text x="96" y="90" font-size="16" fill="#b02020" font-weight="700">hypotenuse</text>
+        </svg>
+      </div>
+      <div>
+        <div class="formula-green">$$\sin\theta = \frac{\text{opposite}}{\text{hypotenuse}} \quad\textbf{SOH}$$</div>
+        <div class="formula-green">$$\cos\theta = \frac{\text{adjacent}}{\text{hypotenuse}} \quad\textbf{CAH}$$</div>
+        <div class="formula-green">$$\tan\theta = \frac{\text{opposite}}{\text{adjacent}} \quad\textbf{TOA}$$</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Sine and Cosine of Obtuse Angles</div>
+    <p>For any acute angle $\theta$, the obtuse angle is $(180° - \theta)$:</p>
+    <div class="formula">$$\sin(180° - \theta) = \sin\theta \qquad \cos(180° - \theta) = -\cos\theta$$</div>
+    <div class="diagram-wrap">
+      <svg width="360" height="120" viewBox="0 0 360 120" style="max-width:100%">
+        <defs><marker id="aT8" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0,8 3,0 6" fill="#444"/></marker></defs>
+        <line x1="20" y1="80" x2="340" y2="80" stroke="#444" stroke-width="1.8" marker-end="url(#aT8)"/>
+        <line x1="180" y1="110" x2="180" y2="15" stroke="#444" stroke-width="1.8" marker-end="url(#aT8)"/>
+        <text x="342" y="84" font-size="16" font-style="italic" fill="#444">x</text>
+        <text x="184" y="12" font-size="16" font-style="italic" fill="#444">y</text>
+        <!-- acute angle theta (right of y-axis) -->
+        <line x1="180" y1="80" x2="310" y2="30" stroke="#2563a8" stroke-width="2.5"/>
+        <path d="M 210,80 A 30,30 0 0,1 200,52" fill="none" stroke="#2563a8" stroke-width="2"/>
+        <text x="220" y="68" font-size="16" fill="#2563a8">$\theta$</text>
+        <!-- obtuse angle (180-theta) left of y-axis -->
+        <line x1="180" y1="80" x2="50" y2="30" stroke="#b02020" stroke-width="2.5"/>
+        <path d="M 150,80 A 30,30 0 0,0 160,52" fill="none" stroke="#b02020" stroke-width="2"/>
+        <text x="100" y="68" font-size="16" fill="#b02020">$180°-\theta$</text>
+        <text x="175" y="97" font-size="17" fill="#555">0</text>
+      </svg>
+      <div class="diagram-caption">$\sin$ is positive for obtuse angles; $\cos$ is negative for obtuse angles</div>
+    </div>
+    <div class="example">
+      <div class="ex-label">Examples</div>
+      <div class="ex-step">$\sin 160° = \sin(180°-20°) = \sin 20° = 0.3420$</div>
+      <div class="ex-step">$\cos 118° = \cos(180°-62°) = -\cos 62° = -0.4695$</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Area of Triangle</div>
+    <div class="diagram-row">
+      <div>
+        <svg width="220" height="160" viewBox="0 0 220 160" style="max-width:100%">
+          <polygon points="20,140 200,140 80,20" fill="#fef9c3" stroke="#ca8a04" stroke-width="2.5"/>
+          <text x="10" y="155" font-size="16" fill="#1a2e4a">A</text>
+          <text x="200" y="155" font-size="16" fill="#1a2e4a">C</text>
+          <text x="74" y="14" font-size="16" fill="#1a2e4a">B</text>
+          <!-- side labels -->
+          <text x="4" y="90" font-size="16" fill="#ca8a04" font-style="italic">c</text>
+          <text x="105" y="155" font-size="16" fill="#ca8a04" font-style="italic">b</text>
+          <text x="150" y="75" font-size="16" fill="#ca8a04" font-style="italic">a</text>
+          <!-- angle C -->
+          <path d="M 186,140 A 18,18 0 0,0 181,122" fill="none" stroke="#7c3aed" stroke-width="1.8"/>
+          <text x="172" y="134" font-size="17" fill="#7c3aed">C</text>
+        </svg>
+      </div>
+      <div style="margin-top:20px">
+        <div class="formula">$$\text{Area} = \frac{1}{2}ab\sin C = \frac{1}{2}ac\sin B = \frac{1}{2}bc\sin A$$</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Sine Rule</div>
+    <div class="formula">$$\frac{a}{\sin A} = \frac{b}{\sin B} = \frac{c}{\sin C}$$</div>
+    <p>where $A, B, C$ are the interior angles and $a, b, c$ are the opposite sides respectively.</p>
+    <div class="note">Use Sine Rule when: 2 angles + 1 side known; or 2 sides + 1 non-included angle known.</div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Cosine Rule</div>
+    <div class="formula">$$a^2 = b^2 + c^2 - 2bc\cos A \qquad b^2 = a^2 + c^2 - 2ac\cos B \qquad c^2 = a^2 + b^2 - 2ab\cos C$$</div>
+    <p>Rearranged to find angle:</p>
+    <div class="formula">$$\cos A = \frac{b^2+c^2-a^2}{2bc} \qquad \cos B = \frac{a^2+c^2-b^2}{2ac} \qquad \cos C = \frac{a^2+b^2-c^2}{2ab}$$</div>
+    <div class="note">Use Cosine Rule when: 3 sides known (find angle); or 2 sides + included angle known (find third side).</div>
+  </div>
+</div>
+
+<!-- ═══════════════════ CH 9: APPLICATIONS OF TRIGONOMETRY ═══════════════════ -->
+<div class="chapter" id="ch9">
+  <div class="chapter-title"><span>Ch 9</span> Applications of Trigonometry</div>
+
+  <div class="section">
+    <div class="section-title">Angles of Elevation and Depression</div>
+    <div class="diagram-row">
+      <!-- Elevation -->
+      <div style="text-align:center">
+        <svg width="280" height="160" viewBox="0 0 280 160" style="max-width:100%">
+          <defs><marker id="aE9" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0,8 3,0 6" fill="#444"/></marker></defs>
+          <!-- horizontal ground -->
+          <line x1="10" y1="130" x2="270" y2="130" stroke="#888" stroke-width="2"/>
+          <!-- observer -->
+          <circle cx="40" cy="125" r="5" fill="#2563a8"/>
+          <!-- object above -->
+          <circle cx="240" cy="30" r="5" fill="#b02020"/>
+          <text x="245" y="28" font-size="17" fill="#b02020">object</text>
+          <!-- line of sight -->
+          <line x1="40" y1="125" x2="240" y2="30" stroke="#2563a8" stroke-width="2"/>
+          <!-- angle arc -->
+          <path d="M 75,130 A 35,35 0 0,1 68,97" fill="none" stroke="#2563a8" stroke-width="2"/>
+          <text x="80" y="115" font-size="17" fill="#2563a8">angle of elevation</text>
+          <text x="60" y="148" font-size="17" fill="#555">horizontal</text>
+          <text x="30" y="115" font-size="16" fill="#555">line of sight</text>
+        </svg>
+        <div class="diagram-caption">Angle of Elevation — looking upward</div>
+      </div>
+      <!-- Depression -->
+      <div style="text-align:center">
+        <svg width="280" height="160" viewBox="0 0 280 160" style="max-width:100%">
+          <!-- horizontal at top -->
+          <line x1="10" y1="30" x2="270" y2="30" stroke="#888" stroke-width="2"/>
+          <!-- observer at top right -->
+          <circle cx="230" cy="25" r="5" fill="#2563a8"/>
+          <text x="235" y="22" font-size="17" fill="#2563a8">Observer</text>
+          <!-- object below -->
+          <circle cx="40" cy="145" r="5" fill="#b02020"/>
+          <text x="10" y="158" font-size="17" fill="#b02020">Object</text>
+          <!-- sight line -->
+          <line x1="230" y1="25" x2="40" y2="145" stroke="#2563a8" stroke-width="2" stroke-dasharray="none"/>
+          <!-- horizontal extension -->
+          <line x1="130" y1="30" x2="230" y2="30" stroke="#888" stroke-width="1.5"/>
+          <!-- angle of depression -->
+          <path d="M 195,30 A 35,35 0 0,0 180,55" fill="none" stroke="#b02020" stroke-width="2"/>
+          <text x="148" y="30" font-size="17" fill="#b02020">Angle of Depression</text>
+          <text x="155" y="60" font-size="17" fill="#b02020">⌒</text>
+          <text x="90" y="95" font-size="16" fill="#555" font-style="italic">Sight Line</text>
+        </svg>
+        <div class="diagram-caption">Angle of Depression — looking downward</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Compass Bearings</div>
+    <p>3 Rules: (1) Always from <strong>North</strong> &nbsp; (2) Measured <strong>clockwise</strong> &nbsp; (3) Always <strong>3 digits</strong></p>
+    <div class="diagram-wrap">
+      <svg width="280" height="280" viewBox="0 0 280 280" style="max-width:100%">
+        <defs><marker id="aB9" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0,8 3,0 6" fill="#333"/></marker></defs>
+        <!-- compass cross -->
+        <line x1="140" y1="20" x2="140" y2="260" stroke="#333" stroke-width="2" marker-end="url(#aB9)"/>
+        <line x1="20" y1="140" x2="260" y2="140" stroke="#333" stroke-width="2" marker-end="url(#aB9)"/>
+        <!-- diagonals -->
+        <line x1="45" y1="45" x2="235" y2="235" stroke="#aaa" stroke-width="1.5" stroke-dasharray="5,4"/>
+        <line x1="235" y1="45" x2="45" y2="235" stroke="#aaa" stroke-width="1.5" stroke-dasharray="5,4"/>
+        <!-- labels -->
+        <text x="132" y="14" font-size="17" fill="#1a2e4a" font-weight="700">N</text>
+        <text x="132" y="272" font-size="17" fill="#555">S (180°)</text>
+        <text x="8" y="145" font-size="17" fill="#555">W (270°)</text>
+        <text x="248" y="145" font-size="17" fill="#555">E (090°)</text>
+        <text x="228" y="40" font-size="17" fill="#555">NE (045°)</text>
+        <text x="20" y="40" font-size="17" fill="#555">NW (315°)</text>
+        <text x="228" y="245" font-size="17" fill="#555">SE (135°)</text>
+        <text x="20" y="245" font-size="17" fill="#555">SW (225°)</text>
+        <!-- clockwise arc -->
+        <path d="M 140,70 A 70,70 0 0,1 210,140" fill="none" stroke="#b02020" stroke-width="2" marker-end="url(#aB9)"/>
+        <text x="165" y="95" font-size="16" fill="#b02020">clockwise</text>
+        <!-- centre -->
+        <circle cx="140" cy="140" r="5" fill="#1a2e4a"/>
+      </svg>
+      <div class="diagram-caption">Compass bearings — measured clockwise from North, always 3 digits</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">3-D Problems — Reducing to 2-D</div>
+    <div class="example">
+      <div class="ex-label">Example — 16 cm cube: find DG, DF, ∠FDG</div>
+      <div class="diagram-row">
+        <svg width="200" height="180" viewBox="0 0 200 180" style="max-width:100%">
+          <!-- Cube wireframe ABCD top, EFGH bottom -->
+          <!-- top face -->
+          <polygon points="40,40 140,40 160,20 60,20" fill="#e0f2fe" stroke="#0284c7" stroke-width="1.5"/>
+          <!-- front face -->
+          <polygon points="40,40 140,40 140,120 40,120" fill="#bae6fd" stroke="#0284c7" stroke-width="1.5"/>
+          <!-- right face -->
+          <polygon points="140,40 160,20 160,100 140,120" fill="#7dd3fc" stroke="#0284c7" stroke-width="1.5"/>
+          <!-- dashed hidden edges -->
+          <line x1="60" y1="20" x2="60" y2="100" stroke="#0284c7" stroke-width="1" stroke-dasharray="4,3"/>
+          <line x1="60" y1="100" x2="160" y2="100" stroke="#0284c7" stroke-width="1" stroke-dasharray="4,3"/>
+          <line x1="60" y1="100" x2="40" y2="120" stroke="#0284c7" stroke-width="1" stroke-dasharray="4,3"/>
+          <!-- labels -->
+          <text x="33" y="35" font-size="17" fill="#1a2e4a">D</text>
+          <text x="142" y="35" font-size="17" fill="#1a2e4a">C</text>
+          <text x="55" y="16" font-size="17" fill="#1a2e4a">A</text>
+          <text x="162" y="16" font-size="17" fill="#1a2e4a">B</text>
+          <text x="30" y="128" font-size="17" fill="#1a2e4a">E</text>
+          <text x="142" y="128" font-size="17" fill="#1a2e4a">F</text>
+          <text x="162" y="104" font-size="17" fill="#1a2e4a">G</text>
+          <text x="55" y="104" font-size="17" fill="#1a2e4a">H</text>
+          <text x="80" y="82" font-size="17" fill="#c8860a">16 cm</text>
+        </svg>
+        <div style="font-size:.93rem;margin-top:10px">
+          <p><strong>Step (i):</strong> Find $DG$ using Pythagoras in base $EGHD$:</p>
+          $$DG^2 = DH^2 + HG^2 = 16^2+16^2=512 \Rightarrow DG=\sqrt{512}\approx 22.6\ \text{cm}$$
+          <p><strong>Step (ii):</strong> Find $DF$ using Pythagoras in vertical plane:</p>
+          $$DF^2 = DG^2 + GF^2 = 512+16^2=768 \Rightarrow DF=\sqrt{768}\approx 27.7\ \text{cm}$$
+          <p><strong>Step (iii):</strong> Find $\angle FDG$:</p>
+          $$\tan\angle FDG = \frac{16}{\sqrt{512}} \Rightarrow \angle FDG \approx 35.3°$$
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════ CH 10: CIRCULAR MEASURE ═══════════════════ -->
+<div class="chapter" id="ch10">
+  <div class="chapter-title"><span>Ch 10</span> Circular Measure</div>
+
+  <div class="section">
+    <div class="section-title">Radian</div>
+    <p>A radian is the angle made at the centre of a circle by an arc whose length equals the radius.</p>
+    <div class="diagram-wrap">
+      <svg width="220" height="220" viewBox="0 0 220 220" style="max-width:100%">
+        <circle cx="110" cy="110" r="90" fill="#f0f9ff" stroke="#0284c7" stroke-width="2"/>
+        <!-- 1 radian arc -->
+        <path d="M 110,110 L 200,110 A 90,90 0 0,1 161,35" fill="none" stroke="#b02020" stroke-width="3"/>
+        <!-- radius lines -->
+        <line x1="110" y1="110" x2="200" y2="110" stroke="#27ae60" stroke-width="2.5"/>
+        <line x1="110" y1="110" x2="161" y2="35" stroke="#27ae60" stroke-width="2.5"/>
+        <!-- label r on both radii -->
+        <text x="152" y="108" font-size="16" fill="#27ae60" font-style="italic">r</text>
+        <text x="138" y="65" font-size="16" fill="#27ae60" font-style="italic">r</text>
+        <!-- label arc = r -->
+        <text x="175" y="62" font-size="16" fill="#b02020" font-weight="700">arc = $r$</text>
+        <!-- angle label -->
+        <text x="118" y="100" font-size="16" fill="#7c3aed">1 rad</text>
+        <!-- centre -->
+        <circle cx="110" cy="110" r="4" fill="#1a2e4a"/>
+      </svg>
+      <div class="diagram-caption">1 radian = angle when arc length = radius</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Radian ↔ Degree Conversion</div>
+    <div class="formula">$$2\pi \text{ rad} = 360° \qquad \pi \text{ rad} = 180° \qquad 1 \text{ rad} = \frac{180°}{\pi} \approx 57.3°$$</div>
+    <div class="formula">$$1° = \frac{\pi}{180} \text{ rad}$$</div>
+    <!-- Conversion diagram -->
+    <div class="diagram-wrap">
+      <svg width="380" height="90" viewBox="0 0 380 90" style="max-width:100%">
+        <defs>
+          <marker id="arrL" markerWidth="9" markerHeight="7" refX="8" refY="3.5" orient="auto"><polygon points="0 0,9 3.5,0 7" fill="#2563a8"/></marker>
+          <marker id="arrR" markerWidth="9" markerHeight="7" refX="1" refY="3.5" orient="auto"><polygon points="9 0,0 3.5,9 7" fill="#b02020"/></marker>
+        </defs>
+        <!-- boxes -->
+        <rect x="10" y="25" width="120" height="40" rx="6" fill="#eff6ff" stroke="#2563a8" stroke-width="2"/>
+        <text x="70" y="50" text-anchor="middle" font-size="16" fill="#2563a8" font-weight="700">Degree</text>
+        <rect x="250" y="25" width="120" height="40" rx="6" fill="#f0fdf4" stroke="#27ae60" stroke-width="2"/>
+        <text x="310" y="50" text-anchor="middle" font-size="16" fill="#27ae60" font-weight="700">Radian</text>
+        <!-- top arrow: degrees → radians -->
+        <path d="M 130,35 Q 190,15 250,35" fill="none" stroke="#2563a8" stroke-width="2.5" marker-end="url(#arrL)"/>
+        <text x="190" y="12" text-anchor="middle" font-size="16" fill="#2563a8">$\times \dfrac{\pi}{180°}$</text>
+        <!-- bottom arrow: radians → degrees -->
+        <path d="M 250,55 Q 190,75 130,55" fill="none" stroke="#b02020" stroke-width="2.5" marker-end="url(#arrR)"/>
+        <text x="190" y="85" text-anchor="middle" font-size="16" fill="#b02020">$\times \dfrac{180°}{\pi}$</text>
+      </svg>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Parts of a Circle — Arc, Sector, Segment</div>
+    <div class="diagram-wrap">
+      <svg width="240" height="220" viewBox="0 0 240 220" style="max-width:100%">
+        <circle cx="120" cy="110" r="90" fill="#f8fafc" stroke="#0284c7" stroke-width="1.5"/>
+        <!-- sector (shaded) -->
+        <path d="M 120,110 L 50,38 A 90,90 0 0,1 190,38 Z" fill="rgba(37,99,168,0.15)" stroke="#2563a8" stroke-width="2"/>
+        <!-- segment (different shade, between chord and arc) -->
+        <path d="M 50,38 A 90,90 0 0,1 190,38 Z" fill="rgba(124,58,237,0.2)" stroke="#7c3aed" stroke-width="2"/>
+        <!-- labels -->
+        <text x="115" y="58" font-size="17" fill="#b02020" font-weight="700">Arc</text>
+        <text x="40" y="105" font-size="17" fill="#2563a8" font-weight="700">Sector</text>
+        <text x="95" y="48" font-size="17" fill="#7c3aed" font-weight="700">Segment</text>
+        <!-- radius and angle -->
+        <line x1="120" y1="110" x2="50" y2="38" stroke="#555" stroke-width="1.5" stroke-dasharray="4,3"/>
+        <line x1="120" y1="110" x2="190" y2="38" stroke="#555" stroke-width="1.5" stroke-dasharray="4,3"/>
+        <text x="103" y="85" font-size="17" fill="#555" font-style="italic">r</text>
+        <text x="130" y="85" font-size="17" fill="#555" font-style="italic">r</text>
+        <path d="M 133,110 A 23,23 0 0,1 120,88" fill="none" stroke="#c8860a" stroke-width="1.8"/>
+        <text x="136" y="100" font-size="17" fill="#c8860a">$\theta$</text>
+        <circle cx="120" cy="110" r="4" fill="#555"/>
+        <text x="124" y="124" font-size="17" fill="#555">O</text>
+      </svg>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Arc Length and Area of Sector</div>
+    <table>
+      <tr><th>Measure</th><th>In Degrees</th><th>In Radians</th></tr>
+      <tr><td>Arc Length</td><td>$\ell = \dfrac{\theta}{360°}\times 2\pi r$</td><td>$\ell = r\theta$</td></tr>
+      <tr><td>Area of Sector</td><td>$A = \dfrac{\theta}{360°}\times \pi r^2$</td><td>$A = \dfrac{1}{2}r^2\theta$</td></tr>
+    </table>
+    <div class="note"><strong>Area of Segment</strong> = Area of Sector − Area of Triangle<br>
+    $$= \frac{1}{2}r^2\theta - \frac{1}{2}r^2\sin\theta = \frac{1}{2}r^2(\theta - \sin\theta)$$</div>
+  </div>
+</div>
+
+<!-- ══ FOOTER ═════════════════════════════════════════════ -->
+<div style="margin-top:60px;border-top:2px solid var(--navy);padding-top:18px;text-align:center;color:var(--muted);font-size:.85rem;">
+  Secondary 3 Mathematics Revision Notes &nbsp;·&nbsp; &nbsp;·&nbsp; All diagrams and equations reproduced for educational reference
+</div>
+</div><!-- /page -->
+</body>
+</html>
