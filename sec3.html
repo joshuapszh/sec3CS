@@ -1,0 +1,1461 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>TARNISHED SKIES — Ride of the Drake</title>
+<style>
+  html, body { margin:0; padding:0; overflow:hidden; background:#000; height:100%; font-family: Georgia, 'Times New Roman', serif; }
+  #hud { position:fixed; inset:0; pointer-events:none; color:#d8c37a; }
+  .gold { color:#d8c37a; text-shadow: 0 0 8px rgba(216,195,122,.45), 0 2px 4px #000; }
+
+  #startScreen {
+    position:fixed; inset:0; background:radial-gradient(ellipse at center, #14120c 0%, #000 75%);
+    display:flex; flex-direction:column; align-items:center; justify-content:center; z-index:20;
+    transition:opacity 1.2s ease;
+  }
+  #startScreen h1 { font-size:56px; letter-spacing:14px; font-weight:normal; margin:0 0 10px 0; }
+  #startScreen h2 { font-size:16px; letter-spacing:6px; font-weight:normal; opacity:.8; margin:0 0 50px 0; font-style:italic; }
+  #startScreen .prompt { font-size:20px; letter-spacing:4px; animation:pulse 2.2s infinite; }
+  #startScreen .controls { margin-top:56px; font-size:14px; letter-spacing:2px; opacity:.75; line-height:2; text-align:center; }
+  @keyframes pulse { 0%,100%{opacity:.35} 50%{opacity:1} }
+
+  #objective { position:fixed; top:24px; left:28px; font-size:17px; letter-spacing:2px; }
+  #objective .sub { font-size:13px; opacity:.7; margin-top:4px; }
+  #compass { position:fixed; top:26px; left:50%; transform:translateX(-50%); font-size:26px; transition:none; }
+  #flightData { position:fixed; bottom:22px; right:30px; text-align:right; font-size:14px; letter-spacing:2px; opacity:.85; }
+  #hint { position:fixed; bottom:22px; left:30px; font-size:13px; letter-spacing:2px; opacity:.6; line-height:1.9; }
+
+  #message {
+    position:fixed; top:34%; left:0; right:0; text-align:center;
+    font-size:40px; letter-spacing:10px; opacity:0; transition:opacity .8s ease;
+  }
+  #message .bar { display:block; margin:14px auto 0; width:420px; height:1px;
+    background:linear-gradient(90deg, transparent, #d8c37a, transparent); }
+
+  #victory {
+    position:fixed; inset:0; display:none; flex-direction:column; align-items:center; justify-content:center;
+    background:rgba(0,0,0,.45); z-index:15; opacity:0; transition:opacity 1.2s ease;
+  }
+  #victory h1 { font-size:52px; letter-spacing:12px; font-weight:normal; margin:0; }
+  #victory p { font-size:16px; letter-spacing:4px; opacity:.8; }
+
+  #vignette { position:fixed; inset:0; pointer-events:none;
+    background:radial-gradient(ellipse at center, transparent 55%, rgba(0,0,0,.55) 100%); }
+  #boostFx { position:fixed; inset:0; pointer-events:none; opacity:0; transition:opacity .3s;
+    background:radial-gradient(ellipse at center, transparent 40%, rgba(255,170,60,.10) 100%); }
+  #chillFx { position:fixed; inset:0; pointer-events:none; opacity:0; transition:opacity .55s;
+    background:radial-gradient(ellipse at center, transparent 35%, rgba(96,148,255,.22) 100%); }
+  #hurtFx { position:fixed; inset:0; pointer-events:none; opacity:0; transition:opacity .5s;
+    background:radial-gradient(ellipse at center, transparent 30%, rgba(255,60,30,.28) 100%); }
+  #knockFx { position:fixed; inset:0; pointer-events:none; opacity:0; transition:opacity .18s;
+    background:conic-gradient(from 20deg at 50% 50%, transparent, rgba(255,112,28,.20), transparent 28%, rgba(255,220,130,.12), transparent 58%); mix-blend-mode:screen; }
+  #grain { position:fixed; inset:-40%; pointer-events:none; opacity:.055; z-index:8;
+    background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.7'/%3E%3C/svg%3E"); animation:grain .22s steps(2) infinite; }
+  @keyframes grain { 0%{transform:translate(0,0)} 25%{transform:translate(4%,-3%)} 50%{transform:translate(-3%,4%)} 75%{transform:translate(2%,3%)} }
+  #startScreen .dedication { font-size:13px; letter-spacing:4px; opacity:.5; font-style:italic; margin:-38px 0 44px 0; }
+  #reticle { position:fixed; left:50%; top:50%; width:58px; height:58px; transform:translate(-50%,-50%); border:1px solid rgba(216,195,122,.38); border-radius:50%; box-shadow:0 0 18px rgba(216,195,122,.12); }
+  #reticle:before, #reticle:after { content:''; position:absolute; background:rgba(216,195,122,.62); }
+  #reticle:before { left:50%; top:-16px; width:1px; height:16px; box-shadow:0 74px 0 rgba(216,195,122,.62); }
+  #reticle:after { top:50%; left:-16px; height:1px; width:16px; box-shadow:74px 0 0 rgba(216,195,122,.62); }
+  #meters { position:fixed; right:30px; bottom:106px; width:220px; }
+  .meterLabel { font-size:12px; letter-spacing:2px; opacity:.82; margin:8px 0 3px; }
+  .meterShell { height:8px; border:1px solid rgba(216,195,122,.45); background:rgba(0,0,0,.38); overflow:hidden; }
+  .meterFill { height:100%; width:100%; background:linear-gradient(90deg,#8c2b18,#ff8b24,#ffe08a); box-shadow:0 0 12px rgba(255,126,32,.55); transition:width .12s linear; }
+  #staminaFill { background:linear-gradient(90deg,#526b8d,#9dc6ff,#f6e2a0); }
+  #staggerFill { width:0%; background:linear-gradient(90deg,#6b1c11,#ff4b1f,#ffe06b); box-shadow:0 0 14px rgba(255,80,25,.7); }
+  #recoveryPrompt { position:fixed; left:50%; top:61%; transform:translateX(-50%); display:none; text-align:center;
+    font-size:20px; letter-spacing:4px; color:#ffe09a; text-shadow:0 0 16px #ff5a20,0 3px 5px #000; animation:pulse .55s infinite; }
+  #targetHint { position:fixed; left:50%; bottom:112px; transform:translateX(-50%); text-align:center; font-size:14px; letter-spacing:2px; opacity:.85; line-height:1.7; }
+  #targetHint.urgent { color:#ffdd8a; text-shadow:0 0 14px rgba(255,145,40,.85),0 2px 4px #000; }
+  #scorePanel { position:fixed; top:24px; right:30px; text-align:right; font-size:16px; letter-spacing:2px; }
+  #scorePanel .combo { font-size:13px; margin-top:3px; color:#ffdd8a; text-shadow:0 0 12px rgba(255,150,40,.7); }
+  #bossBar { position:fixed; top:74px; left:50%; transform:translateX(-50%); width:460px; display:none; text-align:center; }
+  #bossBar .bossName { font-size:14px; letter-spacing:6px; margin-bottom:5px; color:#ffd28a; text-shadow:0 0 14px rgba(255,90,30,.8),0 2px 4px #000; }
+  #bossBar .meterShell { height:10px; border:1px solid rgba(255,135,70,.6); }
+  #bossFill { height:100%; width:100%; background:linear-gradient(90deg,#65120d,#e64818,#ffe18a); box-shadow:0 0 16px rgba(255,80,25,.75); transition:width .15s linear; }
+  #lockMarker { position:fixed; width:44px; height:44px; margin:-22px 0 0 -22px; border:1px solid rgba(255,150,60,.85); transform:rotate(45deg); display:none; box-shadow:0 0 16px rgba(255,140,40,.35); pointer-events:none; }
+  #lockMarker.inRange { border-color:#ffdd8a; box-shadow:0 0 24px rgba(255,210,100,.85); }
+</style>
+</head>
+<body>
+<div id="vignette"></div>
+<div id="boostFx"></div>
+<div id="chillFx"></div>
+<div id="hurtFx"></div>
+<div id="knockFx"></div>
+<div id="grain"></div>
+<div id="reticle" class="gold"></div>
+<div id="hud">
+  <div id="objective" class="gold"></div>
+  <div id="compass" class="gold">◆</div>
+  <div id="flightData" class="gold"></div>
+  <div id="meters" class="gold">
+    <div class="meterLabel">DRAGONFIRE</div><div class="meterShell"><div id="fireFill" class="meterFill"></div></div>
+    <div class="meterLabel">WING SURGE</div><div class="meterShell"><div id="staminaFill" class="meterFill"></div></div>
+    <div class="meterLabel">STAGGER</div><div class="meterShell"><div id="staggerFill" class="meterFill"></div></div>
+  </div>
+  <div id="scorePanel" class="gold">
+    <div id="scoreText">SCORE 000000</div>
+    <div id="killText">HUNT 0 / 6</div>
+    <div id="comboText" class="combo"></div>
+  </div>
+  <div id="bossBar">
+    <div class="bossName">THE INFERNO SOVEREIGN</div>
+    <div class="meterShell"><div id="bossFill"></div></div>
+  </div>
+  <div id="lockMarker"></div>
+  <div id="targetHint" class="gold"></div>
+  <div id="hint" class="gold">
+    W / S — dive / climb &nbsp;·&nbsp; A / D — turn &nbsp;·&nbsp; Q — lock target<br>
+    SHIFT — surge &nbsp;·&nbsp; SPACE — dragonfire &nbsp;·&nbsp; E — land / take wing<br>
+    F — recover from knockdown &nbsp;·&nbsp; R — begin anew
+  </div>
+  <div id="message" class="gold"><span id="messageText"></span><span class="bar"></span></div>
+  <div id="recoveryPrompt">HOLD F — SPREAD THY WINGS<br><span id="recoveryText" style="font-size:13px"></span></div>
+</div>
+
+<div id="victory">
+  <h1 class="gold">THE INFERNO IS VANQUISHED</h1>
+  <p class="gold">Three regions are free, and the hunted skies belong to thy drake once more.</p>
+  <p id="victoryStats" class="gold" style="letter-spacing:3px;"></p>
+  <p class="gold" style="opacity:.55; font-size:13px;">Thou mayest fly on, shouldst thou wish it — or press R to begin anew.</p>
+</div>
+
+<div id="startScreen">
+  <h1 class="gold">TARNISHED SKIES</h1>
+  <h2 class="gold">Ride of the Ancient Drake</h2>
+  <div class="dedication gold">a tale written for Sec 3</div>
+  <div class="prompt gold">— PRESS ENTER TO TAKE WING —</div>
+  <div class="controls gold">
+    Explore three corrupted regions and hunt their fire-breathing dragons.<br>
+    Press Q to lock a target. Hold SPACE when the reticle burns gold.<br><br>
+    Enemy flame fills STAGGER. If knocked down, hold F to recover before impact.<br>
+    Complete all three missions — then survive the Inferno Sovereign.
+  </div>
+</div>
+
+<script type="importmap">
+{
+  "imports": {
+    "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+    "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+  }
+}
+</script>
+<script>
+// shown if the module script below never boots (e.g. no internet on first load)
+setTimeout(() => {
+  if (!window.__gameBooted) {
+    document.getElementById('startScreen').innerHTML =
+      '<h1 class="gold" style="font-size:24px">Could not load the Three.js library.<br>An internet connection is required on first load.</h1>';
+  }
+}, 6000);
+</script>
+<script type="module">
+import * as THREE from 'three';
+import { EffectComposer } from 'three/addons/postprocessing/EffectComposer.js';
+import { RenderPass } from 'three/addons/postprocessing/RenderPass.js';
+import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js';
+import { OutputPass } from 'three/addons/postprocessing/OutputPass.js';
+window.__gameBooted = true;
+// test harness: with ?test=1 the pending frame callback is exposed so an
+// automated test can pump frames manually while the tab is hidden
+if (new URLSearchParams(location.search).has('test')) {
+  const _raf = window.requestAnimationFrame.bind(window);
+  window.requestAnimationFrame = cb => { window.__rafCb = cb; return _raf(cb); };
+}
+
+// ---------- Core setup ----------
+const scene = new THREE.Scene();
+scene.background = new THREE.Color(0x0d0f16);
+scene.fog = new THREE.FogExp2(0x161424, 0.00085);
+
+const camera = new THREE.PerspectiveCamera(72, innerWidth/innerHeight, 0.1, 6000);
+const renderer = new THREE.WebGLRenderer({ antialias:true });
+renderer.setSize(innerWidth, innerHeight);
+renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+renderer.shadowMap.enabled = true;
+renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+renderer.toneMapping = THREE.ACESFilmicToneMapping;
+renderer.toneMappingExposure = 1.48;
+renderer.outputColorSpace = THREE.SRGBColorSpace;
+document.body.appendChild(renderer.domElement);
+
+const composer = new EffectComposer(renderer);
+composer.addPass(new RenderPass(scene, camera));
+const bloom = new UnrealBloomPass(new THREE.Vector2(innerWidth, innerHeight), 0.68, 0.62, 0.62);
+composer.addPass(bloom);
+composer.addPass(new OutputPass());
+
+addEventListener('resize', () => {
+  camera.aspect = innerWidth/innerHeight;
+  camera.updateProjectionMatrix();
+  renderer.setSize(innerWidth, innerHeight);
+  composer.setSize(innerWidth, innerHeight);
+});
+
+// ---------- Lights ----------
+scene.add(new THREE.HemisphereLight(0x4a5378, 0x1c1a16, 1.9));
+const moon = new THREE.DirectionalLight(0x93a8d4, 1.7);
+moon.position.set(-400, 600, -200);
+scene.add(moon);
+const erdGlow = new THREE.PointLight(0xf5c86a, 1.6, 3000, 1.2);
+erdGlow.position.set(0, 420, -1300);
+scene.add(erdGlow);
+const emberSun = new THREE.DirectionalLight(0xff8a46, 1.05);
+emberSun.position.set(650,420,300); emberSun.castShadow=true;
+scene.add(emberSun);
+
+// ---------- Sky dome & moon disc ----------
+{
+  const c = document.createElement('canvas'); c.width = 4; c.height = 512;
+  const ctx = c.getContext('2d');
+  const grad = ctx.createLinearGradient(0, 0, 0, 512);
+  grad.addColorStop(0.0,  '#1a2242');
+  grad.addColorStop(0.45, '#12162b');
+  grad.addColorStop(0.62, '#141322');
+  grad.addColorStop(0.72, '#251d1b');
+  grad.addColorStop(1.0,  '#0c0a09');
+  ctx.fillStyle = grad; ctx.fillRect(0, 0, 4, 512);
+  const domeTex = new THREE.CanvasTexture(c);
+  domeTex.colorSpace = THREE.SRGBColorSpace;
+  const dome = new THREE.Mesh(new THREE.SphereGeometry(4800, 24, 18),
+    new THREE.MeshBasicMaterial({ map:domeTex, side:THREE.BackSide,
+      fog:false, depthWrite:false }));
+  scene.add(dome);
+
+  const mc = document.createElement('canvas'); mc.width = mc.height = 128;
+  const mctx = mc.getContext('2d');
+  const mg = mctx.createRadialGradient(64,64,0,64,64,64);
+  mg.addColorStop(0,    'rgba(245,248,255,1)');
+  mg.addColorStop(0.28, 'rgba(225,235,255,0.95)');
+  mg.addColorStop(0.4,  'rgba(160,185,255,0.28)');
+  mg.addColorStop(1,    'rgba(120,150,255,0)');
+  mctx.fillStyle = mg; mctx.fillRect(0, 0, 128, 128);
+  const moonTex = new THREE.CanvasTexture(mc);
+  moonTex.colorSpace = THREE.SRGBColorSpace;
+  const moonSpr = new THREE.Sprite(new THREE.SpriteMaterial({
+    map:moonTex, fog:false, transparent:true, depthWrite:false }));
+  moonSpr.position.copy(moon.position).normalize().multiplyScalar(4300);
+  moonSpr.scale.set(500, 500, 1);
+  scene.add(moonSpr);
+}
+
+// ---------- Terrain ----------
+function terrainH(x, z) {
+  return 20*Math.sin(x*0.004)*Math.cos(z*0.005)
+       + 12*Math.sin(x*0.011+1.7)*Math.sin(z*0.008+0.4)
+       + 5*Math.sin(x*0.03)*Math.cos(z*0.026)
+       + 30*Math.sin(x*0.0016+2.1)*Math.sin(z*0.0019);
+}
+{
+  const size = 4200, seg = 190;
+  const geo = new THREE.PlaneGeometry(size, size, seg, seg);
+  geo.rotateX(-Math.PI/2);
+  const pos = geo.attributes.position;
+  for (let i=0; i<pos.count; i++) {
+    pos.setY(i, terrainH(pos.getX(i), pos.getZ(i)));
+  }
+  geo.computeVertexNormals();
+  // colour by height and slope: mossy flats, bare rock on steep faces
+  const nrm = geo.attributes.normal;
+  const colors = new Float32Array(pos.count*3);
+  const cLow = new THREE.Color(0x222c1e), cHigh = new THREE.Color(0x45433e),
+        cRock = new THREE.Color(0x3e3c42);
+  const tmp = new THREE.Color();
+  for (let i=0; i<pos.count; i++) {
+    const h = pos.getY(i);
+    tmp.copy(cLow).lerp(cHigh, Math.min(1, Math.max(0, (h+20)/85)));
+    tmp.lerp(cRock, Math.min(1, (1 - nrm.getY(i)) * 2.4));
+    const v = 1 + (Math.random()-.5)*0.14; // subtle mottle so the ground isn't flat-shaded
+    colors[i*3]=tmp.r*v; colors[i*3+1]=tmp.g*v; colors[i*3+2]=tmp.b*v;
+  }
+  geo.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+  const mat = new THREE.MeshStandardMaterial({ vertexColors:true, roughness:1, metalness:0 });
+  scene.add(new THREE.Mesh(geo, mat));
+}
+
+// ---------- The Erdtree (distant golden tree) ----------
+{
+  const tree = new THREE.Group();
+  const trunkMat = new THREE.MeshStandardMaterial({ color:0xcfae62, emissive:0x8a6a20, emissiveIntensity:.7, roughness:.8 });
+  const trunk = new THREE.Mesh(new THREE.CylinderGeometry(18, 42, 480, 10), trunkMat);
+  trunk.position.y = 240;
+  tree.add(trunk);
+  const canopyMat = new THREE.MeshBasicMaterial({ color:0xdcb75e, transparent:true, opacity:.82, fog:false });
+  const canopy = new THREE.Mesh(new THREE.SphereGeometry(230, 20, 16), canopyMat);
+  canopy.scale.y = 0.72; canopy.position.y = 540;
+  tree.add(canopy);
+  const halo = new THREE.Mesh(new THREE.SphereGeometry(310, 20, 16),
+    new THREE.MeshBasicMaterial({ color:0xf3c95e, transparent:true, opacity:.16, blending:THREE.AdditiveBlending, depthWrite:false, fog:false }));
+  halo.scale.y = 0.75; halo.position.y = 540;
+  tree.add(halo);
+  tree.position.set(0, terrainH(0,-1300)-10, -1300);
+  scene.add(tree);
+}
+
+// ---------- Stars & drifting embers ----------
+{
+  const g = new THREE.BufferGeometry();
+  const n = 900, arr = new Float32Array(n*3);
+  for (let i=0;i<n;i++){
+    const th = Math.random()*Math.PI*2, ph = Math.random()*Math.PI*0.45;
+    const r = 4500;
+    arr[i*3]   = r*Math.sin(ph)*Math.cos(th);
+    arr[i*3+1] = r*Math.cos(ph)*0.8 + 200;
+    arr[i*3+2] = r*Math.sin(ph)*Math.sin(th);
+  }
+  g.setAttribute('position', new THREE.BufferAttribute(arr,3));
+  scene.add(new THREE.Points(g, new THREE.PointsMaterial({ color:0xbfc8e8, size:3.4, sizeAttenuation:false, fog:false })));
+}
+const embers = (() => {
+  const n = 260, g = new THREE.BufferGeometry();
+  const arr = new Float32Array(n*3), vel = [];
+  for (let i=0;i<n;i++){
+    arr[i*3]=(Math.random()-0.5)*3000; arr[i*3+1]=Math.random()*260+10; arr[i*3+2]=(Math.random()-0.5)*3000;
+    vel.push(2+Math.random()*5);
+  }
+  g.setAttribute('position', new THREE.BufferAttribute(arr,3));
+  const p = new THREE.Points(g, new THREE.PointsMaterial({ color:0xffb35c, size:2.6, transparent:true, opacity:.8, blending:THREE.AdditiveBlending, depthWrite:false }));
+  scene.add(p);
+  return { g, vel, n };
+})();
+
+// ---------- Ruins ----------
+const stoneMat = new THREE.MeshStandardMaterial({ color:0x4a4a50, roughness:.95 });
+const ruins = [];
+function addRuin(x, z, r, h) {
+  const base = terrainH(x, z);
+  const tower = new THREE.Mesh(new THREE.CylinderGeometry(r*.8, r, h, 8), stoneMat);
+  tower.position.set(x, base + h/2 - 4, z);
+  scene.add(tower);
+  ruins.push({ x, z, r, top: base + h - 4 });
+  return base + h - 4;
+}
+const ruinSpots = [[380,220,9,55],[-520,-340,11,70],[720,-660,8,45],[-260,600,10,62],[150,-980,12,80],
+                   [-880,180,9,50],[980,420,10,66],[-620,-940,8,42],[420,880,11,58],[-1050,-520,10,72]];
+for (const [x,z,r,h] of ruinSpots) addRuin(x,z,r,h);
+
+// ---------- Beacons (the goals) ----------
+const beacons = [];
+const beaconDefs = [[260,-420],[-540,120],[640,340],[-380,-780],[880,-180]];
+for (const [x,z] of beaconDefs) {
+  const top = addRuin(x, z, 13, 95);
+  const grp = new THREE.Group();
+  grp.position.set(x, top, z);
+  const bowl = new THREE.Mesh(new THREE.CylinderGeometry(9, 5, 6, 10), stoneMat);
+  bowl.position.y = 3; grp.add(bowl);
+  const coals = new THREE.Mesh(new THREE.SphereGeometry(6.4, 14, 10),
+    new THREE.MeshStandardMaterial({ color:0x22201c, emissive:0x000000, roughness:1 }));
+  coals.position.y = 6; coals.scale.y = .55; grp.add(coals);
+  const beam = new THREE.Mesh(new THREE.CylinderGeometry(2.2, 2.2, 520, 8, 1, true),
+    new THREE.MeshBasicMaterial({ color:0x49536f, transparent:true, opacity:.035, blending:THREE.AdditiveBlending, depthWrite:false, side:THREE.DoubleSide, fog:false }));
+  beam.position.y = 262; grp.add(beam);
+  const flame = new THREE.Mesh(new THREE.SphereGeometry(5.5, 12, 10),
+    new THREE.MeshBasicMaterial({ color:0xff8f2e, transparent:true, opacity:.95, blending:THREE.AdditiveBlending, depthWrite:false }));
+  flame.position.y = 9; flame.visible = false; grp.add(flame);
+  const light = new THREE.PointLight(0xff9636, 0, 380, 1.4);
+  light.position.y = 12; grp.add(light);
+  scene.add(grp);
+  beacons.push({ grp, coals, beam, flame, light, lit:false, heat:0, pos:new THREE.Vector3(x, top+8, z) });
+}
+
+// ---------- Golden rings (thread them to hasten the run) ----------
+const rings = [];
+{
+  const rgeo = new THREE.TorusGeometry(9, 0.7, 8, 28);
+  for (let i=0;i<beaconDefs.length;i++){
+    const [ax,az] = beaconDefs[i], [bx,bz] = beaconDefs[(i+1)%beaconDefs.length];
+    for (const f of [0.35, 0.7]) {
+      const x = ax + (bx-ax)*f + (Math.random()-.5)*80;
+      const z = az + (bz-az)*f + (Math.random()-.5)*80;
+      const mat = new THREE.MeshBasicMaterial({ color:0xf3cd6e, transparent:true, opacity:.75,
+        blending:THREE.AdditiveBlending, depthWrite:false });
+      const mesh = new THREE.Mesh(rgeo, mat);
+      mesh.position.set(x, terrainH(x,z) + 40 + Math.random()*70, z);
+      mesh.rotation.y = Math.atan2(bx-ax, bz-az); // hole faces along the route
+      scene.add(mesh);
+      rings.push({ mesh, passed:false });
+    }
+  }
+}
+
+// ---------- Dead trees & glowing graces ----------
+{
+  const tgeo = new THREE.CylinderGeometry(0.3, 1.5, 26, 5);
+  const tmat = new THREE.MeshStandardMaterial({ color:0x221d17, roughness:1 });
+  const n = 140, inst = new THREE.InstancedMesh(tgeo, tmat, n);
+  const m4 = new THREE.Matrix4(), p = new THREE.Vector3(), q = new THREE.Quaternion(),
+        e = new THREE.Euler(), s = new THREE.Vector3();
+  for (let i=0;i<n;i++){
+    const x = (Math.random()-.5)*3600, z = (Math.random()-.5)*3600;
+    const sc = .5 + Math.random()*1.1;
+    e.set((Math.random()-.5)*0.16, Math.random()*Math.PI, (Math.random()-.5)*0.16);
+    q.setFromEuler(e);
+    m4.compose(p.set(x, terrainH(x,z) + 12*sc, z), q, s.set(sc, sc, sc));
+    inst.setMatrixAt(i, m4);
+  }
+  scene.add(inst);
+  const gmat = new THREE.MeshBasicMaterial({ color:0xffd77a, transparent:true, opacity:.85,
+    blending:THREE.AdditiveBlending, depthWrite:false });
+  for (let i=0;i<8;i++){
+    const x = (Math.random()-.5)*3000, z = (Math.random()-.5)*3000;
+    const grace = new THREE.Mesh(new THREE.SphereGeometry(1.6, 8, 8), gmat);
+    grace.position.set(x, terrainH(x,z)+3, z);
+    scene.add(grace);
+  }
+}
+
+// ---------- Low fog & high clouds (drifting soft sprites) ----------
+const drifters = [];
+{
+  const c = document.createElement('canvas'); c.width = c.height = 128;
+  const ctx = c.getContext('2d');
+  const grad = ctx.createRadialGradient(64,64,0,64,64,64);
+  grad.addColorStop(0, 'rgba(255,255,255,0.8)');
+  grad.addColorStop(0.5, 'rgba(255,255,255,0.35)');
+  grad.addColorStop(1, 'rgba(255,255,255,0)');
+  ctx.fillStyle = grad; ctx.fillRect(0,0,128,128);
+  const softTex = new THREE.CanvasTexture(c);
+  for (let i=0;i<14;i++){ // ground fog
+    const m = new THREE.SpriteMaterial({ map:softTex, color:0x8a93b8, transparent:true,
+      opacity:.13, depthWrite:false });
+    const spr = new THREE.Sprite(m);
+    spr.scale.set(260+Math.random()*180, 80+Math.random()*40, 1);
+    spr.position.set((Math.random()-.5)*3800, 0, (Math.random()-.5)*3800);
+    scene.add(spr);
+    drifters.push({ spr, vx: 3+Math.random()*5, alt: 14+Math.random()*14, fogPatch:true });
+  }
+  for (let i=0;i<10;i++){ // clouds near the ceiling
+    const m = new THREE.SpriteMaterial({ map:softTex, color:0xaab4d0, transparent:true,
+      opacity:.12, depthWrite:false });
+    const spr = new THREE.Sprite(m);
+    spr.scale.set(520+Math.random()*320, 170+Math.random()*90, 1);
+    spr.position.set((Math.random()-.5)*4000, 470+Math.random()*120, (Math.random()-.5)*4000);
+    scene.add(spr);
+    drifters.push({ spr, vx: 5+Math.random()*7, alt: 0, fogPatch:false });
+  }
+}
+
+// ---------- Cold spirits (hazards) ----------
+const wisps = [];
+{
+  const coreMat = new THREE.MeshBasicMaterial({ color:0xbfe4ff, transparent:true, opacity:.95,
+    blending:THREE.AdditiveBlending, depthWrite:false, fog:false });
+  const haloMat = new THREE.MeshBasicMaterial({ color:0x6fb0ff, transparent:true, opacity:.2,
+    blending:THREE.AdditiveBlending, depthWrite:false, fog:false });
+  for (let i=0;i<7;i++){
+    const grp = new THREE.Group();
+    grp.add(new THREE.Mesh(new THREE.SphereGeometry(2.2, 10, 8), coreMat));
+    const halo = new THREE.Mesh(new THREE.SphereGeometry(5.5, 10, 8), haloMat);
+    grp.add(halo);
+    scene.add(grp);
+    wisps.push({ grp, halo,
+      cx:(Math.random()-.5)*2000, cz:(Math.random()-.5)*2000,
+      rad: 60+Math.random()*140, spd: .15+Math.random()*.25,
+      ph: Math.random()*Math.PI*2, alt: 45+Math.random()*90 });
+  }
+}
+let chillUntil = -1;
+let invulnUntil = -1;
+
+// ---------- Hybrid combat campaign ----------
+const HUNT_GOAL = 6;
+const MISSION_DEFS = [
+  {name:'ASHEN RUINS', sub:'break the Ember Scouts', start:0},
+  {name:'CINDER MARSH', sub:'outfly the Flame Hunters', start:2},
+  {name:'OBSIDIAN REACH', sub:'bring down the Ironwings', start:4},
+];
+const combat = {
+  phase:'idle', mission:1, missionKills:0, transitionAt:0,
+  score:0, kills:0, combo:1, comboUntil:0,
+  lock:null, bossHealth:720, bossMax:720, bossStage:1,
+};
+const enemies = [], pickups = [], enemyFireballs = [];
+const enemySpawn = [[-280,120],[330,-120],[-720,-480],[-430,-790],[690,510],[940,120]];
+
+function enemyModel(type) {
+  const g = new THREE.Group();
+  const palette = type==='SCOUT' ? [0x5a1d12,0xa63718,0xffb13b] :
+    (type==='HUNTER' ? [0x35213f,0x7b2946,0xff5b28] : [0x241d1b,0x5c3327,0xffd05b]);
+  const scaleMat = new THREE.MeshStandardMaterial({color:palette[0],emissive:palette[1],emissiveIntensity:.42,roughness:.68,metalness:type==='BRUTE'?.45:.16});
+  const membrane = new THREE.MeshStandardMaterial({color:palette[1],emissive:palette[0],emissiveIntensity:.35,roughness:.82,side:THREE.DoubleSide,transparent:true,opacity:.92});
+  const body=new THREE.Mesh(new THREE.CapsuleGeometry(type==='BRUTE'?2.8:2.1,type==='BRUTE'?9:7,5,9),scaleMat);body.rotation.x=Math.PI/2;g.add(body);
+  const head=new THREE.Group();head.position.set(0,1.2,type==='BRUTE'?-8:-6.5);
+  head.add(new THREE.Mesh(new THREE.BoxGeometry(type==='BRUTE'?3:2.2,1.7,3.7),scaleMat));
+  const throat=new THREE.Mesh(new THREE.SphereGeometry(type==='BRUTE'?1.15:.85,10,8),new THREE.MeshBasicMaterial({color:palette[2],transparent:true,opacity:.08}));
+  throat.position.set(0,-.45,-2.1);head.add(throat);g.add(head);g.userData.throat=throat;
+  for(const side of [-1,1]){
+    const wingShape=new THREE.Shape();wingShape.moveTo(0,0);wingShape.lineTo(type==='BRUTE'?10:8,2.7);wingShape.lineTo(type==='BRUTE'?14:12,-1);wingShape.lineTo(5,-3.2);wingShape.closePath();
+    const wing=new THREE.Mesh(new THREE.ShapeGeometry(wingShape),membrane);wing.geometry.rotateX(-Math.PI/2);wing.scale.x=side;wing.position.set(side*1.5,.6,-1);g.add(wing);
+    const eye=new THREE.Mesh(new THREE.SphereGeometry(.3,7,5),new THREE.MeshBasicMaterial({color:palette[2]}));eye.position.set(side*.8,.35,-2);head.add(eye);
+  }
+  const tail=new THREE.Mesh(new THREE.ConeGeometry(type==='BRUTE'?1.4:1,8,7),scaleMat);tail.rotation.x=-Math.PI/2;tail.position.z=7;g.add(tail);
+  g.traverse(o=>{if(o.isMesh){o.castShadow=true;o.receiveShadow=true;}});
+  scene.add(g); return g;
+}
+
+const enemyTypes=['SCOUT','SCOUT','HUNTER','HUNTER','BRUTE','BRUTE'];
+for (let i=0;i<HUNT_GOAL;i++) {
+  const type=enemyTypes[i], grp=enemyModel(type);
+  const maxHealth=type==='SCOUT'?55:(type==='HUNTER'?80:125);
+  enemies.push({grp,type,name:type==='SCOUT'?'EMBER SCOUT':(type==='HUNTER'?'FLAME HUNTER':'IRONWING BRUTE'),
+    health:maxHealth,maxHealth,alive:false,speed:type==='SCOUT'?48:(type==='HUNTER'?40:31),
+    attackAt:0,fireAt:-1,chargeAt:0,phase:i*1.7,hitUntil:0});
+}
+
+function beginMission(n, announceIt=true){
+  combat.phase='mission';combat.mission=n;combat.missionKills=0;combat.lock=null;
+  for(let i=enemyFireballs.length-1;i>=0;i--){scene.remove(enemyFireballs[i].grp);enemyFireballs.splice(i,1);}
+  enemies.forEach((e,i)=>{
+    const active=i>=MISSION_DEFS[n-1].start&&i<MISSION_DEFS[n-1].start+2;
+    const [x,z]=enemySpawn[i];e.health=e.maxHealth;e.alive=active;e.attackAt=clock.elapsedTime+2.4+(i%2)*.7;e.fireAt=-1;
+    e.grp.visible=active;e.grp.scale.setScalar(1);e.grp.position.set(x,terrainH(x,z)+95+(i%2)*35,z);
+  });
+  if(announceIt){roar();showMessage('MISSION '+n+' — '+MISSION_DEFS[n-1].name,2600);}
+}
+function resetCombat() {
+  combat.score=0;combat.kills=0;combat.combo=1;combat.comboUntil=0;combat.bossHealth=combat.bossMax;combat.bossStage=1;
+  for(let i=enemyFireballs.length-1;i>=0;i--){scene.remove(enemyFireballs[i].grp);enemyFireballs.splice(i,1);}
+  for(const p of pickups){p.active=false;p.grp.visible=false;}
+  shadow.grp.visible=false;shadow.heat=0;shadow.fireHold=0;beginMission(1,false);
+  document.getElementById('bossBar').style.display='none';document.getElementById('lockMarker').style.display='none';
+}
+
+function nearestTarget() {
+  let best=null, bd=Infinity;
+  if(combat.phase==='mission') for(const e of enemies) if(e.alive){const d=e.grp.position.distanceTo(state.pos);if(d<bd){best=e;bd=d;}}
+  if(combat.phase==='boss' && combat.bossHealth>0) best=shadow;
+  return best;
+}
+function toggleLock(){
+  combat.lock = combat.lock ? null : nearestTarget();
+  showMessage(combat.lock ? 'TARGET BOUND — '+(combat.lock.name||'INFERNO SOVEREIGN') : 'TARGET RELEASED',1200);
+}
+
+function dropEssence(pos) {
+  let p=pickups.find(x=>!x.active);
+  if(!p){
+    const grp=new THREE.Mesh(new THREE.IcosahedronGeometry(2.8,1),new THREE.MeshBasicMaterial({color:0xffc45d,transparent:true,opacity:.9}));
+    scene.add(grp); p={grp,active:false}; pickups.push(p);
+  }
+  p.active=true;p.grp.visible=true;p.grp.position.copy(pos);
+}
+function defeatEnemy(e){
+  if(!e.alive)return; e.alive=false;e.grp.visible=false;dropEssence(e.grp.position);
+  combat.kills++;combat.missionKills++;combat.combo=Math.min(5,combat.combo+1);combat.comboUntil=clock.elapsedTime+7;
+  combat.score+=Math.round((e.type==='SCOUT'?180:(e.type==='HUNTER'?280:420))*combat.combo);
+  chime([440,659.25,880],.55,.16);showMessage(e.name+' BROKEN — COMBO x'+combat.combo,1300);
+  if(combat.lock===e)combat.lock=nearestTarget();
+  if(combat.missionKills>=2){
+    if(combat.mission<3){combat.phase='transition';combat.transitionAt=clock.elapsedTime+2.5;combat.lock=null;showMessage('REGION LIBERATED — SEEK THE NEXT FLAME',2300);}
+    else activateBoss();
+  }
+}
+function spawnEnemyFire(e){
+  const origin=new THREE.Vector3();e.grp.userData.throat.getWorldPosition(origin);
+  const predicted=state.pos.clone();
+  if(e.type==='HUNTER')predicted.add(forwardVec(new THREE.Vector3()).multiplyScalar(state.speed*.42));
+  const dir=predicted.sub(origin).normalize(),size=e.type==='BRUTE'?3.1:(e.type==='HUNTER'?2.4:1.9);
+  const grp=new THREE.Group();
+  const core=new THREE.Mesh(new THREE.SphereGeometry(size,10,8),new THREE.MeshBasicMaterial({color:0xfff0a0}));
+  const halo=new THREE.Mesh(new THREE.SphereGeometry(size*2.3,10,8),new THREE.MeshBasicMaterial({color:e.type==='HUNTER'?0xff3b16:0xff8a20,transparent:true,opacity:.28,blending:THREE.AdditiveBlending,depthWrite:false}));
+  const light=new THREE.PointLight(0xff5a18,e.type==='BRUTE'?5:3.3,90,2);grp.add(core,halo,light);grp.position.copy(origin);scene.add(grp);
+  enemyFireballs.push({grp,vel:dir.multiplyScalar(e.type==='SCOUT'?92:(e.type==='HUNTER'?112:74)),life:5,type:e.type,r:size*1.8});
+  if(e.type==='BRUTE')roar();
+}
+function updateEnemyFire(dt){
+  for(let i=enemyFireballs.length-1;i>=0;i--){
+    const f=enemyFireballs[i];f.grp.position.addScaledVector(f.vel,dt);f.life-=dt;f.grp.rotation.y+=dt*8;
+    const halo=f.grp.children[1];halo.scale.setScalar(1+Math.sin(clock.elapsedTime*18+i)*.18);
+    const ground=terrainH(f.grp.position.x,f.grp.position.z);
+    if(!state.landed&&!state.fallen&&f.grp.position.distanceTo(state.pos)<9+f.r){
+      const power=f.type==='SCOUT'?32:(f.type==='HUNTER'?44:62);woundPlayer(f.type==='BRUTE'?'IRON FIRE HURLS THEE ASIDE':'HOSTILE FLAME STRIKES THY WINGS',power,false);f.life=0;
+    }
+    if(f.grp.position.y<ground+2)f.life=0;
+    if(f.life<=0){const p=f.grp.position;addScorch(p.x,Math.max(p.y,ground+1),p.z);scene.remove(f.grp);enemyFireballs.splice(i,1);}
+  }
+}
+function activateBoss(){
+  for(let i=enemyFireballs.length-1;i>=0;i--){scene.remove(enemyFireballs[i].grp);enemyFireballs.splice(i,1);}
+  combat.phase='boss';combat.lock=shadow;combat.bossHealth=combat.bossMax;combat.bossStage=1;
+  shadow.name='INFERNO SOVEREIGN';shadow.grp.visible=true;shadow.grp.position.set(state.pos.x+180,state.pos.y+55,state.pos.z-240);
+  shadow.routedUntil=-1;shadow.mode='hunt';document.getElementById('bossBar').style.display='block';
+  roar();showMessage('THE INFERNO SOVEREIGN DESCENDS',3000);
+}
+function winCombat(){
+  combat.phase='victory';state.victory=true;combat.lock=null;shadow.grp.visible=false;
+  combat.score+=Math.max(1000,5000-Math.floor((performance.now()-state.startTime)/100));
+  const secs=(performance.now()-state.startTime)/1000;
+  let bestScore=0,bestTime=Infinity;
+  try{bestScore=+(localStorage.getItem('dragonCombatBestScore')||0);bestTime=+(localStorage.getItem('dragonCombatBestTime')||Infinity);
+    if(combat.score>bestScore)localStorage.setItem('dragonCombatBestScore',combat.score);
+    if(secs<bestTime)localStorage.setItem('dragonCombatBestTime',secs);}catch(e){}
+  const finalScore=Math.floor(combat.score);
+  document.getElementById('victoryStats').textContent='SCORE '+finalScore+' · '+fmtTime(secs)+(finalScore>bestScore?' · NEW HIGH SCORE':'');
+  document.getElementById('bossBar').style.display='none';document.getElementById('lockMarker').style.display='none';
+  document.getElementById('victory').style.display='flex';setTimeout(()=>document.getElementById('victory').style.opacity=1,30);
+  chime([392,523.25,659.25,783.99,1046.5],1.6,.22);
+}
+
+const _combatV=new THREE.Vector3();
+function updateCombat(dt,t){
+  if(combat.combo>1 && t>combat.comboUntil)combat.combo=1;
+  if(combat.phase==='transition'&&t>=combat.transitionAt)beginMission(combat.mission+1);
+  if(combat.phase==='mission') for(const e of enemies) if(e.alive){
+    e.phase+=dt*(e.type==='SCOUT'?2.3:1.35);const to=_combatV.copy(state.pos).sub(e.grp.position);const d=to.length();
+    const desired=e.type==='BRUTE'?70:105;
+    if(d>desired)e.grp.position.addScaledVector(to.normalize(),e.speed*dt);else if(d<desired*.62)e.grp.position.addScaledVector(to.normalize(),-e.speed*.45*dt);
+    e.grp.position.y+=Math.sin(e.phase)*dt*5;e.grp.lookAt(state.pos);e.grp.rotateY(Math.PI);e.grp.rotation.z=Math.sin(e.phase)*.2;
+    if(t>e.attackAt&&d<260){e.fireAt=t+(e.type==='SCOUT'?.62:.9);e.attackAt=t+(e.type==='SCOUT'?3.5:(e.type==='HUNTER'?3.0:4.2));}
+    const throat=e.grp.userData.throat;if(e.fireAt>t){const glow=1-Math.max(0,(e.fireAt-t)/(e.type==='SCOUT'?.62:.9));throat.material.opacity=.15+glow*.85;throat.scale.setScalar(1+glow*1.6);}
+    else if(e.fireAt>0){spawnEnemyFire(e);e.fireAt=-1;throat.material.opacity=.08;throat.scale.setScalar(1);}
+    if(e.type==='BRUTE'&&d<18&&t>e.chargeAt){e.chargeAt=t+5;state.pos.addScaledVector(to.normalize(),22);woundPlayer('THE IRONWING SMASHES THEE FROM THE SKY',85,true);}
+    if(t<e.hitUntil)e.grp.scale.setScalar(1.22);else e.grp.scale.lerp(new THREE.Vector3(1,1,1),Math.min(1,dt*10));
+  }
+  updateEnemyFire(dt);
+  for(const p of pickups)if(p.active){p.grp.rotation.y+=dt*3;p.grp.position.y+=Math.sin(t*4+p.grp.position.x)*dt*1.2;
+    if(p.grp.position.distanceTo(state.pos)<13){p.active=false;p.grp.visible=false;state.fire=Math.min(100,state.fire+45);state.stamina=Math.min(100,state.stamina+35);combat.score+=75;chime([659.25,987.77],.4,.12);showMessage('ESSENCE RESTORES THE DRAKE',1000);}}
+  if(combat.lock && ((combat.lock.alive===false)||(combat.lock===shadow&&combat.phase!=='boss')))combat.lock=nearestTarget();
+}
+
+// ---------- The Inferno Sovereign ----------
+const shadow = {
+  grp: new THREE.Group(), head: null, wings: [],
+  yaw: 0, pitch: 0, speed: 40, mode: 'patrol',
+  ph: Math.random()*Math.PI*2, flap: 0,
+  heat: 0, fireHold: 0, routedUntil: -1, lastRoar: -99,
+};
+const SFIRE_N = 200;
+const sfire = { pts:null, pos:new Float32Array(SFIRE_N*3), vel:[], life:new Float32Array(SFIRE_N), next:0 };
+{
+  const g = shadow.grp;
+  g.rotation.order = 'YXZ';
+  const smat = new THREE.MeshStandardMaterial({ color:0x251410, roughness:.7, metalness:.28,
+    emissive:0x6b1708, emissiveIntensity:.78 });
+  const smem = new THREE.MeshStandardMaterial({ color:0x4a1c16, roughness:.82, side:THREE.DoubleSide,
+    transparent:true, opacity:.94, emissive:0x7a1708, emissiveIntensity:.62 });
+  const body = new THREE.Mesh(new THREE.CapsuleGeometry(2.4, 8, 6, 12), smat);
+  body.rotation.x = Math.PI/2; g.add(body);
+  let py = 0.9, pz = -5.5;
+  for (let i=0;i<4;i++){
+    const seg = new THREE.Mesh(new THREE.SphereGeometry(1.7 - i*0.22, 10, 8), smat);
+    py += 0.7; pz -= 2.2; seg.position.set(0, py, pz); g.add(seg);
+  }
+  const head = new THREE.Group();
+  head.position.set(0, py+0.5, pz-2.4);
+  head.add(new THREE.Mesh(new THREE.BoxGeometry(2, 1.6, 3.6), smat));
+  for (const sx of [-1,1]) {
+    const eye = new THREE.Mesh(new THREE.SphereGeometry(.26, 8, 6),
+      new THREE.MeshBasicMaterial({ color:0xffd060 }));
+    eye.position.set(sx*0.8, 0.35, -1.3); head.add(eye);
+  }
+  g.add(head); shadow.head = head;
+  const shape = new THREE.Shape();
+  shape.moveTo(0,0); shape.lineTo(10,3.4); shape.lineTo(17,1.4);
+  shape.lineTo(13.5,-2.6); shape.lineTo(6,-3.7); shape.lineTo(0,-1.8);
+  shape.closePath();
+  const wgeo = new THREE.ShapeGeometry(shape);
+  wgeo.rotateX(-Math.PI/2);
+  for (const side of [-1,1]) {
+    const w = new THREE.Group(); w.position.set(side*1.7, 1.1, -1.5);
+    const mesh = new THREE.Mesh(wgeo, smem); mesh.scale.x = side; w.add(mesh);
+    g.add(w); shadow.wings.push({ grp:w, side });
+  }
+  g.position.set(900, 260, -900);
+  scene.add(g);
+  // layered inferno breath: white core, orange body, ember halo
+  for (let i=0;i<SFIRE_N;i++){ sfire.vel.push(new THREE.Vector3()); sfire.pos[i*3+1] = -9999; }
+  const bg = new THREE.BufferGeometry();
+  bg.setAttribute('position', new THREE.BufferAttribute(sfire.pos, 3));
+  const c = document.createElement('canvas'); c.width = c.height = 64;
+  const ctx = c.getContext('2d');
+  const grad = ctx.createRadialGradient(32,32,0,32,32,32);
+  grad.addColorStop(0, 'rgba(255,248,190,1)');
+  grad.addColorStop(0.32, 'rgba(255,115,25,0.92)');
+  grad.addColorStop(1, 'rgba(150,20,0,0)');
+  ctx.fillStyle = grad; ctx.fillRect(0,0,64,64);
+  const m = new THREE.PointsMaterial({ color:0xff6a22, size:8, transparent:true, opacity:.78,
+    map:new THREE.CanvasTexture(c), blending:THREE.AdditiveBlending, depthWrite:false });
+  sfire.pts = new THREE.Points(bg, m);
+  sfire.pts.frustumCulled = false;
+  scene.add(sfire.pts);
+}
+const _sv1 = new THREE.Vector3(), _sv2 = new THREE.Vector3(), _se = new THREE.Euler(0,0,0,'YXZ');
+function updateShadow(dt, t) {
+  const g = shadow.grp;
+  if (combat.phase !== 'boss' || combat.bossHealth <= 0) { g.visible=false; return; }
+  const bossFrac=combat.bossHealth/combat.bossMax;
+  const stage=bossFrac>.70?1:(bossFrac>.35?2:3);
+  if(stage!==combat.bossStage){combat.bossStage=stage;roar();showMessage(stage===2?'THE SOVEREIGN KINDLES THE STORM':'THE INFERNO SOVEREIGN IS ENRAGED',2200);}
+  if (t < shadow.routedUntil) {
+    g.visible = false;
+  } else {
+    g.visible = true;
+    const toP = _sv1.copy(state.pos).sub(g.position);
+    const dist = toP.length();
+    const canHunt = state.started && combat.phase==='boss' && !state.landed && !state.fallen && !state.victory;
+    let targetYaw, targetSpeed, wantY;
+    if (canHunt && dist < 380) {
+      if (shadow.mode !== 'hunt' && t > shadow.lastRoar + 10) {
+        shadow.lastRoar = t;
+        roar();
+        showMessage('THE INFERNO SOVEREIGN GIVES CHASE', 2000);
+      }
+      shadow.mode = 'hunt';
+      targetYaw = Math.atan2(-toP.x, -toP.z);
+      targetSpeed = stage===1?55:(stage===2?68:82);
+      wantY = state.pos.y;
+    } else {
+      shadow.mode = 'patrol';
+      shadow.ph += dt*0.05;
+      const px = Math.cos(shadow.ph)*900, pz = Math.sin(shadow.ph)*900;
+      targetYaw = Math.atan2(-(px - g.position.x), -(pz - g.position.z));
+      targetSpeed = 40;
+      wantY = terrainH(g.position.x, g.position.z) + 140;
+    }
+    shadow.speed += (targetSpeed - shadow.speed)*dt;
+    let dy = targetYaw - shadow.yaw;
+    dy = Math.atan2(Math.sin(dy), Math.cos(dy));
+    shadow.yaw += Math.max(-1.1*dt, Math.min(1.1*dt, dy));
+    shadow.pitch += (Math.max(-.5, Math.min(.5, (wantY - g.position.y)*0.012)) - shadow.pitch)*2*dt;
+    const fwd = _sv2.set(0,0,-1).applyEuler(_se.set(shadow.pitch, shadow.yaw, 0, 'YXZ'));
+    g.position.addScaledVector(fwd, shadow.speed*dt);
+    const gy = terrainH(g.position.x, g.position.z);
+    if (g.position.y < gy + 15) g.position.y = gy + 15;
+    if (g.position.y > 600) g.position.y = 600;
+    g.rotation.set(shadow.pitch, shadow.yaw, Math.max(-.6, Math.min(.6, -dy*1.5)));
+    shadow.flap += dt*(shadow.mode === 'hunt' ? 8 : 5);
+    for (const w of shadow.wings) w.grp.rotation.z = -w.side * (Math.sin(shadow.flap)*0.5 - 0.1);
+    // breathe cold fire when close behind the player
+    const facing = dist > 1 ? fwd.dot(toP.multiplyScalar(1/dist)) : 1;
+    if (shadow.mode === 'hunt' && dist < 140 && facing > 0.86) {
+      shadow.head.getWorldPosition(_sv1);
+      for (let s=0; s<3; s++) {
+        const i = sfire.next; sfire.next = (sfire.next+1)%SFIRE_N;
+        sfire.pos[i*3]=_sv1.x; sfire.pos[i*3+1]=_sv1.y; sfire.pos[i*3+2]=_sv1.z;
+        sfire.vel[i].copy(fwd).multiplyScalar(85);
+        sfire.vel[i].x += (Math.random()-.5)*20;
+        sfire.vel[i].y += (Math.random()-.5)*20;
+        sfire.vel[i].z += (Math.random()-.5)*20;
+        sfire.life[i] = 0.6 + Math.random()*0.2;
+      }
+      shadow.fireHold += dt;
+      if (shadow.fireHold > (stage===1?.95:(stage===2?.70:.52))) {
+        shadow.fireHold = 0;
+        woundPlayer('SOVEREIGN FIRE SEARS THY DRAKE',stage===1?38:(stage===2?48:58),false);
+      }
+    } else {
+      shadow.fireHold = Math.max(0, shadow.fireHold - dt*2);
+    }
+  }
+  for (let i=0;i<SFIRE_N;i++){
+    if (sfire.life[i] <= 0) continue;
+    sfire.life[i] -= dt;
+    if (sfire.life[i] <= 0) { sfire.pos[i*3+1] = -9999; continue; }
+    sfire.pos[i*3]   += sfire.vel[i].x*dt;
+    sfire.pos[i*3+1] += sfire.vel[i].y*dt;
+    sfire.pos[i*3+2] += sfire.vel[i].z*dt;
+  }
+  sfire.pts.geometry.attributes.position.needsUpdate = true;
+}
+function routShadow() {
+  shadow.heat = 0;
+  shadow.fireHold = 0;
+  shadow.mode = 'patrol';
+  shadow.routedUntil = clock.elapsedTime + 50;
+  const a = Math.random()*Math.PI*2;
+  shadow.grp.position.set(Math.cos(a)*1800, 300, Math.sin(a)*1800);
+  showMessage('THE INFERNO SOVEREIGN IS DRIVEN OFF', 2400);
+  chime([392, 523.25, 783.99], 1.0, .2);
+}
+
+// ---------- The Dragon ----------
+const dragon = new THREE.Group();
+dragon.rotation.order = 'YXZ';
+scene.add(dragon);
+
+const scaleMat = new THREE.MeshStandardMaterial({ color:0x3b2724, roughness:.75, metalness:.15 });
+const hornMat  = new THREE.MeshStandardMaterial({ color:0xd9c690, roughness:.5 });
+const membraneMat = new THREE.MeshStandardMaterial({ color:0x59302a, roughness:.9, side:THREE.DoubleSide, transparent:true, opacity:.94 });
+
+{ // body
+  const body = new THREE.Mesh(new THREE.CapsuleGeometry(2.1, 7, 6, 12), scaleMat);
+  body.rotation.x = Math.PI/2;
+  dragon.add(body);
+  for (let i=0;i<6;i++) { // spine ridges
+    const s = new THREE.Mesh(new THREE.ConeGeometry(.4, 1.3, 5), hornMat);
+    s.position.set(0, 2.1, -3.2 + i*1.4);
+    dragon.add(s);
+  }
+}
+const neck = [];
+{ // neck & head — visible ahead of the rider
+  let py=0.9, pz=-5;
+  for (let i=0;i<4;i++){
+    const seg = new THREE.Mesh(new THREE.SphereGeometry(1.6 - i*0.22, 10, 8), scaleMat);
+    py += 0.75; pz -= 2.1;
+    seg.position.set(0, py, pz);
+    dragon.add(seg); neck.push(seg);
+  }
+  const head = new THREE.Group();
+  head.position.set(0, py+0.6, pz-2.2);
+  const skull = new THREE.Mesh(new THREE.BoxGeometry(1.8, 1.5, 3.4), scaleMat);
+  head.add(skull);
+  const snout = new THREE.Mesh(new THREE.BoxGeometry(1.1, .9, 1.8), scaleMat);
+  snout.position.set(0, -0.25, -2.3); head.add(snout);
+  for (const sx of [-1,1]) {
+    const horn = new THREE.Mesh(new THREE.ConeGeometry(.3, 2.4, 6), hornMat);
+    horn.position.set(sx*0.8, 0.9, 1.2); horn.rotation.x = -0.9; head.add(horn);
+    const eye = new THREE.Mesh(new THREE.SphereGeometry(.22, 8, 6),
+      new THREE.MeshBasicMaterial({ color:0xffb040 }));
+    eye.position.set(sx*0.75, 0.3, -1.2); head.add(eye);
+  }
+  dragon.add(head);
+  neck.head = head;
+}
+{ // tail
+  let pz = 5;
+  for (let i=0;i<5;i++){
+    const seg = new THREE.Mesh(new THREE.SphereGeometry(1.5 - i*0.26, 9, 7), scaleMat);
+    pz += 1.9; seg.position.set(0, -0.1*i, pz);
+    dragon.add(seg);
+  }
+  const tip = new THREE.Mesh(new THREE.ConeGeometry(.6, 2.6, 6), hornMat);
+  tip.position.set(0, -0.6, pz+2.2); tip.rotation.x = Math.PI/2; dragon.add(tip);
+}
+const wings = [];
+{ // wings
+  const shape = new THREE.Shape();
+  shape.moveTo(0, 0); shape.lineTo(9, 3); shape.lineTo(15.5, 1.2);
+  shape.lineTo(12.5, -2.4); shape.lineTo(5.5, -3.4); shape.lineTo(0, -1.6);
+  shape.closePath();
+  const wgeo = new THREE.ShapeGeometry(shape);
+  wgeo.rotateX(-Math.PI/2); // lie flat; +x = outward, shape-y maps to -z
+  for (const side of [-1, 1]) {
+    const w = new THREE.Group();
+    w.position.set(side*1.6, 1.1, -1.4);
+    const mesh = new THREE.Mesh(wgeo, membraneMat);
+    mesh.scale.x = side;
+    w.add(mesh);
+    const bone = new THREE.Mesh(new THREE.CylinderGeometry(.22,.3,9,6), scaleMat);
+    bone.rotation.z = side*Math.PI/2 - side*0.18; bone.position.set(side*4.4, .3, 0);
+    w.add(bone);
+    dragon.add(w);
+    wings.push({ grp:w, side });
+  }
+}
+// Rider (you) — barely visible at frame bottom, sells the POV
+{
+  const rider = new THREE.Group();
+  const cloak = new THREE.Mesh(new THREE.ConeGeometry(.75, 1.9, 8),
+    new THREE.MeshStandardMaterial({ color:0x2c2620, roughness:1 }));
+  cloak.position.y = .9; rider.add(cloak);
+  const hood = new THREE.Mesh(new THREE.SphereGeometry(.42, 8, 8),
+    new THREE.MeshStandardMaterial({ color:0x241f1a, roughness:1 }));
+  hood.position.y = 1.9; rider.add(hood);
+  rider.position.set(0, 2.0, -1.0);
+  dragon.add(rider);
+}
+// Camera rides on the dragon's back, just behind the rider
+dragon.add(camera);
+camera.position.set(0, 4.4, 4.6);
+camera.lookAt(new THREE.Vector3(0, 2.2, -30).add(dragon.position));
+camera.lookAt(dragon.localToWorld(new THREE.Vector3(0, 2.0, -40)));
+
+// ---------- Dragonfire particles ----------
+const FIRE_N = 420;
+let fireTex = null;
+const fire = { pts:null, pos:new Float32Array(FIRE_N*3), vel:[], life:new Float32Array(FIRE_N), next:0 };
+{
+  for (let i=0;i<FIRE_N;i++){ fire.vel.push(new THREE.Vector3()); fire.pos[i*3+1] = -9999; }
+  const g = new THREE.BufferGeometry();
+  g.setAttribute('position', new THREE.BufferAttribute(fire.pos, 3));
+  const fc = document.createElement('canvas'); fc.width = fc.height = 64;
+  const fctx = fc.getContext('2d');
+  const grad = fctx.createRadialGradient(32,32,0,32,32,32);
+  grad.addColorStop(0, 'rgba(255,225,170,1)');
+  grad.addColorStop(0.35, 'rgba(255,150,50,0.85)');
+  grad.addColorStop(1, 'rgba(255,70,0,0)');
+  fctx.fillStyle = grad; fctx.fillRect(0,0,64,64);
+  fireTex = new THREE.CanvasTexture(fc);
+  const m = new THREE.PointsMaterial({ color:0xffb050, size:6, transparent:true, opacity:.45,
+    map:fireTex, blending:THREE.AdditiveBlending, depthWrite:false });
+  fire.pts = new THREE.Points(g, m);
+  fire.pts.frustumCulled = false;
+  scene.add(fire.pts);
+}
+const fireLight = new THREE.PointLight(0xff8820, 0, 140, 1.6);
+scene.add(fireLight);
+
+// ---------- Scorch embers where dragonfire meets the ground ----------
+const SCORCH_N = 120;
+const scorch = { pts:null, pos:new Float32Array(SCORCH_N*3), life:new Float32Array(SCORCH_N), next:0 };
+{
+  for (let i=0;i<SCORCH_N;i++) scorch.pos[i*3+1] = -9999;
+  const g = new THREE.BufferGeometry();
+  g.setAttribute('position', new THREE.BufferAttribute(scorch.pos, 3));
+  const m = new THREE.PointsMaterial({ color:0xff6a22, size:10, transparent:true, opacity:.5,
+    map:fireTex, blending:THREE.AdditiveBlending, depthWrite:false });
+  scorch.pts = new THREE.Points(g, m);
+  scorch.pts.frustumCulled = false;
+  scene.add(scorch.pts);
+}
+function addScorch(x, y, z) {
+  const i = scorch.next; scorch.next = (scorch.next+1)%SCORCH_N;
+  scorch.pos[i*3]=x; scorch.pos[i*3+1]=y; scorch.pos[i*3+2]=z;
+  scorch.life[i] = 3.5 + Math.random()*1.5;
+}
+
+// ---------- Sound (Web Audio, synthesized — no asset files) ----------
+let AC = null, noiseBuf = null, masterGain = null, sndWind = null, sndFire = null, lastFlapCyc = 0;
+function initAudio() {
+  if (AC) { if (AC.state === 'suspended') AC.resume(); return; }
+  try { AC = new (window.AudioContext || window.webkitAudioContext)(); } catch (e) { return; }
+  masterGain = AC.createGain();
+  masterGain.gain.value = 0.5;
+  masterGain.connect(AC.destination);
+  const len = AC.sampleRate * 2;
+  noiseBuf = AC.createBuffer(1, len, AC.sampleRate);
+  const d = noiseBuf.getChannelData(0);
+  for (let i=0;i<len;i++) d[i] = Math.random()*2 - 1;
+  function loopedNoise(type, freq, q) {
+    const src = AC.createBufferSource(); src.buffer = noiseBuf; src.loop = true;
+    const f = AC.createBiquadFilter(); f.type = type; f.frequency.value = freq; f.Q.value = q;
+    const g = AC.createGain(); g.gain.value = 0;
+    src.connect(f); f.connect(g); g.connect(masterGain); src.start();
+    return { f, g };
+  }
+  sndWind = loopedNoise('bandpass', 420, 0.6);
+  sndFire = loopedNoise('lowpass', 900, 0.4);
+}
+function chime(notes, dur, vol) {
+  if (!AC) return;
+  const t0 = AC.currentTime;
+  notes.forEach((f, i) => {
+    const o = AC.createOscillator(), g = AC.createGain();
+    o.type = 'sine'; o.frequency.value = f;
+    g.gain.setValueAtTime(0.0001, t0 + i*0.09);
+    g.gain.linearRampToValueAtTime(vol, t0 + i*0.09 + 0.03);
+    g.gain.exponentialRampToValueAtTime(0.0001, t0 + i*0.09 + dur);
+    o.connect(g); g.connect(masterGain);
+    o.start(t0 + i*0.09); o.stop(t0 + i*0.09 + dur + 0.05);
+  });
+}
+function wingWhoosh() {
+  if (!AC) return;
+  const src = AC.createBufferSource(); src.buffer = noiseBuf;
+  src.playbackRate.value = 0.7 + Math.random()*0.2;
+  const f = AC.createBiquadFilter(); f.type = 'bandpass'; f.frequency.value = 210; f.Q.value = 1.2;
+  const g = AC.createGain();
+  const t0 = AC.currentTime;
+  g.gain.setValueAtTime(0.0001, t0);
+  g.gain.exponentialRampToValueAtTime(0.14, t0 + 0.12);
+  g.gain.exponentialRampToValueAtTime(0.0001, t0 + 0.42);
+  src.connect(f); f.connect(g); g.connect(masterGain);
+  src.start(t0, Math.random()*1.2); src.stop(t0 + 0.5);
+}
+function thud() {
+  if (!AC) return;
+  const t0 = AC.currentTime;
+  const o = AC.createOscillator(), g = AC.createGain();
+  o.type = 'sine';
+  o.frequency.setValueAtTime(90, t0);
+  o.frequency.exponentialRampToValueAtTime(38, t0 + 0.3);
+  g.gain.setValueAtTime(0.35, t0);
+  g.gain.exponentialRampToValueAtTime(0.0001, t0 + 0.35);
+  o.connect(g); g.connect(masterGain);
+  o.start(t0); o.stop(t0 + 0.4);
+}
+function roar() {
+  if (!AC) return;
+  const t0 = AC.currentTime;
+  const o = AC.createOscillator(), f = AC.createBiquadFilter(), g = AC.createGain();
+  o.type = 'sawtooth';
+  o.frequency.setValueAtTime(120, t0);
+  o.frequency.exponentialRampToValueAtTime(45, t0 + 1.0);
+  f.type = 'lowpass'; f.frequency.value = 420;
+  g.gain.setValueAtTime(0.0001, t0);
+  g.gain.exponentialRampToValueAtTime(0.16, t0 + 0.12);
+  g.gain.exponentialRampToValueAtTime(0.0001, t0 + 1.1);
+  o.connect(f); f.connect(g); g.connect(masterGain);
+  o.start(t0); o.stop(t0 + 1.2);
+}
+
+// ---------- Game state ----------
+const state = {
+  started:false, landed:false, victory:false,
+  yaw:0, pitch:0, bank:0, speed:45, flap:0, startTime:0,
+  fire:100, stamina:100, targetHint:'',
+  wounds:0, stagger:0, recovery:0, fallen:false, restUntil:-1,
+  pos:new THREE.Vector3(0, terrainH(0,900)+90, 900),
+};
+dragon.position.copy(state.pos);
+state.yaw = Math.PI; // face the Erdtree... actually beacons; face -z? start facing world center
+state.yaw = 0;
+
+const keys = {};
+addEventListener('keydown', e => {
+  keys[e.code] = true;
+  if (e.code === 'Enter' && !state.started) startGame();
+  if (e.code === 'KeyQ' && state.started && !e.repeat) toggleLock();
+  if (e.code === 'KeyE') toggleLand();
+  if (e.code === 'KeyR') resetGame();
+  if (['Space','ArrowUp','ArrowDown'].includes(e.code)) e.preventDefault();
+});
+addEventListener('keyup', e => keys[e.code] = false);
+
+function startGame() {
+  state.started = true;
+  state.startTime = performance.now();
+  resetCombat();
+  initAudio();
+  const s = document.getElementById('startScreen');
+  s.style.opacity = 0;
+  setTimeout(() => s.style.display = 'none', 1300);
+  showMessage('MISSION 1 — HUNT THE EMBER SCOUTS');
+}
+
+function resetGame() {
+  if (!state.started) return;
+  for (const b of beacons) {
+    b.lit = false; b.heat = 0;
+    b.flame.visible = false;
+    b.light.intensity = 0;
+    b.beam.material.color.set(0xf3cd6e);
+    b.beam.material.opacity = .035;
+    b.beam.scale.set(1, 1, 1);
+    b.coals.material.emissive.set(0x000000);
+  }
+  for (const rg of rings) {
+    rg.passed = false;
+    rg.mesh.material.opacity = .75;
+  }
+  state.wounds=0;state.stagger=0;state.recovery=0;state.fallen=false;state.restUntil=-1;
+  invulnUntil = -1; chillUntil = -1;
+  shadow.heat = 0; shadow.fireHold = 0; shadow.routedUntil = -1; shadow.mode = 'patrol';
+  shadow.grp.position.set(900, 260, -900);
+  state.victory = false;
+  const v = document.getElementById('victory');
+  v.style.opacity = 0;
+  v.style.display = 'none';
+  document.getElementById('compass').style.display = '';
+  state.pos.set(0, terrainH(0,900)+90, 900);
+  state.yaw = 0; state.pitch = 0; state.bank = 0;
+  state.speed = 45; state.landed = false;
+  state.fire=100;state.stamina=100;state.targetHint='';document.getElementById('recoveryPrompt').style.display='none';
+  state.startTime = performance.now();
+  resetCombat();
+  showMessage('THE TALE BEGINS ANEW', 2200);
+}
+
+function fmtTime(s) {
+  s = Math.max(0, s);
+  const m = Math.floor(s/60), ss = Math.floor(s%60);
+  return m + ':' + String(ss).padStart(2, '0');
+}
+
+function woundPlayer(msg, staggerPower=30, forceKnock=false) {
+  const t = clock.elapsedTime;
+  if (t < invulnUntil || !state.started || state.landed || state.fallen || state.victory) return;
+  invulnUntil=t+1.45;state.wounds=Math.min(3,state.wounds+1);state.stagger=Math.min(100,state.stagger+staggerPower);
+  const fx = document.getElementById('hurtFx');
+  fx.style.opacity = 1;
+  setTimeout(() => fx.style.opacity = 0, 550);
+  thud();
+  if(forceKnock||state.stagger>=100||state.wounds>=3){
+    state.fallen=true;state.recovery=0;state.bank+=(Math.random()<.5?-1:1)*1.4;
+    document.getElementById('knockFx').style.opacity=1;
+    showMessage('KNOCKED FROM THE SKY — HOLD F TO RECOVER',2600);
+  } else {
+    showMessage(msg, 1800);
+  }
+}
+function recoverFlight(){
+  if(!state.fallen)return;state.fallen=false;state.recovery=0;state.stagger=35;state.speed=Math.max(38,state.speed);state.pitch=.08;state.bank*=.25;
+  invulnUntil=clock.elapsedTime+3;document.getElementById('knockFx').style.opacity=0;document.getElementById('recoveryPrompt').style.display='none';
+  showMessage('WINGS CAUGHT THE WIND — RECOVERY!',1800);chime([392,523.25,783.99],.7,.16);
+}
+
+let msgTimer = null;
+function showMessage(txt, ms=3200) {
+  const box = document.getElementById('message');
+  document.getElementById('messageText').textContent = txt;
+  box.style.opacity = 1;
+  clearTimeout(msgTimer);
+  msgTimer = setTimeout(() => box.style.opacity = 0, ms);
+}
+
+function groundAt(x, z) { return terrainH(x, z); }
+
+function toggleLand() {
+  if (!state.started || state.fallen) return;
+  if (state.landed) {
+    if (clock.elapsedTime < state.restUntil) {
+      showMessage('THE DRAKE YET RESTS', 1400);
+      return;
+    }
+    state.landed = false;
+    state.speed = 30;
+    state.pos.y += 3;
+    showMessage('TAKE WING', 1600);
+  } else {
+    const g = groundAt(state.pos.x, state.pos.z);
+    if (state.pos.y - g < 26) {
+      state.landed = true;
+      state.speed = 0;
+      showMessage('THE DRAKE RESTS', 2000);
+    } else {
+      showMessage('TOO HIGH TO LAND — DIVE LOWER', 2000);
+    }
+  }
+}
+
+// ---------- Fire breathing ----------
+const _fwd = new THREE.Vector3(), _headW = new THREE.Vector3(), _toB = new THREE.Vector3();
+function forwardVec(out) {
+  out.set(0,0,-1).applyEuler(new THREE.Euler(state.pitch, state.yaw, 0, 'YXZ'));
+  return out;
+}
+function updateFire(dt, firing) {
+  if (!firing) state.fire = Math.min(100, state.fire + 18*dt);
+  if (firing && state.fire > 1) {
+    state.fire = Math.max(0, state.fire - 34*dt);
+    neck.head.getWorldPosition(_headW);
+    forwardVec(_fwd);
+    for (let s=0; s<4; s++) {
+      const i = fire.next; fire.next = (fire.next+1)%FIRE_N;
+      fire.pos[i*3]  =_headW.x+_fwd.x*7;
+      fire.pos[i*3+1]=_headW.y+_fwd.y*7;
+      fire.pos[i*3+2]=_headW.z+_fwd.z*7;
+      fire.vel[i].copy(_fwd).multiplyScalar(75 + Math.random()*20);
+      fire.vel[i].x += (Math.random()-.5)*24;
+      fire.vel[i].y += (Math.random()-.5)*24 + 4;
+      fire.vel[i].z += (Math.random()-.5)*24;
+      fire.life[i] = 0.65 + Math.random()*0.25;
+    }
+    fireLight.position.copy(_headW).addScaledVector(_fwd, 14);
+    fireLight.intensity = 3.2;
+    // dragonfire damages living mission targets in the cone ahead
+    if (combat.phase==='mission') for (const e of enemies) if (e.alive) {
+      _toB.copy(e.grp.position).sub(_headW);
+      const d=_toB.length();
+      if(d<110 && _toB.normalize().dot(_fwd)>.68){
+        e.health-=52*dt; e.hitUntil=clock.elapsedTime+.12; combat.score+=8*dt;
+        if(e.health<=0)defeatEnemy(e);
+      }
+    }
+    // the final foe takes sustained, accurately aimed flame
+    if (combat.phase==='boss' && combat.bossHealth>0) {
+      _toB.copy(shadow.grp.position).sub(_headW);
+      const d=_toB.length();
+      if(d<125 && _toB.normalize().dot(_fwd)>.66){
+        combat.bossHealth=Math.max(0,combat.bossHealth-38*dt);
+        combat.score+=12*dt; shadow.grp.scale.setScalar(1.06);
+        if(combat.bossHealth<=0)winCombat();
+      }
+    }
+  } else {
+    fireLight.intensity = Math.max(0, fireLight.intensity - dt*14);
+    shadow.heat = Math.max(0, shadow.heat - dt*0.5);
+  }
+  for (let i=0;i<FIRE_N;i++){
+    if (fire.life[i] <= 0) continue;
+    fire.life[i] -= dt;
+    if (fire.life[i] <= 0) { fire.pos[i*3+1] = -9999; continue; }
+    fire.pos[i*3]   += fire.vel[i].x*dt;
+    fire.pos[i*3+1] += fire.vel[i].y*dt;
+    fire.pos[i*3+2] += fire.vel[i].z*dt;
+    if (fire.pos[i*3+1] < terrainH(fire.pos[i*3], fire.pos[i*3+2]) + 0.5) {
+      addScorch(fire.pos[i*3], fire.pos[i*3+1] + 1.5, fire.pos[i*3+2]);
+      fire.life[i] = 0; fire.pos[i*3+1] = -9999;
+    }
+  }
+  fire.pts.geometry.attributes.position.needsUpdate = true;
+  for (let i=0;i<SCORCH_N;i++){
+    if (scorch.life[i] <= 0) continue;
+    scorch.life[i] -= dt;
+    if (scorch.life[i] <= 0) scorch.pos[i*3+1] = -9999;
+  }
+  scorch.pts.geometry.attributes.position.needsUpdate = true;
+}
+
+// ---------- HUD ----------
+const elObjective = document.getElementById('objective');
+const elCompass = document.getElementById('compass');
+const elFlight = document.getElementById('flightData');
+const elFireFill = document.getElementById('fireFill');
+const elStaminaFill = document.getElementById('staminaFill');
+const elStaggerFill = document.getElementById('staggerFill');
+const elTargetHint = document.getElementById('targetHint');
+function updateHUD() {
+  const score=Math.floor(combat.score);
+  document.getElementById('scoreText').textContent='SCORE '+String(score).padStart(6,'0');
+  document.getElementById('killText').textContent=combat.phase==='boss'?'FINAL BATTLE':'MISSION '+combat.mission+' · '+combat.missionKills+' / 2';
+  document.getElementById('comboText').textContent=combat.combo>1?'COMBO x'+combat.combo:'';
+  if(state.victory){elObjective.innerHTML='THE INFERNO IS VANQUISHED';elCompass.style.display='none';return;}
+  const md=MISSION_DEFS[Math.min(2,combat.mission-1)];
+  elObjective.innerHTML=combat.phase==='boss'?'SLAY THE INFERNO SOVEREIGN<div class="sub">survive its three escalating forms</div>':
+    (combat.phase==='transition'?'REGION LIBERATED<div class="sub">the next corrupted sky awakens</div>':
+    'MISSION '+combat.mission+' — '+md.name+'<div class="sub">'+md.sub+' · Q binds the nearest dragon</div>');
+  const target=combat.lock||nearestTarget();
+  if(target){
+    const p=target===shadow?shadow.grp.position:target.grp.position;
+    const bearing=Math.atan2(-(p.x-state.pos.x),-(p.z-state.pos.z));
+    const rel=bearing-state.yaw;elCompass.style.display='';elCompass.style.transform='translateX(-50%) rotate('+(-rel)+'rad)';elCompass.textContent='⬆';
+    neck.head.getWorldPosition(_headW);const toTarget=_toB.copy(p).sub(_headW);const dist=toTarget.length();
+    const inCone=dist<125&&toTarget.normalize().dot(forwardVec(_fwd))>.66;
+    const hp=target===shadow?combat.bossHealth:target.health, max=target===shadow?combat.bossMax:target.maxHealth;
+    elTargetHint.textContent=(target.name||'INFERNO SOVEREIGN')+'  '+Math.max(0,Math.ceil(hp))+'/'+max+(inCone?' — FIRE!':' — '+Math.round(dist)+' m');
+    elTargetHint.className=inCone?'gold urgent':'gold';
+    const marker=document.getElementById('lockMarker'),screen=p.clone().project(camera);
+    if(combat.lock&&screen.z<1){marker.style.display='block';marker.style.left=((screen.x*.5+.5)*innerWidth)+'px';marker.style.top=((-screen.y*.5+.5)*innerHeight)+'px';marker.className=inCone?'inRange':'';}else marker.style.display='none';
+  }else{elCompass.style.display='none';elTargetHint.textContent='SEARCH THE SKIES';document.getElementById('lockMarker').style.display='none';}
+  const bossBar=document.getElementById('bossBar');bossBar.style.display=combat.phase==='boss'?'block':'none';
+  document.getElementById('bossFill').style.width=Math.max(0,100*combat.bossHealth/combat.bossMax)+'%';
+  const alt=Math.max(0,Math.round(state.pos.y-groundAt(state.pos.x,state.pos.z)));
+  elFireFill.style.width=Math.round(state.fire)+'%';elStaminaFill.style.width=Math.round(state.stamina)+'%';elStaggerFill.style.width=Math.round(state.stagger)+'%';
+  elFlight.innerHTML=(state.landed?'PERCHED':Math.round(state.speed*2)+' fpm')+'<br>altitude '+alt+' m'+'<br>vigor '+'◆'.repeat(3-state.wounds)+'◇'.repeat(state.wounds)+'<br>'+fmtTime((performance.now()-state.startTime)/1000);
+}
+
+// ---------- Main loop ----------
+const clock = new THREE.Clock();
+function animate() {
+  requestAnimationFrame(animate);
+  const dt = Math.min(clock.getDelta(), 0.05);
+  const t = clock.elapsedTime;
+
+  if (state.started && !state.landed && !state.fallen) {
+    // steering
+    const turnIn  = (keys['KeyA']||keys['ArrowLeft'] ? 1:0) - (keys['KeyD']||keys['ArrowRight'] ? 1:0);
+    const pitchIn = (keys['KeyS']||keys['ArrowDown'] ? 1:0) - (keys['KeyW']||keys['ArrowUp'] ? 1:0);
+    let boosting = !!(keys['ShiftLeft']||keys['ShiftRight']) && state.stamina > 2;
+    if (boosting) state.stamina = Math.max(0, state.stamina - 28*dt);
+    else state.stamina = Math.min(100, state.stamina + 18*dt);
+    state.stagger=Math.max(0,state.stagger-5.5*dt);
+
+    // the drake rolls into a bank, and the bank carries the turn
+    state.bank += (turnIn * -0.55 - state.bank) * 4*dt;
+    state.yaw += -state.bank * 2.75 * dt * (boosting ? .8 : 1);
+    state.pitch += pitchIn * 1.35 * dt;
+    state.pitch = Math.max(-1.05, Math.min(0.75, state.pitch));
+    state.pitch *= (1 - 0.35*dt); // gentle self-leveling
+
+    // speed: boost + dive energy
+    forwardVec(_fwd);
+    const target = boosting ? 95 : 46;
+    state.speed += (target - state.speed) * 1.1 * dt;
+    state.speed += -_fwd.y * 30 * dt;             // dive = faster, climb = slower
+    state.speed = Math.max(16, Math.min(150, state.speed));
+
+    state.pos.addScaledVector(_fwd, state.speed * dt);
+
+    // terrain avoidance — swoop, don't crash
+    const g = groundAt(state.pos.x, state.pos.z);
+    if (state.pos.y < g + 5) {
+      state.pos.y = g + 5;
+      if (state.pitch < 0) state.pitch = 0.05;
+    }
+    if (state.pos.y > 600) { state.pos.y = 600; if (state.pitch > 0) state.pitch = -0.02; }
+
+    // ruined towers are solid — glance off the stone
+    for (const rn of ruins) {
+      const dx = state.pos.x - rn.x, dz = state.pos.z - rn.z;
+      const rr = rn.r + 2.5;
+      if (dx*dx + dz*dz < rr*rr && state.pos.y < rn.top + 2) {
+        const d = Math.hypot(dx, dz) || 1;
+        state.pos.x = rn.x + dx/d * rr;
+        state.pos.z = rn.z + dz/d * rr;
+        if (state.speed > 70) woundPlayer('THE STONE BREAKS UPON THY WING');
+        state.speed = Math.max(16, state.speed * 0.6);
+      }
+    }
+
+    // the Erdtree is solid — glance off its trunk and canopy
+    {
+      const tdx = state.pos.x, tdz = state.pos.z + 1300;
+      const td = Math.hypot(tdx, tdz) || 1;
+      const rad = state.pos.y > 320 ? 270 : 80;
+      if (td < rad) {
+        state.pos.x = tdx/td * rad;
+        state.pos.z = -1300 + tdz/td * rad;
+      }
+    }
+
+    // realm edge
+    const r = Math.hypot(state.pos.x, state.pos.z);
+    if (r > 1950) {
+      const s = 1950/r;
+      state.pos.x *= s; state.pos.z *= s;
+      showMessage('THE FOG DEVOURS ALL BEYOND', 1800);
+      state.yaw += 1.5*dt;
+    }
+
+    // wing flap — powerful when boosting/climbing, glide in dives
+    const flapRate = boosting ? 9 : (state.pitch > .1 ? 7 : (state.pitch < -.2 ? 1.2 : 4.2));
+    state.flap += flapRate * dt;
+    document.getElementById('boostFx').style.opacity = boosting ? 1 : 0;
+  } else if (state.started && state.fallen) {
+    // knocked down: tumble toward earth, but allow an active mid-air recovery
+    const recovering=!!keys['KeyF'];state.recovery=Math.max(0,Math.min(100,state.recovery+(recovering?46:-18)*dt));
+    const rp=document.getElementById('recoveryPrompt');rp.style.display='block';document.getElementById('recoveryText').textContent=Math.round(state.recovery)+'%';
+    state.pitch += (-0.58 - state.pitch) * 2*dt;
+    state.speed += (30 - state.speed) * 1.5*dt;
+    state.bank += (state.bank>=0?1:-1)*2.25*dt;
+    forwardVec(_fwd);
+    state.pos.addScaledVector(_fwd, state.speed*dt);
+    state.flap += 1.5*dt;
+    document.getElementById('boostFx').style.opacity = 0;
+    if(state.recovery>=100)recoverFlight();
+    const g = groundAt(state.pos.x, state.pos.z);
+    if (state.fallen&&state.pos.y <= g + 5) {
+      state.pos.y = g + 5;
+      state.fallen = false;
+      state.landed = true;
+      state.speed = 0;
+      state.restUntil = t + 6;
+      state.recovery=0;rp.style.display='none';document.getElementById('knockFx').style.opacity=0;
+      showMessage('THE DRAKE MUST REST', 2400);
+    }
+  } else if (state.landed) {
+    const g = groundAt(state.pos.x, state.pos.z);
+    state.pos.y += (g + 2.5 - state.pos.y) * Math.min(1, 5*dt);
+    state.pitch *= (1 - 4*dt);
+    state.bank *= (1 - 4*dt);
+    state.flap += 0.8*dt;
+    document.getElementById('boostFx').style.opacity = 0;
+    if (state.restUntil > 0 && t >= state.restUntil) {
+      state.restUntil = -1;
+      state.wounds=0;state.stagger=0;
+      showMessage('THE DRAKE IS MENDED — TAKE WING', 2200);
+      chime([523.25, 659.25], 0.7, 0.15);
+    }
+  }
+
+  // animate wings
+  for (const w of wings) {
+    const a = Math.sin(state.flap) * (state.landed ? 0.12 : 0.55) - 0.1;
+    w.grp.rotation.z = -w.side * a;
+  }
+  // subtle neck sway
+  neck.head.rotation.y = Math.sin(t*0.7)*0.06;
+  neck.head.rotation.x = state.pitch * 0.25;
+
+  dragon.position.copy(state.pos);
+  dragon.rotation.set(state.pitch, state.yaw, state.bank);
+
+  // camera thrill: fov kick + shake on boost
+  const boosting = state.started && !state.landed && !!(keys['ShiftLeft']||keys['ShiftRight']) && state.stamina > 1;
+  const targetFov = boosting ? 84 : 72;
+  camera.fov += (targetFov - camera.fov) * 5*dt;
+  camera.updateProjectionMatrix();
+  const knockShake=state.fallen?.55:0;
+  camera.position.x=(boosting?(Math.random()-.5)*.16:0)+(Math.random()-.5)*knockShake;
+  camera.position.y=4.4+Math.sin(state.flap)*.10+(boosting?(Math.random()-.5)*.14:0)+(Math.random()-.5)*knockShake;
+
+  // fire
+  const firing = state.started && !state.landed && !state.fallen && !!keys['Space'] && state.fire > 1;
+  updateFire(dt, firing);
+
+  // beacon flames flicker
+  for (const b of beacons) if (b.lit) {
+    const f = 1 + Math.sin(t*11 + b.pos.x)*0.18;
+    b.flame.scale.set(f, 1.25*f, f);
+    b.light.intensity = 2.4 + Math.sin(t*13 + b.pos.z)*0.7;
+  }
+
+  // embers drift
+  {
+    const a = embers.g.attributes.position.array;
+    for (let i=0;i<embers.n;i++){
+      a[i*3+1] += embers.vel[i]*dt;
+      a[i*3]   += Math.sin(t + i)*0.6*dt*10;
+      if (a[i*3+1] > 300) a[i*3+1] = 5;
+    }
+    embers.g.attributes.position.needsUpdate = true;
+  }
+
+  // cold spirits wander their circles; touching one saps the drake's speed
+  for (const w of wisps) {
+    w.ph += w.spd*dt;
+    const wx = w.cx + Math.cos(w.ph)*w.rad, wz = w.cz + Math.sin(w.ph)*w.rad;
+    w.grp.position.set(wx, terrainH(wx, wz) + w.alt + Math.sin(t*1.3 + w.ph*3)*6, wz);
+    w.halo.scale.setScalar(1 + Math.sin(t*2.4 + w.ph)*0.15);
+    if (state.started && !state.landed && !state.fallen && t > chillUntil &&
+        w.grp.position.distanceTo(state.pos) < 10) {
+      chillUntil = t + 2.5;
+      state.speed = 16;
+      state.yaw += (Math.random()-.5)*0.8;
+      const fx = document.getElementById('chillFx');
+      fx.style.opacity = 1;
+      setTimeout(() => fx.style.opacity = 0, 650);
+      chime([311.13, 293.66], 0.8, 0.18);
+      woundPlayer('A COLD SPIRIT WOUNDS THY DRAKE');
+    }
+  }
+
+  // golden rings spin; threading one quickens drake and clock
+  for (const rg of rings) {
+    rg.mesh.rotation.z += dt * (rg.passed ? 0.15 : 0.8);
+    if (!rg.passed && state.started && !state.landed && !state.fallen &&
+        rg.mesh.position.distanceTo(state.pos) < 9) {
+      rg.passed = true;
+      rg.mesh.material.opacity = 0.12;
+      state.speed = Math.min(150, state.speed + 40);
+      state.startTime += 2500; // reclaim 2.5 s from the run clock
+      showMessage('THE WIND QUICKENS', 1200);
+      chime([1046.5, 1318.5], 0.35, 0.15);
+    }
+  }
+
+  updateCombat(dt,t);
+  if(combat.phase==='boss')shadow.grp.scale.lerp(new THREE.Vector3(1,1,1),Math.min(1,dt*9));
+  updateShadow(dt, t);
+
+  // fog and clouds drift on the wind
+  for (const dr of drifters) {
+    dr.spr.position.x += dr.vx*dt;
+    if (dr.spr.position.x > 2200) dr.spr.position.x = -2200;
+    if (dr.fogPatch) dr.spr.position.y = terrainH(dr.spr.position.x, dr.spr.position.z) + dr.alt;
+  }
+
+  // audio follows the flight
+  if (AC) {
+    const airborne = state.started && !state.landed;
+    const wTarget = airborne ? 0.06 + (state.speed/150)*0.30 : 0.02;
+    sndWind.g.gain.value += (wTarget - sndWind.g.gain.value) * Math.min(1, 4*dt);
+    sndWind.f.frequency.value = 260 + state.speed*3.2;
+    const fTarget = firing ? 0.5 : 0;
+    sndFire.g.gain.value += (fTarget - sndFire.g.gain.value) * Math.min(1, 10*dt);
+    const cyc = Math.floor(state.flap / (Math.PI*2));
+    if (airborne && cyc !== lastFlapCyc) wingWhoosh();
+    lastFlapCyc = cyc;
+  }
+
+  if (state.started) updateHUD();
+  composer.render();
+}
+animate();
+
+// expose minimal state for debugging/verification
+window.GAME = {
+  get started(){ return state.started; },
+  get victory(){ return state.victory; },
+  get landed(){ return state.landed; },
+  get pos(){ return state.pos.clone(); },
+  get speed(){ return state.speed; },
+  get wounds(){ return state.wounds; },
+  get stagger(){ return state.stagger; },
+  get fallen(){ return state.fallen; },
+  get phase(){ return combat.phase; },
+  get score(){ return Math.floor(combat.score); },
+  get kills(){ return combat.kills; },
+  get combo(){ return combat.combo; },
+  get bossHealth(){ return combat.bossHealth; },
+  state, combat, keys, rings, shadow, enemies, pickups, enemyFireballs,
+  nearestTarget, toggleLock, defeatEnemy, beginMission, spawnEnemyFire, woundPlayer, recoverFlight, activateBoss, winCombat, updateFire,
+};
+</script>
+</body>
+</html>
