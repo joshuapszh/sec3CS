@@ -108,3 +108,9 @@ textarea { min-height: 110px; resize: vertical; }
 .nav-q button.done { outline: 1px solid var(--good); }
 .nav-q button.current { background: var(--accent); color: white; }
 footer.note { color: var(--muted); font-size: 0.8rem; margin-top: 24px; }
+
+.parts { display: flex; flex-direction: column; gap: 14px; margin-top: 12px; }
+.part-block { display: flex; flex-direction: column; gap: 6px; }
+.part-label { font-weight: 600; color: var(--accent); }
+textarea.tall, textarea.ans-part.tall { min-height: 180px; }
+.prompt { margin: 10px 0 12px; }
