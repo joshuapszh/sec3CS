@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Sec 3 CS Mock Paper 2 (V3)</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header>
+    <div>
+      <h1 id="exam-title">Sec 3 CS Mock Paper 2 (V3)</h1>
+      <div class="meta" id="exam-sub">Loading…</div>
+    </div>
+    <div id="timer" class="hidden">01:45:00</div>
+  </header>
+
+  <main>
+    <section id="screen-intro" class="card">
+      <h2>Before you start</h2>
+      <ul>
+        <li>This is an original practice paper (not your school year-end paper).</li>
+        <li>This is a <strong>Sec 3 practice mock</strong> for topics taught so far — <strong>not</strong> a full Cambridge IGCSE 0478 exam paper.</li>
+        <li>Duration: <strong>1 hour 45 minutes</strong>. One sitting — timer starts when you press Start.</li>
+        <li>Covers <strong>Chapters 7–8 only</strong> (algorithms and programming). Use <strong>pseudocode</strong>. Total <strong>75 marks</strong>. Later IGCSE Paper 2 topics (e.g. databases, Boolean logic) are not tested here.</li>
+        <li>MCQ and exact short answers are marked automatically. Compare longer written and code answers with the suggested model answers yourself.</li>
+        <li>After you submit (or time runs out), you will see your answers, suggested answers, and an MCQ/short-answer score.</li>
+      </ul>
+      <div class="actions">
+        <button id="btn-start" type="button">Start Paper 2 (V3)</button>
+      </div>
+      <p class="meta">Tip: write clear pseudocode (keywords in capitals help). Your progress is saved in this browser tab if you refresh. Closing the tab may still lose work.</p>
+    </section>
+
+    <section id="screen-exam" class="hidden">
+      <div class="progress" id="progress"></div>
+      <div id="question-box"></div>
+      <div class="nav-q" id="question-nav"></div>
+      <div class="actions">
+        <button id="btn-prev" class="secondary" type="button">Previous</button>
+        <button id="btn-next" class="secondary" type="button">Next</button>
+        <button id="btn-submit" type="button">Submit paper</button>
+      </div>
+    </section>
+
+    <section id="screen-results" class="hidden">
+      <div class="card">
+        <h2>Results</h2>
+        <p id="results-status">Your answers and suggested answers will appear here.</p>
+      </div>
+      <div id="results-body"></div>
+    </section>
+
+    <footer class="note">Original mock for classroom practice · Pseudocode · GitHub Pages static app</footer>
+  </main>
+
+  <script src="questions.js"></script>
+  <script src="app.js"></script>
+  <script>
+    const obs = new MutationObserver(() => {
+      const exam = document.getElementById("screen-exam");
+      const timer = document.getElementById("timer");
+      if (exam && !exam.classList.contains("hidden")) timer.classList.remove("hidden");
+    });
+    obs.observe(document.getElementById("screen-exam"), { attributes: true, attributeFilter: ["class"] });
+  </script>
+</body>
+</html>
