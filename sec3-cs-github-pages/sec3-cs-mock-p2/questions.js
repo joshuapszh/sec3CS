@@ -83,7 +83,7 @@ window.EXAM = {
       type: "written",
       marks: 4,
       prompt: "Explain the difference between a count-controlled loop and a condition-controlled loop. Give one typical use for each.",
-      markScheme: "Count-controlled: repeats a set number of times (FOR). Condition-controlled: repeats until/while a condition is met (WHILE/REPEAT). Uses: e.g. process 10 scores; keep asking until valid password.",
+      markScheme: "Count-controlled loop: repeats a fixed number of times (usually a FOR loop).\nExample use: process exactly 10 scores.\n\nCondition-controlled loop: repeats while/until a condition is met (WHILE or REPEAT...UNTIL); the number of repeats is not fixed in advance.\nExample use: keep asking for a password until it is valid.",
       rubric: "Clear difference (2) + sensible example use for each (2)."
     },
     {
@@ -92,7 +92,7 @@ window.EXAM = {
       type: "written",
       marks: 6,
       prompt: "Complete the trace table for the following algorithm. Use one row per loop iteration after the assignments inside the loop.\n\n<pre class=\"pre\">x ← 3\ny ← 1\nFOR i ← 1 TO 4\n    y ← y + x\n    x ← x - 1\nNEXT i\nOUTPUT y\n</pre>\n\nShow columns for i, x, y. Also state the final OUTPUT.",
-      markScheme: "Start x=3,y=1. i=1: y=4,x=2; i=2: y=6,x=1; i=3: y=7,x=0; i=4: y=7,x=-1. OUTPUT 7.",
+      markScheme: "Trace table:\n\ni | x | y\n1 | 2 | 4\n2 | 1 | 6\n3 | 0 | 7\n4 | -1 | 7\n\nFinal OUTPUT: 7",
       rubric: "Credit accurate tracing of i,x,y across iterations and final output 7."
     },
     {
@@ -101,7 +101,7 @@ window.EXAM = {
       type: "written",
       marks: 8,
       prompt: "A library stores the number of books borrowed each day for 7 days in an array DayCount[1:7].\nWrite pseudocode that:\n- finds the total number of books borrowed over the 7 days\n- finds the highest daily count\n- outputs the total and the highest count.",
-      markScheme: "Initialise total←0 and highest←DayCount[1] (or 0 then update). Loop i←1 to 7: total←total+DayCount[i]; if DayCount[i]>highest then highest←DayCount[i]. Output total and highest. Accept equivalent pseudocode.",
+      markScheme: "total ← 0\nhighest ← DayCount[1]\nFOR i ← 1 TO 7\n    total ← total + DayCount[i]\n    IF DayCount[i] > highest THEN\n        highest ← DayCount[i]\n    ENDIF\nNEXT i\nOUTPUT total\nOUTPUT highest\n\n(Accept equivalent correct pseudocode.)",
       rubric: "Loop over array; accumulate total; track max; sensible initialisation; outputs."
     },
     {
@@ -110,7 +110,7 @@ window.EXAM = {
       type: "written",
       marks: 8,
       prompt: "A museum kiosk asks visitors to enter their age. Ages must be whole numbers from 5 to 120 inclusive. If invalid, the kiosk should keep asking until a valid age is entered, then output \"OK\".\nWrite pseudocode for this validation routine.",
-      markScheme: "REPEAT / WHILE structure; INPUT age; check age>=5 AND age<=120 (and ideally integer); loop until valid; OUTPUT OK. Accept equivalent.",
+      markScheme: "REPEAT\n    INPUT Age\nUNTIL Age >= 5 AND Age <= 120\nOUTPUT \"OK\"\n\n(Accept WHILE with a flag, or a message for invalid ages.)",
       rubric: "Input; range validation; loop until valid; success output; clear pseudocode structure."
     },
     {
@@ -119,7 +119,7 @@ window.EXAM = {
       type: "written",
       marks: 10,
       prompt: "An array Score[1:5] stores five test marks. Write pseudocode that counts how many marks are greater than or equal to 50 and outputs that count. Then explain how you would test your algorithm (identify two test cases and expected results).",
-      markScheme: "count←0; FOR i←1 TO 5; IF Score[i] >= 50 THEN count←count+1; OUTPUT count. Tests e.g. all below 50 → 0; mixed → correct count; all >=50 → 5; boundary 50 counts.",
+      markScheme: "Count ← 0\nFOR i ← 1 TO 5\n    IF Score[i] >= 50 THEN\n        Count ← Count + 1\n    ENDIF\nNEXT i\nOUTPUT Count\n\nExample tests:\n- All marks below 50: output 0\n- Boundary mark 50: counted as a pass\n- All marks >= 50: output 5",
       rubric: "Working pseudocode (6); two meaningful tests with expected outcomes (4)."
     },
     {
@@ -128,7 +128,7 @@ window.EXAM = {
       type: "written",
       marks: 10,
       prompt: "A text file results.txt stores one student mark per line (integer). Write pseudocode to read all marks from the file, calculate the average mark, and output the average. Assume the file is not empty.",
-      markScheme: "OPEN results.txt for read; total←0; n←0; WHILE NOT EOF: READ mark; total←total+mark; n←n+1; CLOSE file; average←total/n; OUTPUT average. Accept equivalent file-handling pseudocode.",
+      markScheme: "OPENFILE \"results.txt\" FOR READ\nTotal ← 0\nN ← 0\nWHILE NOT EOF(\"results.txt\")\n    READFILE \"results.txt\", Mark\n    Total ← Total + Mark\n    N ← N + 1\nENDWHILE\nCLOSEFILE \"results.txt\"\nAverage ← Total / N\nOUTPUT Average\n\n(Accept equivalent file-handling pseudocode.)",
       rubric: "Open/read loop/EOF; accumulate; count; close; compute average; output."
     },
     {
@@ -137,7 +137,7 @@ window.EXAM = {
       type: "written",
       marks: 12,
       prompt: "A shop records product codes in an array Code[1:N] and prices in Price[1:N] (same index = same product).\n(a) Write pseudocode that searches for a product code entered by the user and outputs its price, or \"Not found\". [8]\n(b) State whether your search is more like a linear search or a binary search and justify your answer. [2]\n(c) Identify one change you would need before a binary search could be used reliably. [2]",
-      markScheme: "(a) INPUT target; found←FALSE; loop i←1 to N; if Code[i]=target then output Price[i]; found←TRUE; break/exit; after loop if not found output Not found. (b) Linear — checks items in order / no assumption of sorted codes. (c) Codes must be sorted (and stay sorted) for binary search.",
+      markScheme: "(a)\nINPUT Target\nFound ← FALSE\nFOR i ← 1 TO N\n    IF Code[i] = Target THEN\n        OUTPUT Price[i]\n        Found ← TRUE\n    ENDIF\nNEXT i\nIF Found = FALSE THEN\n    OUTPUT \"Not found\"\nENDIF\n\n(b) Linear search - checks items in order; does not need the codes to be sorted.\n\n(c) The Code array would need to be sorted (and kept sorted) before binary search could be used reliably.",
       rubric: "Search logic with not-found case; identify linear; sorting prerequisite for binary."
     },
     {
@@ -146,7 +146,7 @@ window.EXAM = {
       type: "written",
       marks: 8,
       prompt: "An algorithm is meant to output the larger of two numbers A and B, but it contains errors:\n\n<pre class=\"pre\">IF A > B THEN\n    OUTPUT B\nELSE\n    OUTPUT A\nENDIF\n</pre>\n(a) Identify the logic error. [2]\n(b) Rewrite the corrected pseudocode. [3]\n(c) Explain how a trace table with A=8, B=5 would help show the original algorithm is wrong. [4]",
-      markScheme: "(a) Outputs the smaller number / branches swapped. (b) IF A>B THEN OUTPUT A ELSE OUTPUT B (handle equal as either). (c) Trace shows when A=8,B=5 original outputs 5 not 8; demonstrates wrong path.",
+      markScheme: "(a) The branches are swapped / it outputs the smaller number instead of the larger.\n\n(b)\nIF A > B THEN\n    OUTPUT A\nELSE\n    OUTPUT B\nENDIF\n\n(Accept either value when A = B.)\n\n(c) With A = 8 and B = 5, a trace shows the IF is true so the original algorithm outputs B (5), which is not the larger value.",
       rubric: "Identify swap error; correct IF; explain trace revealing wrong output."
     }
   ]

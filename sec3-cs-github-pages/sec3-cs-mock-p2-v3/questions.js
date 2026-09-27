@@ -126,7 +126,7 @@ window.EXAM = {
       "type": "written",
       "marks": 6,
       "prompt": "Complete a trace for:\n<pre class=\"pre\">a \u2190 1\nb \u2190 4\nWHILE a < b\n    a \u2190 a + 1\n    b \u2190 b - 1\nENDWHILE\nOUTPUT a, b\n</pre>\nShow a and b after each loop check/body until the loop ends, and the final OUTPUT.",
-      "markScheme": "Start a1 b4; after1: a2 b3; after2: a3 b2; loop ends (3<2 false). OUTPUT 3 2.",
+      "markScheme": "a | b | condition a < b\n1 | 4 | TRUE (enter loop)\n2 | 3 | TRUE (enter loop)\n3 | 2 | FALSE (leave loop)\n\nFinal OUTPUT: 3 2",
       "rubric": "Accurate trace to termination; final output."
     },
     {
@@ -135,7 +135,7 @@ window.EXAM = {
       "type": "written",
       "marks": 8,
       "prompt": "Array Marks[1:6] stores six marks. Write pseudocode to find and output the lowest mark.",
-      "markScheme": "lowest\u2190Marks[1]; FOR i\u21902 TO 6; IF Marks[i]<lowest THEN lowest\u2190Marks[i]; OUTPUT lowest.",
+      "markScheme": "Lowest ← Marks[1]\nFOR i ← 2 TO 6\n    IF Marks[i] < Lowest THEN\n        Lowest ← Marks[i]\n    ENDIF\nNEXT i\nOUTPUT Lowest\n\n(Accept equivalent correct pseudocode.)",
       "rubric": "Initialise; scan; update min; output."
     },
     {
@@ -144,7 +144,7 @@ window.EXAM = {
       "type": "written",
       "marks": 8,
       "prompt": "Write pseudocode that inputs numbers until -1 is entered (sentinel), then outputs how many numbers (excluding -1) were entered.",
-      "markScheme": "count\u21900; INPUT n; WHILE n \u2260 -1: count\u2190count+1; INPUT n; OUTPUT count. Accept REPEAT structure carefully.",
+      "markScheme": "Count ← 0\nINPUT N\nWHILE N <> -1\n    Count ← Count + 1\n    INPUT N\nENDWHILE\nOUTPUT Count\n\n(Accept REPEAT...UNTIL with care so that -1 is not counted.)",
       "rubric": "Sentinel loop; count; exclude sentinel; output."
     },
     {
@@ -153,7 +153,7 @@ window.EXAM = {
       "type": "written",
       "marks": 10,
       "prompt": "Write pseudocode to reverse the contents of array A[1:N] in place (swap elements). Then explain one way to test that your algorithm works.",
-      "markScheme": "i\u21901; j\u2190N; WHILE i<j: swap A[i],A[j]; i\u2190i+1; j\u2190j-1. Test with e.g. [1,2,3,4] \u2192 [4,3,2,1].",
+      "markScheme": "i ← 1\nj ← N\nWHILE i < j\n    Temp ← A[i]\n    A[i] ← A[j]\n    A[j] ← Temp\n    i ← i + 1\n    j ← j - 1\nENDWHILE\n\nTest example: start with A = [1,2,3,4] → after reverse A = [4,3,2,1].",
       "rubric": "Two-pointer swap logic; sensible test."
     },
     {
@@ -162,7 +162,7 @@ window.EXAM = {
       "type": "written",
       "marks": 10,
       "prompt": "File stock.txt stores product codes one per line. Write pseudocode to search for a code entered by the user and output \"Found\" or \"Not found\".",
-      "markScheme": "INPUT target; OPEN read; found\u2190FALSE; WHILE NOT EOF AND NOT found: READ code; IF code=target THEN found\u2190TRUE; CLOSE; OUTPUT Found/Not found.",
+      "markScheme": "INPUT Target\nOPENFILE \"stock.txt\" FOR READ\nFound ← FALSE\nWHILE NOT EOF(\"stock.txt\") AND Found = FALSE\n    READFILE \"stock.txt\", Code\n    IF Code = Target THEN\n        Found ← TRUE\n    ENDIF\nENDWHILE\nCLOSEFILE \"stock.txt\"\nIF Found = TRUE THEN\n    OUTPUT \"Found\"\nELSE\n    OUTPUT \"Not found\"\nENDIF\n\n(Accept equivalent file-handling / search pseudocode.)",
       "rubric": "Read loop; compare; flag; correct messages."
     },
     {
@@ -171,7 +171,7 @@ window.EXAM = {
       "type": "written",
       "marks": 12,
       "prompt": "(a) Write pseudocode for bubble sort on array Num[1:N] ascending. [8]\n(b) Explain why bubble sort may be inefficient for a very large N. [4]",
-      "markScheme": "(a) Nested loops swapping adjacent out-of-order pairs until sorted / standard bubble sort. (b) Many comparisons/swaps; roughly grows quickly with N (quadratic behaviour).",
+      "markScheme": "(a)\nFOR i ← 1 TO N - 1\n    FOR j ← 1 TO N - i\n        IF Num[j] > Num[j + 1] THEN\n            Temp ← Num[j]\n            Num[j] ← Num[j + 1]\n            Num[j + 1] ← Temp\n        ENDIF\n    NEXT j\nNEXT i\n\n(Accept equivalent bubble sort.)\n\n(b) Many comparisons and swaps; the work grows roughly with N squared, so it becomes slow for a very large N.",
       "rubric": "Recognisable bubble sort; inefficiency explanation."
     },
     {
@@ -180,7 +180,7 @@ window.EXAM = {
       "type": "written",
       "marks": 8,
       "prompt": "An algorithm should count vowels in a string Word (letters A,E,I,O,U only, case-insensitive).\n(a) Describe the steps of a suitable algorithm in structured English or pseudocode. [5]\n(b) Give two examples of test data and expected counts. [3]",
-      "markScheme": "(a) Initialise count; loop through each character; if vowel then increment; output count. (b) e.g. EDUCATION \u2192 5; MYTH \u2192 0.",
+      "markScheme": "(a)\nCount ← 0\nFOR i ← 1 TO LENGTH(Word)\n    Letter ← UPPERCASE(Word[i])\n    IF Letter = \"A\" OR Letter = \"E\" OR Letter = \"I\" OR Letter = \"O\" OR Letter = \"U\" THEN\n        Count ← Count + 1\n    ENDIF\nNEXT i\nOUTPUT Count\n\n(b) Example tests: EDUCATION → 5; MYTH → 0",
       "rubric": "Clear algorithm; two tests with expected results."
     }
   ]

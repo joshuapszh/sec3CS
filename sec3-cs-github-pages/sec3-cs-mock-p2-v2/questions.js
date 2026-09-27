@@ -127,7 +127,7 @@ window.EXAM = {
       "type": "written",
       "marks": 6,
       "prompt": "Trace this algorithm. Show values of n and total after each loop iteration, then the OUTPUT.\n\n<pre class=\"pre\">total \u2190 0\nFOR n \u2190 2 TO 5\n    total \u2190 total + n\nNEXT n\nOUTPUT total\n</pre>",
-      "markScheme": "n=2 total=2; n=3 total=5; n=4 total=9; n=5 total=14; OUTPUT 14.",
+      "markScheme": "n | total\n2 | 2\n3 | 5\n4 | 9\n5 | 14\n\nFinal OUTPUT: 14",
       "rubric": "Correct running totals and final output."
     },
     {
@@ -136,7 +136,7 @@ window.EXAM = {
       "type": "written",
       "marks": 8,
       "prompt": "Array Temp[1:5] stores five temperatures. Write pseudocode to output how many temperatures are below 0.",
-      "markScheme": "count\u21900; FOR i\u21901 TO 5; IF Temp[i] < 0 THEN count\u2190count+1; OUTPUT count. Accept equivalent.",
+      "markScheme": "Count ← 0\nFOR i ← 1 TO 5\n    IF Temp[i] < 0 THEN\n        Count ← Count + 1\n    ENDIF\nNEXT i\nOUTPUT Count\n\n(Accept equivalent correct pseudocode.)",
       "rubric": "Loop; condition; count; output."
     },
     {
@@ -145,7 +145,7 @@ window.EXAM = {
       "type": "written",
       "marks": 8,
       "prompt": "Write pseudocode that repeatedly inputs a PIN until the user enters 4831, then outputs \"Access granted\". Use a suitable loop.",
-      "markScheme": "REPEAT INPUT pin UNTIL pin = 4831; OUTPUT Access granted. Or WHILE with flag. Accept equivalent.",
+      "markScheme": "REPEAT\n    INPUT PIN\nUNTIL PIN = 4831\nOUTPUT \"Access granted\"\n\n(Accept a WHILE loop with a flag.)",
       "rubric": "Loop until match; output success."
     },
     {
@@ -154,7 +154,7 @@ window.EXAM = {
       "type": "written",
       "marks": 10,
       "prompt": "Array Sales[1:7] stores daily sales. Write pseudocode to calculate and output the average sales. Then give two test cases (with expected averages) you would use.",
-      "markScheme": "total\u21900; FOR i\u21901 TO 7; total\u2190total+Sales[i]; OUTPUT total/7. Tests: all equal \u2192 that value; mixed values \u2192 correct mean.",
+      "markScheme": "Total ← 0\nFOR i ← 1 TO 7\n    Total ← Total + Sales[i]\nNEXT i\nAverage ← Total / 7\nOUTPUT Average\n\nExample tests:\n- All seven values = 10: average 10\n- Mixed values e.g. 10,20,30,40,50,60,70: average 40",
       "rubric": "Average algorithm; two tests with expected results."
     },
     {
@@ -163,7 +163,7 @@ window.EXAM = {
       "type": "written",
       "marks": 10,
       "prompt": "A file classmates.txt stores one name per line. Write pseudocode to count how many names are in the file and output the count. Assume the file exists.",
-      "markScheme": "OPEN read; count\u21900; WHILE NOT EOF: READ name; count\u2190count+1; CLOSE; OUTPUT count.",
+      "markScheme": "OPENFILE \"classmates.txt\" FOR READ\nCount ← 0\nWHILE NOT EOF(\"classmates.txt\")\n    READFILE \"classmates.txt\", Name\n    Count ← Count + 1\nENDWHILE\nCLOSEFILE \"classmates.txt\"\nOUTPUT Count\n\n(Accept equivalent file-handling pseudocode.)",
       "rubric": "File open; loop to EOF; count; close; output."
     },
     {
@@ -172,7 +172,7 @@ window.EXAM = {
       "type": "written",
       "marks": 12,
       "prompt": "(a) Write pseudocode for a linear search that looks for value Target in array Data[1:N] and outputs the index if found, or \"Missing\". [8]\n(b) State the best-case and worst-case number of comparisons for your linear search in terms of N. [4]",
-      "markScheme": "(a) Loop i=1 to N; if Data[i]=Target output i and stop; after loop output Missing. (b) Best 1; worst N (or N comparisons).",
+      "markScheme": "(a)\nINPUT Target\nFound ← FALSE\nFOR i ← 1 TO N\n    IF Data[i] = Target THEN\n        OUTPUT i\n        Found ← TRUE\n    ENDIF\nNEXT i\nIF Found = FALSE THEN\n    OUTPUT \"Missing\"\nENDIF\n\n(b) Best case: 1 comparison (Target is first). Worst case: N comparisons (Target last or not present).",
       "rubric": "Working search; not-found case; best/worst case."
     },
     {
@@ -181,7 +181,7 @@ window.EXAM = {
       "type": "written",
       "marks": 8,
       "prompt": "The following algorithm should output YES if X is between 10 and 20 inclusive, otherwise NO:\n<pre class=\"pre\">IF X > 10 AND X < 20 THEN\n    OUTPUT \"YES\"\nELSE\n    OUTPUT \"NO\"\nENDIF\n</pre>\n(a) Explain the logic error using X=10 as an example. [3]\n(b) Rewrite the condition correctly. [2]\n(c) Explain why boundary test data is important here. [3]",
-      "markScheme": "(a) X=10 should be YES but condition fails because >10 and <20 excludes boundaries. (b) X>=10 AND X<=20. (c) Boundaries 10 and 20 catch off-by-one errors in conditions.",
+      "markScheme": "(a) When X = 10, the condition X > 10 AND X < 20 is false, so the algorithm outputs \"NO\". 10 should be accepted as inclusive.\n\n(b) X >= 10 AND X <= 20\n\n(c) Boundary values (10 and 20) check whether the ends of the range are included correctly and catch off-by-one errors.",
       "rubric": "Explain exclusion; fix inequalities; boundary importance."
     }
   ]
