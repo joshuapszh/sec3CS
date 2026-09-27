@@ -57,15 +57,15 @@ window.EXAM = {
       "section": "A",
       "type": "mcq",
       "marks": 1,
-      "prompt": "In a 1D array Name[1:20], what does the 20 represent?",
+      "prompt": "Which flowchart symbol is normally used to show an input or an output?",
       "options": [
-        "File size",
-        "Upper bound / number of elements if starting at 1",
-        "CPU cores",
-        "Colour depth"
+        "Diamond",
+        "Rectangle (process)",
+        "Parallelogram",
+        "Circle only"
       ],
-      "answer": "Upper bound / number of elements if starting at 1",
-      "markScheme": "1:20 \u2192 twenty slots if 1-based."
+      "answer": "Parallelogram",
+      "markScheme": "Input/output is shown with a parallelogram."
     },
     {
       "id": "q5",
@@ -117,9 +117,9 @@ window.EXAM = {
       "section": "B",
       "type": "written",
       "marks": 4,
-      "prompt": "Explain the difference between presence check and format check, with an example of each.",
-      "markScheme": "Presence: field not left empty (e.g. email required). Format: data matches pattern (e.g. dd/mm/yyyy). ",
-      "rubric": "Both definitions + examples."
+      "prompt": "Draw a flowchart for this algorithm (draw on paper if you wish, and describe it clearly in the box using standard symbols and arrows):\n\n<pre class=\"pre\">INPUT Temperature\nIF Temperature < 0 THEN\n    OUTPUT \"Freezing\"\nELSE\n    OUTPUT \"Not freezing\"\nENDIF\n</pre>\n\nInclude start and end, an input, a decision, and both outputs.",
+      "markScheme": "Example acceptable flowchart:\n\n[Start]\n    ↓\n[INPUT Temperature]\n    ↓\n<Temperature < 0?>\n    Yes → [OUTPUT \"Freezing\"] → [End]\n    No  → [OUTPUT \"Not freezing\"] → [End]\n\nMarks for: terminators; input; decision diamond with two branches; correct outputs. Accept equivalent.",
+      "rubric": "Start/end; input; decision; both outputs."
     },
     {
       "id": "q9",

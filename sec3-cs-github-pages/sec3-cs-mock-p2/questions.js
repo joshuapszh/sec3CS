@@ -42,10 +42,10 @@ window.EXAM = {
       section: "A",
       type: "mcq",
       marks: 1,
-      prompt: "In pseudocode, which structure repeats a fixed number of times?",
-      options: ["IF…THEN…ELSE", "CASE OF", "FOR…TO…NEXT", "INPUT only"],
-      answer: "FOR…TO…NEXT",
-      markScheme: "FOR loops are count-controlled."
+      prompt: "In a flowchart, which symbol is normally used for a decision (selection)?",
+      options: ["Rectangle (process)", "Diamond", "Parallelogram (input/output)", "Oval / rounded rectangle (terminator)"],
+      answer: "Diamond",
+      markScheme: "Decisions use a diamond symbol with Yes/No (or True/False) branches."
     },
     {
       id: "q5",
@@ -82,9 +82,9 @@ window.EXAM = {
       section: "B",
       type: "written",
       marks: 4,
-      prompt: "Explain the difference between a count-controlled loop and a condition-controlled loop. Give one typical use for each.",
-      markScheme: "Count-controlled loop: repeats a fixed number of times (usually a FOR loop).\nExample use: process exactly 10 scores.\n\nCondition-controlled loop: repeats while/until a condition is met (WHILE or REPEAT...UNTIL); the number of repeats is not fixed in advance.\nExample use: keep asking for a password until it is valid.",
-      rubric: "Clear difference (2) + sensible example use for each (2)."
+      prompt: "Draw a flowchart for this algorithm (you may draw on paper and describe it clearly in the answer box using standard flowchart symbols and arrows):\n\n<pre class=\"pre\">INPUT Password\nIF Password = \"secret\" THEN\n    OUTPUT \"Access granted\"\nELSE\n    OUTPUT \"Access denied\"\nENDIF\n</pre>\n\nYour flowchart must include: a start and end terminator, an input for Password, a decision, and the two possible outputs.",
+      markScheme: "Award marks for a correct flowchart structure, for example:\n\n[Start] (terminator)\n    ↓\n[INPUT Password] (input/output)\n    ↓\n<Password = \"secret\"?> (decision diamond)\n    Yes → [OUTPUT \"Access granted\"] → [End]\n    No  → [OUTPUT \"Access denied\"] → [End]\n\nMark points: start/end terminators; input Password; decision with two branches; correct outputs on each branch. Accept equivalent layout.",
+      rubric: "Terminator; input; diamond decision; both outputs; sensible flow."
     },
     {
       id: "q9",

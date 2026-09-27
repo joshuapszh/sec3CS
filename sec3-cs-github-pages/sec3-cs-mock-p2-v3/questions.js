@@ -72,15 +72,15 @@ window.EXAM = {
       "section": "A",
       "type": "mcq",
       "marks": 1,
-      "prompt": "Opening a text file for APPEND usually means\u2026",
+      "prompt": "In a flowchart, a process (for example calculating Total ← Total + 1) is normally shown as a…",
       "options": [
-        "Delete all existing content",
-        "Add new data at the end",
-        "Encrypt the file",
-        "Convert it to an image"
+        "Diamond",
+        "Rectangle",
+        "Parallelogram",
+        "Terminator oval only"
       ],
-      "answer": "Add new data at the end",
-      "markScheme": "APPEND adds at end."
+      "answer": "Rectangle",
+      "markScheme": "Processes use a rectangle."
     },
     {
       "id": "q6",
@@ -116,9 +116,9 @@ window.EXAM = {
       "section": "B",
       "type": "written",
       "marks": 4,
-      "prompt": "Explain the difference between a WHILE loop and a FOR loop.",
-      "markScheme": "WHILE: condition-controlled, repeats while condition true (unknown count). FOR: count-controlled, repeats fixed number of times.",
-      "rubric": "Condition vs count control explained."
+      "prompt": "Draw a flowchart for this algorithm (describe it clearly using standard flowchart symbols and arrows):\n\n<pre class=\"pre\">INPUT Mark\nIF Mark >= 50 THEN\n    OUTPUT \"Pass\"\nELSE\n    OUTPUT \"Fail\"\nENDIF\n</pre>\n\nYour flowchart must show start/end, input, a decision, and both outputs.",
+      "markScheme": "Example:\n\n[Start]\n    ↓\n[INPUT Mark]\n    ↓\n<Mark >= 50?>\n    Yes → [OUTPUT \"Pass\"] → [End]\n    No  → [OUTPUT \"Fail\"] → [End]\n\nAward marks for terminators, input, decision with Yes/No branches, and correct outputs. Accept equivalent layout.",
+      "rubric": "Terminators; input; decision; Pass/Fail outputs."
     },
     {
       "id": "q9",
