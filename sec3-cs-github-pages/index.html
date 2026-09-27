@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Secondary 3 Computer Science Practice</title>
+  <style>
+    :root { font: 16px/1.5 system-ui, sans-serif; color: #203044; background: #f3f6fb; }
+    * { box-sizing: border-box; }
+    body { margin: 0; }
+    header { background: #173861; color: white; padding: 36px max(20px, calc((100vw - 1080px)/2)); }
+    main { max-width: 1080px; margin: auto; padding: 26px 20px 54px; }
+    h1 { font-size: clamp(2rem, 5vw, 3rem); line-height: 1.1; margin: 0 0 12px; }
+    h2 { margin: 34px 0 12px; }
+    p { margin: 0 0 12px; }
+    .intro { max-width: 760px; color: #e1ebf7; }
+    .notice { background: white; border: 1px solid #d5e1ef; border-radius: 14px; padding: 18px 20px; }
+    .grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
+    .card { display: flex; flex-direction: column; gap: 8px; background: white; border: 1px solid #d5e1ef; border-radius: 14px; padding: 18px; min-height: 176px; }
+    .card strong { font-size: 1.22rem; }
+    .card span { color: #546b80; font-size: .93rem; }
+    .card a { display: inline-block; margin-top: auto; padding: 10px 14px; border-radius: 9px; color: white; background: #1c538d; text-decoration: none; font-weight: 700; text-align: center; }
+    .card a:hover, .card a:focus-visible { background: #123e6d; outline: 3px solid #aac9ef; outline-offset: 2px; }
+    footer { margin-top: 36px; color: #5d7186; font-size: .9rem; }
+    @media (max-width: 850px) { .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+    @media (max-width: 520px) { .grid { grid-template-columns: 1fr; } header { padding: 28px 18px; } main { padding: 20px 16px 40px; } }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Secondary 3 Computer Science Practice</h1>
+    <p class="intro">Choose a Paper 1 or Paper 2 practice set. Each is an original 75-mark mock with a 1 hour 45 minute timer.</p>
+  </header>
+  <main>
+    <div class="notice">
+      <strong>How feedback works</strong>
+      <p>After submitting the whole paper, compare your answers with the suggested answers. Multiple-choice and exact short answers receive automatic marks. Review longer written and code answers yourself.</p>
+    </div>
+    <section aria-labelledby="paper1-title">
+      <h2 id="paper1-title">Paper 1 – Computer systems</h2>
+      <div class="grid">
+        <div class="card"><strong>Set 1</strong><span>Chapters 1–6 · 75 marks</span><a href="sec3-cs-mock-p1/index.html">Start Paper 1 Set 1</a></div>
+        <div class="card"><strong>Set 2</strong><span>Chapters 1–6 · 75 marks</span><a href="sec3-cs-mock-p1-v2/index.html">Start Paper 1 Set 2</a></div>
+        <div class="card"><strong>Set 3</strong><span>Chapters 1–6 · 75 marks</span><a href="sec3-cs-mock-p1-v3/index.html">Start Paper 1 Set 3</a></div>
+      </div>
+    </section>
+    <section aria-labelledby="paper2-title">
+      <h2 id="paper2-title">Paper 2 – Algorithms and programming</h2>
+      <div class="grid">
+        <div class="card"><strong>Set 1</strong><span>Chapters 7–8 · 75 marks</span><a href="sec3-cs-mock-p2/index.html">Start Paper 2 Set 1</a></div>
+        <div class="card"><strong>Set 2</strong><span>Chapters 7–8 · 75 marks</span><a href="sec3-cs-mock-p2-v2/index.html">Start Paper 2 Set 2</a></div>
+        <div class="card"><strong>Set 3</strong><span>Chapters 7–8 · 75 marks</span><a href="sec3-cs-mock-p2-v3/index.html">Start Paper 2 Set 3</a></div>
+      </div>
+    </section>
+    <footer>Practice questions only. Your answers remain in your browser during the attempt.</footer>
+  </main>
+</body>
+</html>
