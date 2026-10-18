@@ -1,59 +1,46 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Secondary 3 Computer Science Practice</title>
-  <style>
-    :root { font: 16px/1.5 system-ui, sans-serif; color: #203044; background: #f3f6fb; }
-    * { box-sizing: border-box; }
-    body { margin: 0; }
-    header { background: #173861; color: white; padding: 36px max(20px, calc((100vw - 1080px)/2)); }
-    main { max-width: 1080px; margin: auto; padding: 26px 20px 54px; }
-    h1 { font-size: clamp(2rem, 5vw, 3rem); line-height: 1.1; margin: 0 0 12px; }
-    h2 { margin: 34px 0 12px; }
-    p { margin: 0 0 12px; }
-    .intro { max-width: 760px; color: #e1ebf7; }
-    .notice { background: white; border: 1px solid #d5e1ef; border-radius: 14px; padding: 18px 20px; }
-    .grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
-    .card { display: flex; flex-direction: column; gap: 8px; background: white; border: 1px solid #d5e1ef; border-radius: 14px; padding: 18px; min-height: 176px; }
-    .card strong { font-size: 1.22rem; }
-    .card span { color: #546b80; font-size: .93rem; }
-    .card a { display: inline-block; margin-top: auto; padding: 10px 14px; border-radius: 9px; color: white; background: #1c538d; text-decoration: none; font-weight: 700; text-align: center; }
-    .card a:hover, .card a:focus-visible { background: #123e6d; outline: 3px solid #aac9ef; outline-offset: 2px; }
-    footer { margin-top: 36px; color: #5d7186; font-size: .9rem; }
-    @media (max-width: 850px) { .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-    @media (max-width: 520px) { .grid { grid-template-columns: 1fr; } header { padding: 28px 18px; } main { padding: 20px 16px 40px; } }
-  </style>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Secondary 3 Computer Science practice: six 75-mark original mock papers for topics taught through Chapter 8.">
+<title>Secondary 3 Computer Science | Practice Hub</title>
+<style>
+:root{font:16px/1.55 system-ui,-apple-system,Segoe UI,sans-serif;color:#203044;background:#f3f6fb;color-scheme:light}*{box-sizing:border-box}body{margin:0}a{color:inherit}button{font:inherit}header{background:linear-gradient(125deg,#142e50,#205b83);color:white;padding:45px max(20px,calc((100vw - 1100px)/2))}main{max-width:1100px;margin:auto;padding:24px 20px 54px}h1{font-size:clamp(2rem,4vw,3rem);line-height:1.12;margin:10px 0}h2{font-size:1.5rem;margin:0 0 4px}h3{margin:0}p{margin:0 0 12px}.eyebrow{font-size:.81rem;letter-spacing:.12em;text-transform:uppercase;color:#c8e2f4;font-weight:750}.intro{max-width:760px;color:#e4eef8}.chips{display:flex;gap:9px;flex-wrap:wrap;margin-top:20px}.chip{border:1px solid #9cbad0;border-radius:99px;padding:5px 11px;font-size:.86rem}.notice,.card{background:#fff;border:1px solid #d8e2ee;border-radius:15px;box-shadow:0 4px 16px #16385f08}.notice{padding:20px;margin:7px 0 28px}.notice h2{font-size:1.12rem;margin:0 0 12px}.instructions{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}.instructions div{border-left:3px solid #286498;padding-left:12px}.instructions strong{display:block}.instructions p{color:#50687c;font-size:.92rem;margin:3px 0}.section-heading{display:flex;justify-content:space-between;align-items:end;gap:12px;flex-wrap:wrap;margin:29px 0 13px}.section-heading p{color:#526a80;margin:0;font-size:.92rem}.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}.card{display:flex;flex-direction:column;gap:8px;padding:19px;min-height:199px}.card-top{display:flex;justify-content:space-between;align-items:center;gap:8px}.number{color:#25608c;font-size:.85rem;font-weight:800}.status{font-size:.76rem;border-radius:99px;padding:3px 9px;background:#edf3f9;color:#3f5a72}.status.active{background:#fff0c9;color:#744c00}.status.done{background:#e2f4e7;color:#176338}.card h3{font-size:1.18rem}.card p{color:#536d81;font-size:.91rem}.card a{display:block;text-align:center;text-decoration:none;margin-top:auto;padding:10px 13px;color:white;background:#1b548d;border-radius:9px;font-weight:720}.card a:hover,.card a:focus-visible{background:#113e6c;outline:3px solid #aac9ef;outline-offset:2px}.note{font-size:.9rem;color:#536b81}.warning{margin-top:25px;padding:15px 18px;border-left:4px solid #3275a4;background:#eaf2f9;border-radius:5px}.warning p{margin:0}.skip{position:absolute;left:-9999px}.skip:focus{position:fixed;left:15px;top:15px;padding:10px;background:white;color:#173861;z-index:9}footer{margin-top:30px;color:#60758a;font-size:.87rem}@media(max-width:800px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}.instructions{grid-template-columns:1fr}}@media(max-width:540px){.grid{grid-template-columns:1fr}header{padding:30px 20px}.card{min-height:150px}}
+</style>
 </head>
 <body>
-  <header>
-    <h1>Secondary 3 Computer Science Practice</h1>
-    <p class="intro">Sec 3 classroom mocks based on topics taught so far (through Chapter 8). These are <strong>not</strong> full Cambridge IGCSE 0478 exam papers. Each set is an original 75-mark practice paper with a 1 hour 45 minute timer.</p>
-  </header>
-  <main>
-    <div class="notice">
-      <strong>How feedback works</strong>
-      <p>After submitting the whole paper, compare your answers with the suggested answers. Multiple-choice and exact short answers receive automatic marks. Review longer written and code answers yourself.</p>
-      <p style="margin-bottom:0"><strong>Scope:</strong> Paper 1 covers Chapters 1–6 (computer systems). Paper 2 covers Chapters 7–8 only (algorithms and programming, pseudocode). Topics beyond Chapter 8 (for example databases and Boolean logic in the full IGCSE Paper 2) are not included.</p>
-    </div>
-    <section aria-labelledby="paper1-title">
-      <h2 id="paper1-title">Paper 1 – Computer systems (Chapters 1–6)</h2>
-      <div class="grid">
-        <div class="card"><strong>Set 1</strong><span>Chapters 1–6 · 75 marks</span><a href="sec3-cs-mock-p1/index.html">Start Paper 1 Set 1</a></div>
-        <div class="card"><strong>Set 2</strong><span>Chapters 1–6 · 75 marks</span><a href="sec3-cs-mock-p1-v2/index.html">Start Paper 1 Set 2</a></div>
-        <div class="card"><strong>Set 3</strong><span>Chapters 1–6 · 75 marks</span><a href="sec3-cs-mock-p1-v3/index.html">Start Paper 1 Set 3</a></div>
-      </div>
-    </section>
-    <section aria-labelledby="paper2-title">
-      <h2 id="paper2-title">Paper 2 – Algorithms and programming (Chapters 7–8)</h2>
-      <div class="grid">
-        <div class="card"><strong>Set 1</strong><span>Chapters 7–8 · 75 marks · Pseudocode</span><a href="sec3-cs-mock-p2/index.html">Start Paper 2 Set 1</a></div>
-        <div class="card"><strong>Set 2</strong><span>Chapters 7–8 · 75 marks · Pseudocode</span><a href="sec3-cs-mock-p2-v2/index.html">Start Paper 2 Set 2</a></div>
-        <div class="card"><strong>Set 3</strong><span>Chapters 7–8 · 75 marks · Pseudocode</span><a href="sec3-cs-mock-p2-v3/index.html">Start Paper 2 Set 3</a></div>
-      </div>
-    </section>
-    <footer>Sec 3 practice only (through Chapter 8). Not a full IGCSE 0478 paper. Answers stay in your browser during the attempt.</footer>
-  </main>
-</body>
-</html>
+<a class="skip" href="#main">Skip to practice papers</a>
+<header><div class="eyebrow">Heritage Academy · Self-directed revision</div><h1>Secondary 3 Computer Science</h1><p class="intro">Six original practice mocks for the topics taught through Chapter 8. Choose a paper, work through it at your own pace, and compare your answers with the marking guidance after submission.</p><div class="chips"><span class="chip">6 practice sets</span><span class="chip">75 marks each</span><span class="chip">1 h 45 min per paper</span><span class="chip">Cambridge 0478-style practice</span></div></header>
+<main id="main">
+<section class="notice" aria-labelledby="how-title"><h2 id="how-title">How to use this practice hub</h2><div class="instructions"><div><strong>1. Choose a paper</strong><p>Paper 1 practises Chapters 1–6. Paper 2 practises Chapters 7–8 using pseudocode.</p></div><div><strong>2. Complete and submit</strong><p>Each paper is timed. Review unanswered questions before submitting.</p></div><div><strong>3. Learn from feedback</strong><p>MCQ and exact short answers are checked automatically. Written and pseudocode answers require self-review.</p></div></div></section>
+<section aria-labelledby="p1"><div class="section-heading"><div><h2 id="p1">Paper 1 · Computer systems</h2><p>Chapters 1–6 · Three independent 75-mark practice sets</p></div></div><div class="grid">
+<article class="card" data-exam="sec3-cs-mock-p1"><div class="card-top"><span class="number">SET 01</span><span class="status">Not started</span></div><h3>Computer systems</h3><p>75 marks · 105 minutes · Knowledge and application</p><a href="sec3-cs-mock-p1/index.html">Start Set 1</a></article>
+<article class="card" data-exam="sec3-cs-mock-p1-v2"><div class="card-top"><span class="number">SET 02</span><span class="status">Not started</span></div><h3>Computer systems</h3><p>75 marks · 105 minutes · Independent practice</p><a href="sec3-cs-mock-p1-v2/index.html">Start Set 2</a></article>
+<article class="card" data-exam="sec3-cs-mock-p1-v3"><div class="card-top"><span class="number">SET 03</span><span class="status">Not started</span></div><h3>Computer systems</h3><p>75 marks · 105 minutes · Further revision</p><a href="sec3-cs-mock-p1-v3/index.html">Start Set 3</a></article>
+</div></section>
+<section aria-labelledby="p2"><div class="section-heading"><div><h2 id="p2">Paper 2 · Algorithms and programming</h2><p>Chapters 7–8 · Pseudocode · Three independent 75-mark practice sets</p></div></div><div class="grid">
+<article class="card" data-exam="sec3-cs-mock-p2"><div class="card-top"><span class="number">SET 01</span><span class="status">Not started</span></div><h3>Algorithms and pseudocode</h3><p>75 marks · 105 minutes · Tracing and problem solving</p><a href="sec3-cs-mock-p2/index.html">Start Set 1</a></article>
+<article class="card" data-exam="sec3-cs-mock-p2-v2"><div class="card-top"><span class="number">SET 02</span><span class="status">Not started</span></div><h3>Algorithms and pseudocode</h3><p>75 marks · 105 minutes · Independent practice</p><a href="sec3-cs-mock-p2-v2/index.html">Start Set 2</a></article>
+<article class="card" data-exam="sec3-cs-mock-p2-v3"><div class="card-top"><span class="number">SET 03</span><span class="status">Not started</span></div><h3>Algorithms and pseudocode</h3><p>75 marks · 105 minutes · Further revision</p><a href="sec3-cs-mock-p2-v3/index.html">Start Set 3</a></article>
+</div></section>
+<div class="warning"><p><strong>Practice scope:</strong> These are Secondary 3 classroom mocks, not complete Cambridge IGCSE 0478 papers. The full Paper 2 syllabus extends beyond Chapters 7–8.</p></div>
+<p class="note" style="margin-top:17px"><strong>Saved progress:</strong> Attempts are saved in this browser tab using session storage. Refreshing the tab normally retains your answers, but closing the tab or switching devices may not. The status labels below reflect only this tab and do not transmit scores to a teacher.</p>
+<footer>Original classroom practice · Existing mock questions and answers remain unchanged</footer>
+</main>
+<script>
+(function(){
+  document.querySelectorAll('[data-exam]').forEach(function(card){
+    try {
+      var state=JSON.parse(sessionStorage.getItem(card.dataset.exam+'_state')||'null');
+      if(!state)return;
+      var badge=card.querySelector('.status'),link=card.querySelector('a');
+      if(state.phase==='running'){
+        badge.textContent='In progress';badge.classList.add('active');link.textContent='Continue set';
+      }else if(state.phase==='done'){
+        badge.textContent='Submitted';badge.classList.add('done');link.textContent='Review results';
+      }
+    }catch(e){}
+  });
+})();
+</script>
+</body></html>
