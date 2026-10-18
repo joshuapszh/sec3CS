@@ -145,7 +145,7 @@ window.EXAM = {
       section: "C",
       type: "written",
       marks: 8,
-      prompt: "An algorithm is meant to output the larger of two numbers A and B, but it contains errors:\n\n<pre class=\"pre\">IF A > B THEN\n    OUTPUT B\nELSE\n    OUTPUT A\nENDIF\n</pre>\n(a) Identify the logic error. [2]\n(b) Rewrite the corrected pseudocode. [3]\n(c) Explain how a trace table with A=8, B=5 would help show the original algorithm is wrong. [4]",
+      prompt: "An algorithm is meant to output the larger of two numbers A and B, but it contains errors:\n\n<pre class=\"pre\">IF A > B THEN\n    OUTPUT B\nELSE\n    OUTPUT A\nENDIF\n</pre>\n(a) Identify the logic error. [2]\n(b) Rewrite the corrected pseudocode. [3]\n(c) Explain how a trace table with A=8, B=5 would help show the original algorithm is wrong. [3]",
       markScheme: "(a) The branches are swapped / it outputs the smaller number instead of the larger.\n\n(b)\nIF A > B THEN\n    OUTPUT A\nELSE\n    OUTPUT B\nENDIF\n\n(Accept either value when A = B.)\n\n(c) With A = 8 and B = 5, a trace shows the IF is true so the original algorithm outputs B (5), which is not the larger value.",
       rubric: "Identify swap error; correct IF; explain trace revealing wrong output."
     }
