@@ -16,20 +16,9 @@ function score(a=db.active){let auto=0,self=0,pending=0,unsubmitted=0,maxAuto=0;
 function nav(){const a=db.active,host=$("nav");host.innerHTML=exam.questions.map((q,i)=>'<button class="'+(i===a.idx?"selected ":"")+(a.locked[q.id]?"submitted ":"")+(a.bookmarks[q.id]?"flag ":"")+'" data-go="'+i+'">'+(i+1)+(a.bookmarks[q.id]?" ★":"")+'</button>').join("");host.querySelectorAll("[data-go]").forEach(b=>b.onclick=()=>{draft();a.idx=Number(b.dataset.go);save();draw();});}
 function draft(){let a=db.active;if(!a||a.done)return;let q=exam.questions[a.idx];if(a.locked[q.id])return;let ps=parts(q);if(q.type==="mcq")a.answers[q.id]=$('qarea').querySelector('input[type=radio]:checked')?.value||a.answers[q.id]||"";else if(ps){a.answers[q.id]=Object.fromEntries(ps.map(p=>[p.id,$('part_'+p.id)?.value||""]));}else a.answers[q.id]=$('answer')?.value||"";save();}
 function formattedModel(q){
-const src=clean(q.markScheme||q.answer||"");
-const lines=src.split("\n");
-let depth=0,inCode=false;
-return lines.map(line=>{
-const raw=line.trim();
-if(!raw){inCode=false;depth=0;return "";}
-const open=/^(DECLARE |FOR |IF |WHILE |REPEAT$|FUNCTION |PROCEDURE |OPENFILE |INPUT |OUTPUT |RETURN |NEXT |ENDIF|ELSE$|ENDWHILE|UNTIL |ENDFUNCTION|ENDPROCEDURE|CLOSEFILE |READFILE |WRITEFILE |[A-Za-z][A-Za-z0-9_]*(?:\[[^\]]+\])?\s*(?:←|<-))/i.test(raw);
-if(!open){inCode=false;depth=0;return line;}
-if(!inCode){depth=0;inCode=true;}
-if(/^(NEXT\b|ENDIF\b|ENDWHILE\b|ENDPROCEDURE\b|ENDFUNCTION\b|UNTIL\b|ELSE\b)/i.test(raw))depth=Math.max(0,depth-1);
-const output="    ".repeat(depth)+raw;
-if(/^(FOR\b|IF\b.*THEN$|WHILE\b.*DO$|REPEAT$|ELSE$|FUNCTION\b|PROCEDURE\b)/i.test(raw))depth++;
-return output;
-}).join("\n");
+  // Preserve author-verified indentation and blank lines. Never infer code
+  // structure from keywords because prose and nested pseudocode can be mixed.
+  return clean(q.markScheme || q.answer || "");
 }
 function answerView(q,v){if(v&&typeof v==="object")return Object.entries(v).map(([k,t])=>"<p><b>("+esc(k)+")</b></p><pre>"+esc(t||"(blank)")+"</pre>").join("");return "<pre>"+esc(v||"(blank)")+"</pre>";}
 function feedback(q){const a=db.active,auto=automatic(q),isAuto=auto!==null,pts=points(q),selected=a.assessed[q.id]||[];let h='<div class="feedback"><h3>Model answer and marking guidance</h3><div class="columns"><section><h4>Your submitted answer</h4>'+answerView(q,raw(q))+'</section><section><h4>Suggested model answer</h4><pre>'+esc(formattedModel(q))+'</pre></section></div><h4>Marking points</h4>';
